@@ -72,15 +72,17 @@ export async function ThonLabsWrapper({
   }
 
   return (
-    <ThonLabsInternalProvider>
+    <>
       <ToasterObservableWrapper />
-      <ThonLabsSessionProvider
-        environmentData={environmentData as EnvironmentData}
-        environmentId={environmentId}
-        publicKey={publicKey}
-      >
-        {children}
-      </ThonLabsSessionProvider>
-    </ThonLabsInternalProvider>
+      <ThonLabsInternalProvider>
+        <ThonLabsSessionProvider
+          environmentData={environmentData as EnvironmentData}
+          environmentId={environmentId}
+          publicKey={publicKey}
+        >
+          {children}
+        </ThonLabsSessionProvider>
+      </ThonLabsInternalProvider>
+    </>
   );
 }

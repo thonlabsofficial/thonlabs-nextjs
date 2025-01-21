@@ -1,24 +1,24 @@
-'use client';
+"use client";
 
-import * as sonner from 'sonner';
+import * as sonner from "sonner";
 
 const variantMapper: Record<
-  'default' | 'destructive' | 'info' | 'success',
+  "default" | "destructive" | "info" | "success",
   {
-    type: 'message' | 'error' | 'info' | 'success';
+    type: "message" | "error" | "info" | "success";
   }
 > = {
   default: {
-    type: 'message',
+    type: "message",
   },
   destructive: {
-    type: 'error',
+    type: "error",
   },
   info: {
-    type: 'info',
+    type: "info",
   },
   success: {
-    type: 'success',
+    type: "success",
   },
 };
 
@@ -26,19 +26,19 @@ function useToast() {
   function toast({
     title,
     description,
-    variant = 'default',
+    variant = "default",
     duration = 2000,
-    position = 'top-right',
+    position = "top-right",
   }: {
     title?: string;
     description: string;
-    variant?: 'default' | 'destructive' | 'info' | 'success';
+    variant?: "default" | "destructive" | "info" | "success";
     duration?: number;
-    position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
+    position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
   }) {
     sonner.toast.dismiss();
 
-    const { type } = variantMapper[variant];
+    const {type} = variantMapper[variant];
 
     return sonner.toast[type](title, {
       description,
@@ -55,4 +55,4 @@ function useToast() {
   };
 }
 
-export { useToast };
+export {useToast};
