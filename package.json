@@ -1,6 +1,7 @@
 {
   "name": "@thonlabs/nextjs",
   "description": "Integrate ThonLabs authentication into your Next.js project",
+  "private": false,
   "version": "0.1.1",
   "main": "./index.js",
   "types": "./index.d.ts",
@@ -11,7 +12,8 @@
   "scripts": {
     "compile": "tsc -p .",
     "build": "rm -rf dist && pnpm compile && cp tailwind.config.js dist && cp postcss.config.js dist && cp package.json dist && cp README.md dist && cp -R src/shared/styles dist/shared/styles",
-    "package": "rimraf *.tgz && cd dist && pnpm pack && cd ../ && mv dist/*.tgz ./",
+    "deploy-tgz": "rimraf *.tgz && cd dist && pnpm pack && cd ../ && mv dist/*.tgz ./",
+    "deploy-pkg": "cd dist && npm publish --access public && cd ../",
     "lint": "TIMING=1 eslint src/**/*.ts* --fix",
     "clean": "rm -rf dist",
     "format:check": "prettier --check \"**/*.{ts,tsx,md}\"",
