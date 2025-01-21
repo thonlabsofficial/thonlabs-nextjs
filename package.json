@@ -12,6 +12,14 @@
     "postcss.config.js",
     "package.json"
   ],
+  "exports": {
+    ".": "./dist/index.js",
+    "./server": "./dist/server/index.js",
+    "./api": "./dist/api.js",
+    "./v14": "./dist/v14/index.js",
+    "./v14/server": "./dist/v14/server/index.js",
+    "./v14/api": "./dist/v14/api/index.js"
+  },
   "license": "MIT",
   "scripts": {
     "compile": "tsc -p .",
