@@ -1,6 +1,6 @@
 {
   "name": "@thonlabs/nextjs",
-  "description": "Integrate ThonLabs authentication into your Next.js project",
+  "description": "Official library to integrate ThonLabs authentication into your Next.js project",
   "private": false,
   "version": "0.3.2",
   "main": "./dist/index.js",
