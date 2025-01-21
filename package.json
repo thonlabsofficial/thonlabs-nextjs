@@ -1,7 +1,7 @@
 {
   "name": "@thonlabs/nextjs",
   "description": "Integrate ThonLabs authentication into your Next.js project",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "./index.js",
   "types": "./index.d.ts",
   "files": [
