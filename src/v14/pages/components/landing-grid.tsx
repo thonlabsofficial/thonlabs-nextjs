@@ -1,5 +1,5 @@
 import {cn} from "../../../ui/core/utils";
-import styles from "../../../shared/styles/landing-grid.module.scss";
+import styles from "../../../shared/styles/landing-grid.module.css";
 
 export default function LandingGrid() {
   return (

@@ -1,6 +1,8 @@
+const plugin = require("tailwindcss/plugin");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{ts,tsx,scss}", "./assets/**/*.svg"],
+  content: ["./src/**/*.{ts,tsx,scss,svg}"],
   jit: true,
   darkMode: ["class"],
   theme: {

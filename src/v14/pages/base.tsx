@@ -1,4 +1,4 @@
-import "../../shared/styles/globals.scss";
+import "../../shared/styles/globals.css";
 
 import ConfirmEmailValidator from "./confirm-email-validator";
 import Login from "./login";

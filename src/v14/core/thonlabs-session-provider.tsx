@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Cookies from 'js-cookie';
-import ClientSessionService from '../services/client-session-service';
-import { EnvironmentData } from '../../shared/interfaces/environment-data';
-import { User } from '../interfaces/user';
-import useSWR from 'swr';
-import { fetcher, intFetcher } from '../../shared/utils/api';
-import { usePathname } from 'next/navigation';
-import { publicRoutes } from '../../shared/utils/constants';
+import React from "react";
+import Cookies from "js-cookie";
+import ClientSessionService from "../services/client-session-service";
+import {EnvironmentData} from "../../shared/interfaces/environment-data";
+import {User} from "../interfaces/user";
+import useSWR from "swr";
+import {fetcher, intFetcher} from "../../shared/utils/api";
+import {usePathname} from "next/navigation";
+import {authRoutes, publicRoutes} from "../../shared/utils/constants";
 
 /*
   This is a session provider to spread the data to frontend,
@@ -45,8 +45,9 @@ export function ThonLabsSessionProvider({
 }: ThonLabsSessionProviderProps) {
   const pathname = usePathname();
   const isPublicRoute = publicRoutes.some((route) =>
-    pathname.startsWith(route),
+    pathname.startsWith(route)
   );
+  const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
 
   /*
     This is a check to keep the session alive by
@@ -55,22 +56,22 @@ export function ThonLabsSessionProvider({
   */
   useSWR<EnvironmentData>(
     () => !isPublicRoute && `/api/auth/alive`,
-    intFetcher,
+    intFetcher
   );
 
-  const token = Cookies.get('tl_session');
+  const token = Cookies.get("tl_session");
   // TODO: replaces by a "session" API call
   const user = React.useMemo(() => ClientSessionService.getSession(), [token]);
-  const { data: clientEnvironmentData } = useSWR<EnvironmentData>(
+  const {data: clientEnvironmentData} = useSWR<EnvironmentData>(
     `/environments/${environmentId}/data`,
     fetcher({
       environmentId,
       publicKey,
-    }),
+    })
   );
   const memoClientEnvironmentData = React.useMemo(
     () => clientEnvironmentData || environmentData,
-    [environmentId, publicKey, clientEnvironmentData],
+    [environmentId, publicKey, clientEnvironmentData]
   );
 
   return (
@@ -80,7 +81,13 @@ export function ThonLabsSessionProvider({
         user,
       }}
     >
-      {children}
+      {isAuthRoute ? (
+        <div className="w-full min-h-screen bg-background text-text">
+          {children}
+        </div>
+      ) : (
+        children
+      )}
     </ThonLabsSessionContext.Provider>
   );
 }

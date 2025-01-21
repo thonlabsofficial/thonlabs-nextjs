@@ -1,12 +1,12 @@
-import React from 'react';
-import { EnvironmentData } from '../../shared/interfaces/environment-data';
-import { api } from '../../shared/utils/api';
-import { ThonLabsSessionProvider } from './thonlabs-session-provider';
-import { ThonLabsInternalProvider } from './thonlabs-internal-provider';
-import ToasterObservableWrapper from '../pages/components/toaster-observable-wrapper';
-import { environmentStore } from '../../shared/store/env-store';
-import Log from '../../shared/utils/log';
-import { cn } from '../../ui/core/utils';
+import React from "react";
+import {EnvironmentData} from "../../shared/interfaces/environment-data";
+import {api} from "../../shared/utils/api";
+import {ThonLabsSessionProvider} from "./thonlabs-session-provider";
+import {ThonLabsInternalProvider} from "./thonlabs-internal-provider";
+import ToasterObservableWrapper from "../pages/components/toaster-observable-wrapper";
+import {environmentStore} from "../../shared/store/env-store";
+import Log from "../../shared/utils/log";
+import {cn} from "../../ui/core/utils";
 
 /*
   This is a wrapper to get environment data from backend and forward to frontend.
@@ -34,16 +34,16 @@ export async function ThonLabsWrapper({
 }: ThonLabsWrapperProps) {
   if (!environmentId) {
     Log.error({
-      action: 'ThonLabsWrapper',
-      message: 'ThonLabs Error: Environment ID is required.',
+      action: "ThonLabsWrapper",
+      message: "ThonLabs Error: Environment ID is required.",
     });
     return null;
   }
 
   if (!publicKey) {
     Log.error({
-      action: 'ThonLabsWrapper',
-      message: 'ThonLabs Error: Public key is required.',
+      action: "ThonLabsWrapper",
+      message: "ThonLabs Error: Public key is required.",
     });
     return null;
   }
@@ -59,12 +59,12 @@ export async function ThonLabsWrapper({
     {
       environmentId,
       publicKey,
-    },
+    }
   );
 
   if (!environmentData) {
     Log.error({
-      action: 'ThonLabsWrapper',
+      action: "ThonLabsWrapper",
       message:
         'ThonLabs Error: Environment data is unavailable. Please verify that the public key and environment settings are correct. You can find these values under "Settings" at https://app.thonlabs.io.',
     });
@@ -79,14 +79,7 @@ export async function ThonLabsWrapper({
         environmentId={environmentId}
         publicKey={publicKey}
       >
-        <div
-          className={cn(
-            'w-full min-h-screen bg-background text-text',
-            className,
-          )}
-        >
-          {children}
-        </div>
+        {children}
       </ThonLabsSessionProvider>
     </ThonLabsInternalProvider>
   );

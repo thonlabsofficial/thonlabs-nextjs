@@ -30,7 +30,7 @@ export async function validateSession(
   bypassRoutes: string[] = []
 ) {
   if (shouldBypassRoute(req, bypassRoutes)) {
-    return new URL("bypass");
+    return new URL("/bypass", req.url);
   }
 
   const isPublicRoute = isAuthRoute(req);
