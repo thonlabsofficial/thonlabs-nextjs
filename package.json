@@ -26,8 +26,6 @@
     "prebuild": "tailwindcss -i ./src/shared/styles/globals.css -o ./src/shared/styles/output.css",
     "build": "rm -rf dist && pnpm compile && cp -R src/shared/styles dist/shared/styles && rm dist/shared/styles/globals.css && mv dist/shared/styles/output.css dist/shared/styles/globals.css",
     "postbuild": "rm ./src/shared/styles/output.css",
-    "deploy-tgz": "rimraf *.tgz && cd dist && pnpm pack && cd ../ && mv dist/*.tgz ./",
-    "deploy-pkg": "cd dist && npm publish --access public && cd ../",
     "lint": "TIMING=1 eslint src/**/*.ts* --fix",
     "clean": "rm -rf dist",
     "format:check": "prettier --check \"**/*.{ts,tsx,md}\"",

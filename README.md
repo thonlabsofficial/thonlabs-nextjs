@@ -37,8 +37,8 @@
 
 Integrating with ThonLabs is straightforward and efficient. Simply follow the steps below to begin your seamless integration journey. With six steps you will have a complete user management and authentication system.
 
-| Note: ThonLabs is fully compatible with Next.js 13, 14 and 15. Previous versions are not supported. |
-| --------------------------------------------------------------------------------------------------- |
+| ThonLabs is fully compatible with Next.js 13, 14 and 15. Previous versions are not supported yet. |
+| ------------------------------------------------------------------------------------------------- |
 
 ### Create an account and project
 
