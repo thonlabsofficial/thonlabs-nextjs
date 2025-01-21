@@ -6,7 +6,11 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "src",
+    "tailwind.config.js",
+    "postcss.config.js",
+    "package.json"
   ],
   "license": "MIT",
   "scripts": {
