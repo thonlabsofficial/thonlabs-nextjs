@@ -14,7 +14,7 @@
   ],
   "exports": {
     ".": "./dist/index.js",
-    "./server": "./dist/server/index.js",
+    "./server": "./dist/server.js",
     "./api": "./dist/api.js",
     "./v14": "./dist/v14/index.js",
     "./v14/server": "./dist/v14/server/index.js",
