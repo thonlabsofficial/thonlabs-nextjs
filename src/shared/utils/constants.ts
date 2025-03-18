@@ -1,6 +1,6 @@
 export const authRoutes = [
   "/auth/login",
-  "/auth/sign-up",
+  "/auth/signup",
   "/auth/magic",
   "/auth/reset-password",
   "/auth/logout",
