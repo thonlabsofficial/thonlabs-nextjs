@@ -29,7 +29,15 @@ export async function validateSession(
   req: NextRequest,
   bypassRoutes: string[] = []
 ) {
-  if (shouldBypassRoute(req, bypassRoutes)) {
+  if (
+    shouldBypassRoute(req, [
+      "/api/auth/refresh",
+      "/api/auth/logout",
+      "/api/auth/magic",
+      "/api/auth/confirm-email",
+      ...bypassRoutes,
+    ])
+  ) {
     return new URL("/bypass", req.url);
   }
 
