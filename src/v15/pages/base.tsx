@@ -4,6 +4,7 @@ import ConfirmEmailValidator from "./confirm-email-validator";
 import Login from "./login";
 import MagicSent from "./magic-sent";
 import MagicValidator from "./magic-validator";
+import RefreshValidator from "./refresh-validator";
 import ResetPasswordCreate from "./reset-password-create";
 import ResetPasswordRequire from "./reset-password-require";
 import SignUp from "./sign-up";
@@ -16,7 +17,7 @@ export async function ThonLabsAuthPage({
   searchParams: Promise<{[key: string]: string | string[] | undefined}>;
 }) {
   const {thonlabs} = await params;
-  const {inviteFlow} = await searchParams;
+  const {inviteFlow, dest} = await searchParams;
   const [route, param] = thonlabs || [];
   const inviteFlowParam = inviteFlow === "true";
   const inviteFlowEmail = Buffer.from(
@@ -36,4 +37,6 @@ export async function ThonLabsAuthPage({
       <ResetPasswordCreate token={param} inviteFlowEmail={inviteFlowEmail} />
     );
   if (route === "reset-password") return <ResetPasswordRequire />;
+  if (route === "refresh" && dest)
+    return <RefreshValidator dest={dest as string} />;
 }

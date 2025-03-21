@@ -86,10 +86,7 @@ export async function validateSession(
 
         const url = getURLFromHost(req);
 
-        return new URL(
-          `/api/auth/refresh?dest=${url.pathname}`,
-          url.toString()
-        );
+        return new URL(`/auth/refresh?dest=${url.pathname}`, url.toString());
       }
     }
   }
