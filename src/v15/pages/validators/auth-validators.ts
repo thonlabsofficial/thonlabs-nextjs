@@ -15,7 +15,6 @@ export const SignUpFormSchema = (isMagicLogin: boolean) =>
     ...(isMagicLogin
       ? {}
       : {
-        // VITOR > APÓS CORRIGIR PROBLEMA, REPLICAR NO V14
           password: z.string().regex(passwordPatterns.middleStrength, {
             message:
               'Password must have at least 8 characters, one uppercase letter, one special character and one digit.',
