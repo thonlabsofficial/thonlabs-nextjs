@@ -1,6 +1,7 @@
 export const authRoutes = [
   "/auth/login",
   "/auth/signup",
+  "/auth/sign-up",
   "/auth/magic",
   "/auth/reset-password",
   "/auth/logout",
@@ -18,6 +19,6 @@ export const publicRoutes = [
 
 export const passwordPatterns = {
   middleStrength: new RegExp(
-    "^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$"
+    "^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$"
   ),
 };
