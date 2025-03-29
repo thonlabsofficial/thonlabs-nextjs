@@ -12,4 +12,5 @@ export interface EnvironmentData {
   enableSignUpB2BOnly: boolean;
   projectId: string;
   appName: string;
+  sdkIntegrated?: string;
 }

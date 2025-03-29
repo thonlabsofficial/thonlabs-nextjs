@@ -10,7 +10,7 @@ export const api = <T>(
   }: {
     environmentId: string;
     publicKey: string;
-  },
+  }
 ) =>
   fetch(
     `${
@@ -23,7 +23,7 @@ export const api = <T>(
         'tl-env-id': environmentId,
         'tl-public-key': publicKey,
       },
-    },
+    }
   )
     .then((res) => res.json() as Promise<T>)
     .catch(() => {});
@@ -48,7 +48,7 @@ export const fetcher =
           'tl-env-id': environmentId,
           'tl-public-key': publicKey,
         },
-      },
+      }
     ).then((res) => res.json());
 
 export const intFetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -83,12 +83,23 @@ export async function intAPI(url: string, options: RequestInit = {}) {
   return response;
 }
 
-// TODO: remove it and replace the lib usage to fetch
-export async function labsPublicAPI(url: string, options: RequestInit = {}) {
+export async function labsPublicAPI(
+  url: string,
+  {
+    useEnvBaseURL,
+    environmentId,
+    publicKey,
+    ...options
+  }: RequestInit & {
+    useEnvBaseURL?: boolean;
+    environmentId?: string;
+    publicKey?: string;
+  } = {}
+) {
   const config = environmentStore.getConfig();
 
   let baseURL = config?.baseURL;
-  if (!config?.baseURL) {
+  if (!config?.baseURL || useEnvBaseURL) {
     baseURL =
       process.env.NODE_ENV === 'development'
         ? process.env.NEXT_PUBLIC_TL_API
@@ -100,8 +111,8 @@ export async function labsPublicAPI(url: string, options: RequestInit = {}) {
     headers: {
       'Content-Type': 'application/json',
       ...options.headers,
-      'tl-env-id': config!.environmentId,
-      'tl-public-key': config!.publicKey,
+      'tl-env-id': environmentId || config!.environmentId,
+      'tl-public-key': publicKey || config!.publicKey,
     },
   };
 
