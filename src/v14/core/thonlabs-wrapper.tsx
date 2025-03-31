@@ -56,14 +56,14 @@ export async function ThonLabsWrapper({
     {
       environmentId,
       publicKey,
-    },
+    }
   );
 
   if (!environmentData) {
     Log.error({
       action: 'ThonLabsWrapper',
       message:
-        'ThonLabs Error: Environment data is unavailable. Please verify that the public key and environment settings are correct. You can find these values under "Settings" at https://app.thonlabs.io.',
+        'ThonLabs Error: Environment data is unavailable. Please verify that the public key and environment settings are correct. You can find these values under "Integration Keys" at https://app.thonlabs.io.',
     });
     return null;
   }
