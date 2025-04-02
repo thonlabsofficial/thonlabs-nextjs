@@ -13,4 +13,5 @@ export interface EnvironmentData {
   projectId: string;
   appName: string;
   sdkIntegrated?: string;
+  primaryColor: string;
 }

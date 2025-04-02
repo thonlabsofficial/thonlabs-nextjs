@@ -14,10 +14,12 @@ import Log from '../../../shared/utils/log';
 import { resetPassword } from '../actions/auth-actions';
 import { delay } from '../../../shared/utils/helpers';
 import { usePreviewMode } from '../../../shared/hooks/use-preview-mode';
+import { useEnvironmentData } from '../../hooks/use-environment-data';
 
 export default function ResetPasswordForm() {
   const [loading, setLoading] = React.useState(false);
   const { toast } = useToast();
+  const { primaryColor } = useEnvironmentData();
 
   const form = useForm<ResetPasswordFormData>({
     resolver: zodResolver(ResetPasswordFormSchema),
@@ -76,7 +78,11 @@ export default function ResetPasswordForm() {
         </InputWrapper>
       </div>
 
-      <Button className="w-full mt-4" loading={loading}>
+      <Button
+        className="w-full mt-4"
+        loading={loading}
+        style={{ backgroundColor: primaryColor }}
+      >
         {loading ? 'Sending...' : 'Send Reset Link'}
       </Button>
     </form>
