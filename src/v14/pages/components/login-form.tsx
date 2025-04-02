@@ -19,11 +19,11 @@ export default function LoginForm() {
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
   const { toast } = useToast();
-  const { authProvider, enableSignUp } = useEnvironmentData();
+  const { authProvider, enableSignUp, styles } = useEnvironmentData();
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(
-      LoginFormSchema(authProvider === AuthProviders.MagicLogin),
+      LoginFormSchema(authProvider === AuthProviders.MagicLogin)
     ),
   });
 
@@ -91,7 +91,11 @@ export default function LoginForm() {
           )}
         </div>
 
-        <Button className="w-full mt-8" loading={loading}>
+        <Button
+          className="w-full mt-8"
+          loading={loading}
+          style={{ backgroundColor: styles.primaryColor }}
+        >
           {loading ? 'Logging in...' : 'Continue'}
         </Button>
       </form>

@@ -22,11 +22,11 @@ export default function SignUpForm() {
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
   const { toast } = useToast();
-  const { authProvider, enableSignUp } = useEnvironmentData();
+  const { authProvider, enableSignUp, styles } = useEnvironmentData();
 
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(
-      SignUpFormSchema(authProvider === AuthProviders.MagicLogin),
+      SignUpFormSchema(authProvider === AuthProviders.MagicLogin)
     ),
   });
 
@@ -95,7 +95,11 @@ export default function SignUpForm() {
           )}
         </div>
 
-        <Button className="w-full mt-8" loading={loading}>
+        <Button
+          className="w-full mt-8"
+          loading={loading}
+          style={{ backgroundColor: styles.primaryColor }}
+        >
           {loading ? 'Creating your account...' : 'Continue'}
         </Button>
       </form>
