@@ -3,7 +3,7 @@ export enum AuthProviders {
   EmailAndPassword = 'EmailAndPassword',
 }
 
-interface EnvironmentStyles {
+export interface EnvironmentStyles {
   primaryColor: string;
 }
 
