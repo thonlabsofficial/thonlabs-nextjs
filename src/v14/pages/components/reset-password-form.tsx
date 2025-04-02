@@ -17,7 +17,7 @@ import { useEnvironmentData } from '../../hooks/use-environment-data';
 export default function ResetPasswordForm() {
   const [loading, setLoading] = React.useState(false);
   const { toast } = useToast();
-  const { primaryColor } = useEnvironmentData();
+  const { styles } = useEnvironmentData();
 
   const form = useForm<ResetPasswordFormData>({
     resolver: zodResolver(ResetPasswordFormSchema),
@@ -69,7 +69,7 @@ export default function ResetPasswordForm() {
       <Button
         className="w-full mt-4"
         loading={loading}
-        style={{ backgroundColor: primaryColor }}
+        style={{ backgroundColor: styles.primaryColor }}
       >
         {loading ? 'Sending...' : 'Send Reset Link'}
       </Button>

@@ -3,6 +3,10 @@ export enum AuthProviders {
   EmailAndPassword = 'EmailAndPassword',
 }
 
+interface EnvironmentStyles {
+  primaryColor: string;
+}
+
 export interface EnvironmentData {
   environmentId: string;
   publicKey: string;
@@ -13,5 +17,5 @@ export interface EnvironmentData {
   projectId: string;
   appName: string;
   sdkIntegrated?: string;
-  primaryColor: string;
+  styles: EnvironmentStyles;
 }

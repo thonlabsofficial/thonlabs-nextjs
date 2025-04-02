@@ -6,7 +6,7 @@ import { useEnvironmentData } from '../../hooks/use-environment-data';
 
 export function CloseThisPageButton() {
   const { previewMode } = usePreviewMode();
-  const { primaryColor } = useEnvironmentData();
+  const { styles } = useEnvironmentData();
 
   return (
     <Button
@@ -16,7 +16,7 @@ export function CloseThisPageButton() {
           window.close();
         }
       }}
-      style={{ backgroundColor: primaryColor }}
+      style={{ backgroundColor: styles.primaryColor }}
     >
       Close this page
     </Button>

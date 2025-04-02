@@ -24,7 +24,7 @@ export default function CreateNewPasswordForm({ token, email }: Props) {
   const [loading, setLoading] = React.useState(false);
   const { toast } = useToast();
   const router = useRouter();
-  const { primaryColor } = useEnvironmentData();
+  const { styles } = useEnvironmentData();
 
   const form = useForm<CreateNewPasswordFormData>({
     resolver: zodResolver(CreateNewPasswordFormSchema),
@@ -97,7 +97,7 @@ export default function CreateNewPasswordForm({ token, email }: Props) {
       <Button
         className="w-full mt-8"
         loading={loading}
-        style={{ backgroundColor: primaryColor }}
+        style={{ backgroundColor: styles.primaryColor }}
       >
         {loading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin -mt-1" />}
         Set New Password

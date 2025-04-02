@@ -21,7 +21,7 @@ export default function LoginForm() {
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
   const { toast } = useToast();
-  const { authProvider, enableSignUp, primaryColor } = useEnvironmentData();
+  const { authProvider, enableSignUp, styles } = useEnvironmentData();
   const { previewMode } = usePreviewMode();
 
   const form = useForm<LoginFormData>({
@@ -103,7 +103,7 @@ export default function LoginForm() {
         <Button
           className="w-full mt-8"
           loading={loading}
-          style={{ backgroundColor: primaryColor }}
+          style={{ backgroundColor: styles.primaryColor }}
         >
           {loading ? 'Logging in...' : 'Continue'}
         </Button>

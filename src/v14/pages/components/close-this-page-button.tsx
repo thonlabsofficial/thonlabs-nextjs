@@ -4,7 +4,7 @@ import { Button } from '../../../ui/components/button';
 import { useEnvironmentData } from '../../hooks/use-environment-data';
 
 export function CloseThisPageButton() {
-  const { primaryColor } = useEnvironmentData();
+  const { styles } = useEnvironmentData();
 
   return (
     <Button
@@ -12,7 +12,7 @@ export function CloseThisPageButton() {
       onClick={() => {
         window.close();
       }}
-      style={{ backgroundColor: primaryColor }}
+      style={{ backgroundColor: styles.primaryColor }}
     >
       Close this page
     </Button>
