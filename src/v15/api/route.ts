@@ -3,12 +3,13 @@ import { redirect, notFound, RedirectType } from 'next/navigation';
 import ServerSessionService from '../services/server-session-service';
 import { APIResponseCodes } from '../../shared/utils/errors';
 import { forwardSearchParams } from '../../shared/utils/helpers';
+import { labsPublicAPI } from '../../shared/utils/api';
 
 type Params = Promise<{ thonlabs: string }>;
 
 export const POST = async (
   req: NextRequest,
-  { params }: { params: Params },
+  { params }: { params: Params }
 ) => {
   const { thonlabs } = await params;
   const [action] = thonlabs;
@@ -43,12 +44,12 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
         response.statusCode === 200
           ? forwardSearchParams(req, '/').toString()
           : `/auth/login?reason=${APIResponseCodes.InvalidMagicToken}`,
-        RedirectType.replace,
+        RedirectType.replace
       );
 
     case 'confirm-email':
       response = await ServerSessionService.validateEmailConfirmationToken(
-        param as string,
+        param as string
       );
 
       /*
@@ -60,9 +61,11 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 
         return redirect(
           tokenType === 'ResetPassword'
-            ? `/auth/reset-password/${token}?inviteFlow=${Buffer.from(email).toString('base64')}`
+            ? `/auth/reset-password/${token}?inviteFlow=${Buffer.from(
+                email
+              ).toString('base64')}`
             : `/auth/magic/${token}?inviteFlow=true`,
-          RedirectType.replace,
+          RedirectType.replace
         );
       }
 
@@ -70,9 +73,17 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 
       return redirect(
         response.statusCode === 200
-          ? `/?info=${isValid ? APIResponseCodes.EmailConfirmation : APIResponseCodes.EmailConfirmationWithoutSession}`
-          : `/?reason=${response?.data?.emailResent ? APIResponseCodes.EmailConfirmationResent : APIResponseCodes.EmailConfirmationError}`,
-        RedirectType.replace,
+          ? `/?info=${
+              isValid
+                ? APIResponseCodes.EmailConfirmation
+                : APIResponseCodes.EmailConfirmationWithoutSession
+            }`
+          : `/?reason=${
+              response?.data?.emailResent
+                ? APIResponseCodes.EmailConfirmationResent
+                : APIResponseCodes.EmailConfirmationError
+            }`,
+        RedirectType.replace
       );
 
     case 'refresh':
@@ -92,6 +103,23 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 
     case 'alive':
       return Response.json('', { status: 200 });
+
+    case 'sso':
+      const [provider, code] = Buffer.from(param, 'base64')
+        .toString()
+        .split('::');
+
+      response = await ServerSessionService.validateSSOAuthentication(
+        provider,
+        code
+      );
+
+      return redirect(
+        response.statusCode === 200
+          ? '/'
+          : `/auth/login?reason=${APIResponseCodes.InvalidSSOAuthentication}`,
+        RedirectType.replace
+      );
   }
 
   return notFound();

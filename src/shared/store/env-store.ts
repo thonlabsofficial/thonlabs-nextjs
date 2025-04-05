@@ -1,7 +1,7 @@
 import { EnvironmentData } from '../interfaces/environment-data';
 
 declare global {
-  var __environmentStore: EnvironmentData | null;
+  var __environmentStore: EnvironmentData;
 }
 
 class EnvironmentStore {
@@ -10,7 +10,7 @@ class EnvironmentStore {
   private constructor() {
     // Initialize global variable if it doesn't exist
     if (typeof global.__environmentStore === 'undefined') {
-      global.__environmentStore = null;
+      global.__environmentStore = {} as EnvironmentData;
     }
   }
 
@@ -25,7 +25,7 @@ class EnvironmentStore {
     global.__environmentStore = config;
   }
 
-  getConfig(): EnvironmentData | null {
+  getConfig(): EnvironmentData {
     return global.__environmentStore;
   }
 }

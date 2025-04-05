@@ -16,6 +16,7 @@ import { AuthProviders } from '../../../shared/interfaces/environment-data';
 import { useEnvironmentData } from '../../hooks/use-environment-data';
 import { delay } from '../../../shared/utils/helpers';
 import { usePreviewMode } from '../../../shared/hooks/use-preview-mode';
+import SSOSocialButtons from '../../../shared/providers/sso-social-provider';
 
 export default function LoginForm() {
   const [loading, setLoading] = React.useState(false);
@@ -108,6 +109,7 @@ export default function LoginForm() {
           {loading ? 'Logging in...' : 'Continue'}
         </Button>
       </form>
+      <SSOSocialButtons />
       {enableSignUp && (
         <div className="flex justify-center mt-4">
           <Typo variant="sm" className="text-muted-foreground">

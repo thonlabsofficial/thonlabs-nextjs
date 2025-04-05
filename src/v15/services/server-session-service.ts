@@ -228,6 +228,35 @@ const ServerSessionService = {
     deleteCookie('tl_keep_alive');
     deleteCookie('tl_env');
   },
+
+  async validateSSOAuthentication(provider: string, token: string) {
+    const response = await labsPublicAPI(`/auth/login/sso/${provider}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        token,
+      }),
+    });
+    const data = await response.json();
+
+    if (data.statusCode) {
+      Log.error({
+        action: 'validateSSOAuthentication',
+        message: data?.error || data?.message || data?.statusMessage,
+        data,
+      });
+
+      return {
+        statusCode: data.statusCode,
+        error: data?.error || data?.message,
+      };
+    }
+
+    await this.create(data);
+
+    return {
+      statusCode: 200,
+    };
+  },
 };
 
 export default ServerSessionService;

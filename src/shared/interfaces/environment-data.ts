@@ -1,3 +1,5 @@
+import { SSOSocialProvider } from './sso-social';
+
 export enum AuthProviders {
   MagicLogin = 'MagicLogin',
   EmailAndPassword = 'EmailAndPassword',
@@ -18,4 +20,10 @@ export interface EnvironmentData {
   appName: string;
   sdkIntegrated?: string;
   styles: EnvironmentStyles;
+  ssoSocialProviders: {
+    [key in SSOSocialProvider]: {
+      clientId: string;
+      redirectUri: string;
+    };
+  };
 }
