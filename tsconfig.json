@@ -13,8 +13,7 @@
     "sourceMap": true,
     "declaration": true,
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "types": ["gapi", "gapi.auth2", "google.accounts"]
+    "allowSyntheticDefaultImports": true
   },
   "include": ["."],
   "exclude": [

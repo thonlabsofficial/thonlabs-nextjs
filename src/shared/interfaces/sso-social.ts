@@ -3,7 +3,6 @@ export enum SSOSocialProvider {
 }
 
 export interface SSOSocial {
-  provider: SSOSocialProvider;
   clientId: string;
-  redirectUri: string;
+  redirectURI: string;
 }

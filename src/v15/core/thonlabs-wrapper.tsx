@@ -6,6 +6,7 @@ import { ThonLabsInternalProvider } from './thonlabs-internal-provider';
 import ToasterObservableWrapper from '../pages/components/toaster-observable-wrapper';
 import { environmentStore } from '../../shared/store/env-store';
 import Log from '../../shared/utils/log';
+import { SSOSocialProvider } from '../../shared/interfaces/sso-social';
 
 /*
   This is a wrapper to get environment data from backend and forward to frontend.
@@ -70,12 +71,25 @@ export async function ThonLabsWrapper({
     return null;
   }
 
+  const ssoProviders = await api<EnvironmentData['ssoProviders']>(
+    `/environments/${environmentId}/data/credentials/sso/public`,
+    {
+      environmentId,
+      publicKey,
+    }
+  );
+
   return (
     <>
       <ToasterObservableWrapper />
       <ThonLabsInternalProvider>
         <ThonLabsSessionProvider
-          environmentData={environmentData as EnvironmentData}
+          environmentData={
+            {
+              ...environmentData,
+              ssoProviders,
+            } as EnvironmentData
+          }
           environmentId={environmentId}
           publicKey={publicKey}
         >
