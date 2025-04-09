@@ -23,4 +23,5 @@ export interface EnvironmentData {
   ssoProviders: {
     [key in SSOSocialProvider]: SSOSocial;
   };
+  activeSSOProviders: SSOSocialProvider[];
 }

@@ -1,7 +1,10 @@
+'use client';
+
 import React from 'react';
 import { SSOSocial } from '../interfaces/sso-social';
 import { Button } from '../../ui/components/button';
 import GoogleIcon from '../../ui/icons/google-icon';
+import { usePreviewMode } from '../hooks/use-preview-mode';
 
 interface Props extends React.HTMLAttributes<HTMLButtonElement> {
   clientId: SSOSocial['clientId'];
@@ -9,7 +12,13 @@ interface Props extends React.HTMLAttributes<HTMLButtonElement> {
 }
 
 export default function SSOGoogle({ clientId, redirectURI }: Props) {
+  const { previewMode } = usePreviewMode();
+
   const handleLogin = () => {
+    if (previewMode) {
+      return;
+    }
+
     const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
 
     // Add required OAuth 2.0 parameters

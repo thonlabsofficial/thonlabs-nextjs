@@ -2,18 +2,25 @@
 
 import SSOGoogle from '../components/sso-google';
 import { useEnvironmentData } from '../../v15/hooks/use-environment-data';
+import { SSOSocialProvider } from '../interfaces/sso-social';
 
 export default function SSOSocialButtons() {
-  const { ssoProviders } = useEnvironmentData();
+  const { ssoProviders, activeSSOProviders } = useEnvironmentData();
 
-  if (!ssoProviders || Object.keys(ssoProviders).length === 0) {
+  if (
+    !ssoProviders ||
+    Object.keys(ssoProviders).length === 0 ||
+    activeSSOProviders.length === 0
+  ) {
     return null;
   }
 
   return (
     <div className="flex flex-col gap-4 mb-4">
       <div className="flex flex-col gap-2">
-        {ssoProviders.google && <SSOGoogle {...ssoProviders.google} />}
+        {activeSSOProviders.includes(SSOSocialProvider.GOOGLE) && (
+          <SSOGoogle {...ssoProviders.google} />
+        )}
       </div>
       <div className="flex items-center gap-3">
         <div className="flex-1 h-px bg-border mt-1" />
