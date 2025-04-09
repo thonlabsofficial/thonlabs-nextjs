@@ -4,6 +4,7 @@ import AuthHeader from './components/auth-header';
 import { notFound } from 'next/navigation';
 import CreateNewPasswordForm from './components/create-new-password-form';
 import { labsPublicAPI } from '../../shared/utils/api';
+import { cn } from '../../ui/core/utils';
 
 export const metadata: Metadata = {
   title: 'Create a new password',
@@ -13,13 +14,17 @@ export const metadata: Metadata = {
   },
 };
 
+interface Props {
+  token: string;
+  inviteFlowEmail?: string;
+  isPreview?: boolean;
+}
+
 export default async function ResetPasswordCreate({
   token,
   inviteFlowEmail,
-}: {
-  token: string;
-  inviteFlowEmail?: string;
-}) {
+  isPreview = false,
+}: Props) {
   // Validates the token
   try {
     await labsPublicAPI(`/auth/reset-password/${token}`);
@@ -28,7 +33,12 @@ export default async function ResetPasswordCreate({
   }
 
   return (
-    <div className="flex md:items-center justify-center">
+    <div
+      className={cn('flex md:items-center justify-center', {
+        'h-[25.9rem]': isPreview,
+        'h-screen': !isPreview,
+      })}
+    >
       <LandingGrid />
       <div className="mt-16 sm:pt-0 md:mt-40 px-3 w-full sm:max-w-[400px] relative">
         <AuthHeader

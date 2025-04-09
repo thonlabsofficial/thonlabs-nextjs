@@ -71,7 +71,7 @@ export function ThonLabsSessionProvider({
     })
   );
   const { data: ssoProviders } = useSWR<EnvironmentData['ssoProviders']>(
-    `/environments/${environmentId}/data/credentials/sso/public`,
+    `/environments/${environmentId}/credentials/sso/public`,
     fetcher({
       environmentId,
       publicKey,

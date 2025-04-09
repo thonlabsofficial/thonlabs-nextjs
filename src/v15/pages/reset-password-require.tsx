@@ -4,6 +4,7 @@ import LandingGrid from './components/landing-grid';
 import ResetPasswordForm from './components/reset-password-form';
 import Link from 'next/link';
 import AuthHeader from './components/auth-header';
+import { cn } from '../../ui/core/utils';
 
 export const metadata: Metadata = {
   title: 'Forgot your password? Reset!',
@@ -13,9 +14,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ResetPasswordRequire() {
+interface Props {
+  isPreview?: boolean;
+}
+
+export default function ResetPasswordRequire({ isPreview = false }: Props) {
   return (
-    <div className="flex md:items-center justify-center">
+    <div
+      className={cn('flex md:items-center justify-center', {
+        'h-[25.9rem]': isPreview,
+        'h-screen': !isPreview,
+      })}
+    >
       <LandingGrid />
       <div className="mt-16 sm:pt-0 md:mt-40 px-3 w-full sm:max-w-[400px] relative">
         <AuthHeader
