@@ -19,6 +19,7 @@ import { useEnvironmentData } from '../../hooks/use-environment-data';
 import { AuthProviders } from '../../../shared/interfaces/environment-data';
 import { delay } from '../../../shared/utils/helpers';
 import { usePreviewMode } from '../../../shared/hooks/use-preview-mode';
+import SSOSocialButtons from '../../../shared/providers/sso-social-provider';
 
 export default function SignUpForm() {
   const [loading, setLoading] = React.useState(false);
@@ -63,6 +64,7 @@ export default function SignUpForm() {
 
   return (
     <>
+      <SSOSocialButtons />
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid w-full items-center gap-5">
           <InputWrapper>

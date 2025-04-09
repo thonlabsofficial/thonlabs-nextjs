@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          'bg-primary text-primary-foreground shadow hover:bg-primary/90',
+          'bg-primary text-primary-foreground shadow hover:brightness-90',
         opposite: 'bg-foreground text-secondary shadow hover:bg-foreground/90',
         destructive:
           'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
@@ -36,7 +36,7 @@ const buttonVariants = cva(
       variant: 'primary',
       size: 'md',
     },
-  },
+  }
 );
 
 const buttonIconVariants = cva('', {
@@ -47,6 +47,9 @@ const buttonIconVariants = cva('', {
       md: 'w-4 h-4',
       lg: 'w-5 h-5',
     },
+  },
+  defaultVariants: {
+    iconSize: 'md',
   },
 });
 
@@ -71,7 +74,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       active,
       ...props
     },
-    ref,
+    ref
   ) => {
     return (
       <button
@@ -83,12 +86,17 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {Icon && (
-          <Icon className={cn(buttonIconVariants({ iconSize: size }))} />
+          <Icon
+            className={cn(buttonIconVariants({ iconSize: size }), {
+              'fill-foreground': variant === 'outline',
+              'fill-white': variant !== 'primary',
+            })}
+          />
         )}
         {children}
       </button>
     );
-  },
+  }
 );
 Button.displayName = 'Button';
 

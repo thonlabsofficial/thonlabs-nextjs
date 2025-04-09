@@ -10,5 +10,16 @@ export default function SSOSocialButtons() {
     return null;
   }
 
-  return ssoProviders.google && <SSOGoogle {...ssoProviders.google} />;
+  return (
+    <div className="flex flex-col gap-4 mb-4">
+      <div className="flex flex-col gap-2">
+        {ssoProviders.google && <SSOGoogle {...ssoProviders.google} />}
+      </div>
+      <div className="flex items-center gap-3">
+        <div className="flex-1 h-px bg-border mt-1" />
+        <span className="text-sm text-muted-foreground">or</span>
+        <div className="flex-1 h-px bg-border mt-1" />
+      </div>
+    </div>
+  );
 }

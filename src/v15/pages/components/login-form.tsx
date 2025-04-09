@@ -62,6 +62,7 @@ export default function LoginForm() {
 
   return (
     <>
+      <SSOSocialButtons />
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid w-full items-center gap-5">
           <InputWrapper>
@@ -109,7 +110,6 @@ export default function LoginForm() {
           {loading ? 'Logging in...' : 'Continue'}
         </Button>
       </form>
-      <SSOSocialButtons />
       {enableSignUp && (
         <div className="flex justify-center mt-4">
           <Typo variant="sm" className="text-muted-foreground">

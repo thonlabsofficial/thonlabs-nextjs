@@ -1,6 +1,7 @@
 import React from 'react';
 import { SSOSocial } from '../interfaces/sso-social';
 import { Button } from '../../ui/components/button';
+import GoogleIcon from '../../ui/icons/google-icon';
 
 interface Props extends React.HTMLAttributes<HTMLButtonElement> {
   clientId: SSOSocial['clientId'];
@@ -24,7 +25,12 @@ export default function SSOGoogle({ clientId, redirectURI }: Props) {
   };
 
   return (
-    <Button type="button" onClick={handleLogin}>
+    <Button
+      type="button"
+      variant={'outline'}
+      icon={GoogleIcon}
+      onClick={handleLogin}
+    >
       Continue with Google
     </Button>
   );
