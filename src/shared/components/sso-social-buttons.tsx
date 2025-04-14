@@ -2,16 +2,14 @@
 
 import SSOGoogle from '../components/sso-google';
 import { useEnvironmentData } from '../../v15/hooks/use-environment-data';
-import { SSOSocialProvider } from '../interfaces/sso-social';
+import { SSOSocialProvider, SSOSocial } from '../interfaces/sso-social';
+import { usePreviewMode } from '../hooks/use-preview-mode';
 
 export default function SSOSocialButtons() {
   const { ssoProviders, activeSSOProviders } = useEnvironmentData();
+  const { previewMode } = usePreviewMode();
 
-  if (
-    !ssoProviders ||
-    Object.keys(ssoProviders).length === 0 ||
-    activeSSOProviders.length === 0
-  ) {
+  if (activeSSOProviders.length === 0) {
     return null;
   }
 
@@ -19,7 +17,9 @@ export default function SSOSocialButtons() {
     <div className="flex flex-col gap-4 mb-4">
       <div className="flex flex-col gap-2">
         {activeSSOProviders.includes(SSOSocialProvider.GOOGLE) && (
-          <SSOGoogle {...ssoProviders.google} />
+          <SSOGoogle
+            {...(!previewMode ? ssoProviders.google : ({} as SSOSocial))}
+          />
         )}
       </div>
       <div className="flex items-center gap-3">

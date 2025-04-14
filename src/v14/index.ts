@@ -10,6 +10,7 @@ import { useSession } from './hooks/use-session';
 import { ThonLabsWrapper } from './core/thonlabs-wrapper';
 import { ThonLabsAuthPage } from './pages/base';
 import { forwardSearchParams } from '../shared/utils/helpers';
+import { SSOSocialProvider } from '../shared/interfaces/sso-social';
 
 export type { EnvironmentData, User, SessionData, ErrorResponse };
 
@@ -21,4 +22,5 @@ export {
   useSession,
   forwardSearchParams,
   APIResponseCodes,
+  SSOSocialProvider,
 };

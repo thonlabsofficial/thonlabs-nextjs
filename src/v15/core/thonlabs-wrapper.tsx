@@ -6,7 +6,6 @@ import { ThonLabsInternalProvider } from './thonlabs-internal-provider';
 import ToasterObservableWrapper from '../pages/components/toaster-observable-wrapper';
 import { environmentStore } from '../../shared/store/env-store';
 import Log from '../../shared/utils/log';
-import { SSOSocialProvider } from '../../shared/interfaces/sso-social';
 
 /*
   This is a wrapper to get environment data from backend and forward to frontend.

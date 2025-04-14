@@ -16,7 +16,7 @@ import { AuthProviders } from '../../../shared/interfaces/environment-data';
 import { useEnvironmentData } from '../../hooks/use-environment-data';
 import { delay } from '../../../shared/utils/helpers';
 import { usePreviewMode } from '../../../shared/hooks/use-preview-mode';
-import SSOSocialButtons from '../../../shared/providers/sso-social-provider';
+import SSOSocialButtons from '../../../shared/components/sso-social-buttons';
 
 export default function LoginForm() {
   const [loading, setLoading] = React.useState(false);

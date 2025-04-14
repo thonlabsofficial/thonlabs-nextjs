@@ -12,6 +12,11 @@ import { ThonLabsAuthPage } from './v15/pages/base';
 import { ThonLabsAuthPagePreview } from './v15/pages/base-preview';
 import { forwardSearchParams } from './shared/utils/helpers';
 import { usePreviewMode } from './shared/hooks/use-preview-mode';
+import {
+  SSOSocialProvider,
+  SSOSocial,
+  SSOSocialKeys,
+} from './shared/interfaces/sso-social';
 
 export type { EnvironmentData, User, SessionData, ErrorResponse };
 
@@ -25,4 +30,7 @@ export {
   forwardSearchParams,
   usePreviewMode,
   ThonLabsAuthPagePreview,
+  SSOSocialProvider,
+  SSOSocial,
+  SSOSocialKeys,
 };
