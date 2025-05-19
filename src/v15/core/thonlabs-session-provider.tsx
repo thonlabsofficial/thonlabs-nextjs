@@ -10,6 +10,8 @@ import { fetcher, intFetcher, labsPublicAPI } from '../../shared/utils/api';
 import { usePathname } from 'next/navigation';
 import { authRoutes, publicRoutes } from '../../shared/utils/constants';
 import { usePreviewMode } from '../../shared/hooks/use-preview-mode';
+import { cn } from '../../ui/core/utils';
+import { fonts } from '../../ui/core/fonts';
 
 /*
   This is a session provider to spread the data to frontend,
@@ -122,7 +124,12 @@ export function ThonLabsSessionProvider({
       }}
     >
       {isAuthRoute ? (
-        <div className="w-full min-h-screen bg-background text-text">
+        <div
+          className={cn(
+            fonts.className,
+            'w-full min-h-screen bg-background text-text'
+          )}
+        >
           {children}
         </div>
       ) : (
