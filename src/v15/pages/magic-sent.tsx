@@ -11,13 +11,13 @@ export default function MagicSent({ isPreview = false }: Props) {
   return (
     <>
       <div
-        className={cn('flex md:items-center justify-center', {
+        className={cn('flex items-center justify-center', {
           'h-[19.1rem]': isPreview,
           'h-screen': !isPreview,
         })}
       >
         <LandingGrid />
-        <div className="mt-16 sm:pt-0 md:mt-40 px-3 w-full sm:max-w-[400px] relative">
+        <div className="sm:pt-0 px-3 w-full sm:max-w-[400px] relative md:-mt-16">
           <AuthHeader
             title="Check your email"
             description="We've sent you a magic link to log in to Thon Labs, you can close this page."

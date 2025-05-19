@@ -15,9 +15,9 @@ export const metadata: Metadata = {
 
 export default function ResetPasswordRequire() {
   return (
-    <div className="flex md:items-center justify-center">
+    <div className="flex items-center justify-center">
       <LandingGrid />
-      <div className="mt-16 sm:pt-0 md:mt-40 px-3 w-full sm:max-w-[400px]">
+      <div className="sm:pt-0 px-3 w-full sm:max-w-[400px] relative md:-mt-16">
         <AuthHeader
           title="Reset Your Password"
           description="Please provide your email address, and we'll send you a secure

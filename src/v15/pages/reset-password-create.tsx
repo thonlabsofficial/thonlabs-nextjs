@@ -34,13 +34,13 @@ export default async function ResetPasswordCreate({
 
   return (
     <div
-      className={cn('flex md:items-center justify-center', {
+      className={cn('flex items-center justify-center', {
         'h-[25.9rem]': isPreview,
         'h-screen': !isPreview,
       })}
     >
       <LandingGrid />
-      <div className="mt-16 sm:pt-0 md:mt-40 px-3 w-full sm:max-w-[400px] relative">
+      <div className="sm:pt-0 px-3 w-full sm:max-w-[400px] relative md:-mt-16">
         <AuthHeader
           title="Create a New Password"
           description="Please complete the form below to create a new password for your account."

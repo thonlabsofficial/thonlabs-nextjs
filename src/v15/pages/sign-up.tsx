@@ -10,13 +10,13 @@ interface Props {
 export default function SignUp({ isPreview = false }: Props) {
   return (
     <div
-      className={cn('flex md:items-center justify-center', {
+      className={cn('flex items-center justify-center', {
         'h-[40rem]': isPreview,
         'h-screen': !isPreview,
       })}
     >
       <LandingGrid />
-      <div className="mt-16 sm:pt-0 md:mt-40 px-3 w-full sm:max-w-[400px] relative">
+      <div className="sm:pt-0 px-3 w-full sm:max-w-[400px] relative md:-mt-16">
         <AuthHeader
           title="Create an account"
           description="signUp"
