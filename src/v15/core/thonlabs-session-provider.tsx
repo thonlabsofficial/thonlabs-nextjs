@@ -127,7 +127,7 @@ export function ThonLabsSessionProvider({
         <div
           className={cn(
             fonts.className,
-            'w-full min-h-screen bg-background text-text'
+            'font-sans w-full min-h-screen bg-background text-text'
           )}
         >
           {children}
