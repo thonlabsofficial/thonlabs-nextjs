@@ -1,12 +1,12 @@
-import {NextRequest, NextResponse} from "next/server";
-import ServerSessionService from "../services/server-session-service";
+import { NextRequest, NextResponse } from 'next/server';
+import ServerSessionService from '../services/server-session-service';
 import {
   forwardSearchParams,
   getURLFromHost,
   removePathnameFromURL,
-} from "../../shared/utils/helpers";
-import Log from "../../shared/utils/log";
-import {publicRoutes} from "../../shared/utils/constants";
+} from '../../shared/utils/helpers';
+import Log from '../../shared/utils/log';
+import { publicRoutes } from '../../shared/utils/constants';
 
 export function isAuthRoute(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
@@ -31,20 +31,21 @@ export async function validateSession(
 ) {
   if (
     shouldBypassRoute(req, [
-      "/api/auth/refresh",
-      "/api/auth/logout",
-      "/api/auth/magic",
-      "/api/auth/confirm-email",
+      '/api/auth/refresh',
+      '/api/auth/logout',
+      '/api/auth/magic',
+      '/api/auth/confirm-email',
+      '/api/auth/sso',
       ...bypassRoutes,
     ])
   ) {
-    return new URL("/bypass", req.url);
+    return new URL('/bypass', req.url);
   }
 
   const isPublicRoute = isAuthRoute(req);
 
   if (!isPublicRoute) {
-    const {accessToken, refreshToken, keepAlive} =
+    const { accessToken, refreshToken, keepAlive } =
       await ServerSessionService.getSessionCookies();
 
     // Validates the access token or access token and refresh token
@@ -54,33 +55,33 @@ export async function validateSession(
       (keepAlive && !accessToken && !refreshToken)
     ) {
       Log.info({
-        action: "validateSession",
-        message: "ThonLabs Validate Session: Invalid session",
+        action: 'validateSession',
+        message: 'ThonLabs Validate Session: Invalid session',
       });
-      return forwardSearchParams(req, "/api/auth/logout");
+      return forwardSearchParams(req, '/api/auth/logout');
     }
 
     const isPageRefresh =
-      removePathnameFromURL(req.headers.get("referer") || "").toString() ===
+      removePathnameFromURL(req.headers.get('referer') || '').toString() ===
       getURLFromHost(req, false).toString();
 
     if (isPageRefresh) {
       // Validates the session status and redirects to regenerate
       // a new token in case of need
-      const {status} = await ServerSessionService.shouldKeepAlive();
+      const { status } = await ServerSessionService.shouldKeepAlive();
 
-      if (status === "invalid_session") {
+      if (status === 'invalid_session') {
         Log.info({
-          action: "validateSession",
-          message: "ThonLabs Validate Session: Invalid session from keep alive",
+          action: 'validateSession',
+          message: 'ThonLabs Validate Session: Invalid session from keep alive',
           status,
         });
 
-        return forwardSearchParams(req, "/api/auth/logout");
-      } else if (status === "needs_refresh") {
+        return forwardSearchParams(req, '/api/auth/logout');
+      } else if (status === 'needs_refresh') {
         Log.info({
-          action: "validateSession",
-          message: "ThonLabs Validate Session: Needs refresh from keep alive",
+          action: 'validateSession',
+          message: 'ThonLabs Validate Session: Needs refresh from keep alive',
           status,
         });
 
@@ -103,7 +104,7 @@ export function getTokens() {
 }
 
 export function validationRedirect(dest: URL) {
-  if (dest.toString().endsWith("bypass")) {
+  if (dest.toString().endsWith('bypass')) {
     return NextResponse.next();
   }
 

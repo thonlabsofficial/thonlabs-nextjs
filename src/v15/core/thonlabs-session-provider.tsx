@@ -10,10 +10,6 @@ import { fetcher, intFetcher, labsPublicAPI } from '../../shared/utils/api';
 import { usePathname } from 'next/navigation';
 import { authRoutes, publicRoutes } from '../../shared/utils/constants';
 import { usePreviewMode } from '../../shared/hooks/use-preview-mode';
-import {
-  SSOSocial,
-  SSOSocialProvider,
-} from '../../shared/interfaces/sso-social';
 
 /*
   This is a session provider to spread the data to frontend,
