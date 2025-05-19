@@ -70,12 +70,25 @@ export async function ThonLabsWrapper({
     return null;
   }
 
+  const ssoProviders = await api<EnvironmentData['ssoProviders']>(
+    `/environments/${environmentId}/data/credentials/sso/public`,
+    {
+      environmentId,
+      publicKey,
+    }
+  );
+
   return (
     <>
       <ToasterObservableWrapper />
       <ThonLabsInternalProvider>
         <ThonLabsSessionProvider
-          environmentData={environmentData as EnvironmentData}
+          environmentData={
+            {
+              ...environmentData,
+              ssoProviders,
+            } as EnvironmentData
+          }
           environmentId={environmentId}
           publicKey={publicKey}
         >

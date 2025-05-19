@@ -10,6 +10,7 @@ export enum APIResponseCodes {
   InvalidMagicToken = 40003,
   EmailConfirmationError = 40004,
   EmailConfirmationResent = 40005,
+  InvalidSSOAuthentication = 40006,
 }
 
 export interface ErrorResponse {
@@ -33,4 +34,5 @@ export const apiResponseMessages = {
   [APIResponseCodes.EmailConfirmationResent]:
     'The email confirmation link is expired. We resent you another email.',
   [APIResponseCodes.InviteAccepted]: 'Invite accepted, welcome!',
+  [APIResponseCodes.InvalidSSOAuthentication]: 'We could not authenticate you',
 };

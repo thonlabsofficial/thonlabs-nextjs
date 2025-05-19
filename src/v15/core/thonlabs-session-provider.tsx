@@ -70,12 +70,24 @@ export function ThonLabsSessionProvider({
       publicKey,
     })
   );
+  const { data: ssoProviders } = useSWR<EnvironmentData['ssoProviders']>(
+    `/environments/${environmentId}/credentials/sso/public`,
+    fetcher({
+      environmentId,
+      publicKey,
+    })
+  );
   const { previewMode, previewEnvironmentData } = usePreviewMode();
-  const memoClientEnvironmentData = React.useMemo(() => {
+  const memoClientEnvironmentData = React.useMemo<EnvironmentData>(() => {
     const finalData = clientEnvironmentData || environmentData;
+
+    if (ssoProviders) {
+      finalData.ssoProviders = ssoProviders;
+    }
 
     if (previewMode) {
       console.log('Collecting data from preview mode');
+
       return {
         ...finalData,
         ...previewEnvironmentData,
@@ -83,7 +95,13 @@ export function ThonLabsSessionProvider({
     }
 
     return finalData;
-  }, [environmentId, publicKey, clientEnvironmentData, previewEnvironmentData]);
+  }, [
+    environmentId,
+    publicKey,
+    clientEnvironmentData,
+    previewEnvironmentData,
+    ssoProviders,
+  ]);
 
   React.useEffect(() => {
     if (!memoClientEnvironmentData?.sdkIntegrated) {

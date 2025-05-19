@@ -14,6 +14,7 @@ import { useToast } from '../../../ui/hooks/use-toast';
 import { Typo } from '../../../ui/components/typo';
 import { useEnvironmentData } from '../../hooks/use-environment-data';
 import { AuthProviders } from '../../../shared/interfaces/environment-data';
+import SSOSocialButtons from '../../../shared/components/sso-social-buttons';
 
 export default function LoginForm() {
   const [loading, setLoading] = React.useState(false);
@@ -52,6 +53,7 @@ export default function LoginForm() {
 
   return (
     <>
+      <SSOSocialButtons />
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid w-full items-center gap-5">
           <InputWrapper>
