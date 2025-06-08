@@ -9,7 +9,7 @@ export default function SSOSocialButtons() {
   const { ssoProviders, activeSSOProviders } = useEnvironmentData();
   const { previewMode } = usePreviewMode();
 
-  if (activeSSOProviders.length === 0) {
+  if (activeSSOProviders?.length === 0) {
     return null;
   }
 
@@ -18,7 +18,7 @@ export default function SSOSocialButtons() {
       <div className="flex flex-col gap-2">
         {activeSSOProviders.includes(SSOSocialProvider.GOOGLE) && (
           <SSOGoogle
-            {...(!previewMode ? ssoProviders.google : ({} as SSOSocial))}
+            {...(!previewMode ? ssoProviders?.google : ({} as SSOSocial))}
           />
         )}
       </div>
