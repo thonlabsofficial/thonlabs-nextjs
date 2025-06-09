@@ -11,7 +11,7 @@ export default function SignUp({ isPreview = false }: Props) {
   return (
     <div
       className={cn('flex items-center justify-center', {
-        'h-[40rem]': isPreview,
+        'h-[50rem]': isPreview,
         'h-screen': !isPreview,
       })}
     >

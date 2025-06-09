@@ -22,7 +22,7 @@ export default function ResetPasswordRequire({ isPreview = false }: Props) {
   return (
     <div
       className={cn('flex items-center justify-center', {
-        'h-[25.9rem]': isPreview,
+        'h-[30rem]': isPreview,
         'h-screen': !isPreview,
       })}
     >

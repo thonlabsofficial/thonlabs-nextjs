@@ -12,7 +12,7 @@ export default function MagicSent({ isPreview = false }: Props) {
     <>
       <div
         className={cn('flex items-center justify-center', {
-          'h-[19.1rem]': isPreview,
+          'h-[30rem]': isPreview,
           'h-screen': !isPreview,
         })}
       >
