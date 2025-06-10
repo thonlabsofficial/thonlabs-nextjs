@@ -12,19 +12,12 @@ export const api = <T>(
     publicKey: string;
   }
 ) =>
-  fetch(
-    `${
-      process.env.NODE_ENV === 'development'
-        ? process.env.NEXT_PUBLIC_TL_API
-        : 'https://api.thonlabs.io'
-    }${url}`,
-    {
-      headers: {
-        'tl-env-id': environmentId,
-        'tl-public-key': publicKey,
-      },
-    }
-  )
+  fetch(`https://${process.env.NEXT_PUBLIC_TL_AUTH_DOMAIN}${url}`, {
+    headers: {
+      'tl-env-id': environmentId,
+      'tl-public-key': publicKey,
+    },
+  })
     .then((res) => res.json() as Promise<T>)
     .catch(() => {});
 
@@ -37,19 +30,12 @@ export const fetcher =
     publicKey: string;
   }) =>
   (url: string) =>
-    fetch(
-      `${
-        process.env.NODE_ENV === 'development'
-          ? process.env.NEXT_PUBLIC_TL_API
-          : 'https://api.thonlabs.io'
-      }${url}`,
-      {
-        headers: {
-          'tl-env-id': environmentId,
-          'tl-public-key': publicKey,
-        },
-      }
-    ).then((res) => res.json());
+    fetch(`https://${process.env.NEXT_PUBLIC_TL_AUTH_DOMAIN}${url}`, {
+      headers: {
+        'tl-env-id': environmentId,
+        'tl-public-key': publicKey,
+      },
+    }).then((res) => res.json());
 
 export const intFetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -100,10 +86,7 @@ export async function labsPublicAPI(
 
   let baseURL = config?.baseURL;
   if (!config?.baseURL || useEnvBaseURL) {
-    baseURL =
-      process.env.NODE_ENV === 'development'
-        ? process.env.NEXT_PUBLIC_TL_API
-        : 'https://api.thonlabs.io';
+    baseURL = `https://${process.env.NEXT_PUBLIC_TL_AUTH_DOMAIN}`;
   }
 
   const params = {
