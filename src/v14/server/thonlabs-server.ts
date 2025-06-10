@@ -61,34 +61,28 @@ export async function validateSession(
       return forwardSearchParams(req, '/api/auth/logout');
     }
 
-    const isPageRefresh =
-      removePathnameFromURL(req.headers.get('referer') || '').toString() ===
-      getURLFromHost(req, false).toString();
+    // Validates the session status and redirects to regenerate
+    // a new token in case of need
+    const { status } = await ServerSessionService.shouldKeepAlive();
 
-    if (isPageRefresh) {
-      // Validates the session status and redirects to regenerate
-      // a new token in case of need
-      const { status } = await ServerSessionService.shouldKeepAlive();
+    if (status === 'invalid_session') {
+      Log.info({
+        action: 'validateSession',
+        message: 'ThonLabs Validate Session: Invalid session from keep alive',
+        status,
+      });
 
-      if (status === 'invalid_session') {
-        Log.info({
-          action: 'validateSession',
-          message: 'ThonLabs Validate Session: Invalid session from keep alive',
-          status,
-        });
+      return forwardSearchParams(req, '/api/auth/logout');
+    } else if (status === 'needs_refresh') {
+      Log.info({
+        action: 'validateSession',
+        message: 'ThonLabs Validate Session: Needs refresh from keep alive',
+        status,
+      });
 
-        return forwardSearchParams(req, '/api/auth/logout');
-      } else if (status === 'needs_refresh') {
-        Log.info({
-          action: 'validateSession',
-          message: 'ThonLabs Validate Session: Needs refresh from keep alive',
-          status,
-        });
+      const url = getURLFromHost(req);
 
-        const url = getURLFromHost(req);
-
-        return new URL(`/auth/refresh?dest=${url.pathname}`, url.toString());
-      }
+      return new URL(`/auth/refresh?dest=${url.pathname}`, url.toString());
     }
   }
 
