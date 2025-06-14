@@ -21,15 +21,14 @@ export interface ThonLabsWrapperProps
   extends React.HTMLAttributes<HTMLElement> {
   environmentId: string;
   publicKey: string;
-  baseURL?: string;
+  authDomain?: string;
 }
 
 export async function ThonLabsWrapper({
   children,
   environmentId,
   publicKey,
-  baseURL,
-  className,
+  authDomain,
 }: ThonLabsWrapperProps) {
   if (!environmentId) {
     Log.error({
@@ -50,7 +49,7 @@ export async function ThonLabsWrapper({
   environmentStore.setConfig({
     environmentId,
     publicKey,
-    baseURL,
+    authDomain,
   } as EnvironmentData);
 
   const environmentData = await api<EnvironmentData>(

@@ -1,6 +1,7 @@
 import { environmentStore } from '../store/env-store';
 import { publicRoutes } from './constants';
 import { APIResponseCodes } from './errors';
+import { isLocalhost } from './helpers';
 
 export const api = <T>(
   url: string,
@@ -11,8 +12,8 @@ export const api = <T>(
     environmentId: string;
     publicKey: string;
   }
-) =>
-  fetch(`https://${process.env.NEXT_PUBLIC_TL_AUTH_DOMAIN}${url}`, {
+) => {
+  return fetch(`${getBaseURL()}${url}`, {
     headers: {
       'tl-env-id': environmentId,
       'tl-public-key': publicKey,
@@ -20,6 +21,7 @@ export const api = <T>(
   })
     .then((res) => res.json() as Promise<T>)
     .catch(() => {});
+};
 
 export const fetcher =
   ({
@@ -29,13 +31,14 @@ export const fetcher =
     environmentId: string;
     publicKey: string;
   }) =>
-  (url: string) =>
-    fetch(`https://${process.env.NEXT_PUBLIC_TL_AUTH_DOMAIN}${url}`, {
+  (url: string) => {
+    return fetch(`${getBaseURL()}${url}`, {
       headers: {
         'tl-env-id': environmentId,
         'tl-public-key': publicKey,
       },
     }).then((res) => res.json());
+  };
 
 export const intFetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -84,11 +87,6 @@ export async function labsPublicAPI(
 ) {
   const config = environmentStore.getConfig();
 
-  let baseURL = config?.baseURL;
-  if (!config?.baseURL || useEnvBaseURL) {
-    baseURL = `https://${process.env.NEXT_PUBLIC_TL_AUTH_DOMAIN}`;
-  }
-
   const params = {
     ...options,
     headers: {
@@ -99,11 +97,22 @@ export async function labsPublicAPI(
     },
   };
 
-  const response = await fetch(`${baseURL}${url}`, params);
+  const response = await fetch(`${getBaseURL(useEnvBaseURL)}${url}`, params);
 
   if (!response.ok && !publicRoutes.some((route) => url.startsWith(route))) {
     return await handleResponseError(response);
   }
 
   return response;
+}
+
+function getBaseURL(useEnvBaseURL: boolean = false) {
+  const config = environmentStore.getConfig();
+
+  let authDomain: string = config?.authDomain || '';
+  if (!config?.authDomain || useEnvBaseURL) {
+    authDomain = process.env.NEXT_PUBLIC_TL_AUTH_DOMAIN as string;
+  }
+
+  return `${isLocalhost(authDomain) ? 'http' : 'https'}://${authDomain}`;
 }

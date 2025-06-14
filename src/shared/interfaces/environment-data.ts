@@ -12,7 +12,7 @@ export interface EnvironmentStyles {
 export interface EnvironmentData {
   environmentId: string;
   publicKey: string;
-  baseURL?: string;
+  authDomain?: string;
   authProvider: AuthProviders;
   enableSignUp: boolean;
   enableSignUpB2BOnly: boolean;
