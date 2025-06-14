@@ -40,3 +40,7 @@ export function forwardSearchParams(req: NextRequest, path: string) {
 export function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+export function isLocalhost(domain: string) {
+  return domain.includes('localhost') || domain.includes('127.0.0.1');
+}
