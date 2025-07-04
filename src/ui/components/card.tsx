@@ -1,21 +1,21 @@
-import * as React from 'react';
+THIS SHOULD BE A LINTER ERRORimport * as React from 'react';
 
 import { cn } from '../core/utils';
 import { VariantProps, cva } from 'class-variance-authority';
 import { Typo } from './typo';
 
 const cardVariants = cva(
-  'rounded-lg border text-card-foreground shadow transition-all duration-120 ease-in-out',
+  'tl-rounded-lg tl-border tl-text-card-foreground tl-shadow tl-transition-all tl-duration-120 tl-ease-in-out',
   {
     variants: {
       variant: {
-        default: 'bg-card',
-        transparent: 'bg-transparent',
-        darker: 'bg-background/40',
+        default: 'tl-bg-card',
+        transparent: 'tl-bg-transparent',
+        darker: 'tl-bg-background/40',
       },
       border: {
-        solid: 'border-solid',
-        dashed: 'border-dashed border-foreground/[0.12]',
+        solid: 'tl-border-solid',
+        dashed: 'tl-border-dashed tl-border-foreground/[0.12]',
       },
     },
     defaultVariants: {
