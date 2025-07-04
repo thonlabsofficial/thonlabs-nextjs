@@ -1,4 +1,4 @@
-THIS SHOULD BE A LINTER ERRORimport * as React from 'react';
+import * as React from 'react';
 
 import { cn } from '../core/utils';
 import { VariantProps, cva } from 'class-variance-authority';
@@ -45,7 +45,7 @@ const CardHeader = React.forwardRef<
   HTMLDivElement,
   { description?: React.ReactNode } & React.HTMLAttributes<HTMLDivElement>
 >(({ className, description, children, ...props }, ref) => (
-  <div ref={ref} className={cn('flex flex-col p-6', className)} {...props}>
+  <div ref={ref} className={cn('tl-flex tl-flex-col tl-p-6', className)} {...props}>
     <Typo>{children}</Typo>
     {description && <Typo variant={'muted'}>{description}</Typo>}
   </div>
