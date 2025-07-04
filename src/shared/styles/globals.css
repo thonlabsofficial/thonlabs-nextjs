@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-  :root,
-  .light {
+  .thonlabs,
+  .thonlabs.light {
     --text: 0 0 0;
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
@@ -42,7 +42,7 @@
     --skeleton-highlight: 0 0 85%;
   }
 
-  .dark {
+  .thonlabs.dark {
     --text: 0 0% 98%;
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
