@@ -8,13 +8,13 @@ import { cn } from '../core/utils';
 import { Skeleton } from './skeleton';
 
 const labelVariants = cva(
-  `text-sm font-medium leading-none 
-   peer-disabled:cursor-not-allowed peer-disabled:opacity-70 
-   transition-default`,
+  `tl-text-sm tl-font-medium tl-leading-none 
+   peer-disabled:tl-cursor-not-allowed peer-disabled:tl-opacity-70 
+   tl-transition-default`,
   {
     variants: {
       state: {
-        default: 'text-zinc-500',
+        default: 'tl-text-zinc-500',
       },
     },
     defaultVariants: {
@@ -40,7 +40,7 @@ const Label = React.forwardRef<
       className={cn(
         labelVariants({ state }),
         {
-          'group-focus-within:text-zinc-700 dark:group-focus-within:text-zinc-300':
+          'group-focus-within:tl-text-zinc-700 dark:group-focus-within:tl-text-zinc-300':
             withFocusWithin,
         },
         className,

@@ -20,7 +20,7 @@ export function ThonLabsAuthPagePreview({
   ).toString('utf-8');
 
   return (
-    <div className="bg-background text-text h-full">
+          <div className="tl-bg-background tl-text-text tl-h-full">
       {route === 'login' && <Login isPreview />}
       {route === 'magic' && <MagicSent isPreview />}
       {route === 'sign-up' && <SignUp isPreview />}

@@ -14,7 +14,7 @@ function SkeletonProvider({ children }: React.HTMLAttributes<HTMLElement>) {
 }
 
 function SkeletonWrapper({ children }: React.HTMLAttributes<HTMLElement>) {
-  return <div className="leading-[0]">{children}</div>;
+  return <div className="tl-leading-[0]">{children}</div>;
 }
 
 interface SkeletonProps

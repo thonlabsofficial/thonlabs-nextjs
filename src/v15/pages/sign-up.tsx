@@ -10,17 +10,17 @@ interface Props {
 export default function SignUp({ isPreview = false }: Props) {
   return (
     <div
-      className={cn('flex items-center justify-center', {
-        'h-[50rem]': isPreview,
-        'h-screen': !isPreview,
-      })}
+              className={cn('tl-flex tl-items-center tl-justify-center', {
+          'tl-h-[50rem]': isPreview,
+          'tl-h-screen': !isPreview,
+        })}
     >
       <LandingGrid />
-      <div className="sm:pt-0 px-3 w-full sm:max-w-[400px] relative md:-mt-16">
+              <div className="sm:tl-pt-0 tl-px-3 tl-w-full sm:tl-max-w-[400px] tl-relative md:tl--mt-16">
         <AuthHeader
           title="Create an account"
           description="signUp"
-          className="mb-14"
+                      className="tl-mb-14"
         />
         <SignUpForm />
       </div>

@@ -71,7 +71,7 @@ export default function CreateNewPasswordForm({ token, email }: Props) {
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)}>
-      <div className="grid w-full items-center gap-5">
+      <div className="tl-grid tl-w-full tl-items-center tl-gap-5">
         <InputWrapper>
           <Input
             placeholder="••••••••••••"
@@ -95,11 +95,11 @@ export default function CreateNewPasswordForm({ token, email }: Props) {
       </div>
 
       <Button
-        className="w-full mt-8"
+                  className="tl-w-full tl-mt-8"
         loading={loading}
         style={{ backgroundColor: styles.primaryColor }}
       >
-        {loading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin -mt-1" />}
+        {loading && <ReloadIcon className="tl-mr-2 tl-h-4 tl-w-4 tl-animate-spin tl--mt-1" />}
         Set New Password
       </Button>
     </form>

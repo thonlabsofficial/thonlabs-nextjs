@@ -17,7 +17,7 @@ export default function MagicSent({ isPreview = false }: Props) {
         })}
       >
         <LandingGrid />
-        <div className="sm:pt-0 px-3 w-full sm:max-w-[400px] relative md:-mt-16">
+        <div className="sm:tl-pt-0 tl-px-3 tl-w-full sm:tl-max-w-[400px] tl-relative md:tl--mt-16">
           <AuthHeader
             title="Check your email"
             description="We've sent you a magic link to log in to Thon Labs, you can close this page."

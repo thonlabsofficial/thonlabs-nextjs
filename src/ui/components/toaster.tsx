@@ -13,41 +13,41 @@ const Toaster = ({...props}: ToasterProps) => {
       toastOptions={{
         classNames: {
           toast: `
-            group toast group-[.toaster]:text-foreground 
-            group-[.toaster]:border group-[.toaster]:border-border 
-            group-[.toaster]:shadow-lg group-[.toaster]:rounded-md 
-            group-[.toaster]:px-3 group-[.toaster]:text-sm 
-            group-[.toaster]:font-medium group-[.toaster]:text-text
+            tl-group toast group-[.toaster]:tl-text-foreground 
+            group-[.toaster]:tl-border group-[.toaster]:tl-border-border 
+            group-[.toaster]:tl-shadow-lg group-[.toaster]:tl-rounded-md 
+            group-[.toaster]:tl-px-3 group-[.toaster]:tl-text-sm 
+            group-[.toaster]:tl-font-medium group-[.toaster]:tl-text-text
           `,
-          default: `group-[.toaster]:bg-card group-[.toaster]:border-foreground/20`,
-          success: `group-[.toaster]:!bg-success group-[.toaster]:!border-success/60`,
-          error: `group-[.toaster]:!bg-destructive group-[.toaster]:!border-destructive/50`,
-          info: `group-[.toaster]:!bg-info group-[.toaster]:!border-info/50`,
-          icon: `group-[.toaster]:!text-foreground`,
-          title: `group-[.toast]:text-foreground group-[.toast]:text-sm group-[.toast]:font-sans group-[.toast]:font-semibold`,
-          description: `group-[.toast]:font-sans group-[.toast]:text-foreground`,
-          actionButton: `group-[.toast]:bg-primary group-[.toast]:text-primary-foreground`,
-          cancelButton: `group-[.toast]:bg-muted group-[.toast]:text-muted-foreground`,
+          default: `group-[.toaster]:tl-bg-card group-[.toaster]:tl-border-foreground/20`,
+          success: `group-[.toaster]:!tl-bg-success group-[.toaster]:!tl-border-success/60`,
+          error: `group-[.toaster]:!tl-bg-destructive group-[.toaster]:!tl-border-destructive/50`,
+          info: `group-[.toaster]:!tl-bg-info group-[.toaster]:!tl-border-info/50`,
+          icon: `group-[.toaster]:!tl-text-foreground`,
+          title: `group-[.toast]:tl-text-foreground group-[.toast]:tl-text-sm group-[.toast]:tl-font-sans group-[.toast]:tl-font-semibold`,
+          description: `group-[.toast]:tl-font-sans group-[.toast]:tl-text-foreground`,
+          actionButton: `group-[.toast]:tl-bg-primary group-[.toast]:tl-text-primary-foreground`,
+          cancelButton: `group-[.toast]:tl-bg-muted group-[.toast]:tl-text-muted-foreground`,
           closeButton: `
-              group-[.toast]:!text-foreground
-              group-[.toast]:!bg-transparent
-              group-[.toast]:absolute group-[.toast]:left-auto group-[.toast]:right-0 group-[.toast]:top-3 
-              group-[.toast]:rounded-md group-[.toast]:p-1 group-[.toast]:opacity-0
-              group-[.toast]:group-hover:opacity-100 group-[.toast]:focus:outline-none group-[.toast]:focus:ring-1 
-              group-[.toast]:border-none group-[.toast]:bg-transparent
-              group-[.toast]:focus:ring-0
-              group-[.toast]:transition-default
-              group-[.toast]:hover:!bg-foreground/10
-              group-data-[type=info]:hover:!bg-foreground/10
-              group-data-[type=success]:hover:!bg-foreground/10
-              group-data-[type=error]:hover:!bg-foreground/10
+              group-[.toast]:!tl-text-foreground
+              group-[.toast]:!tl-bg-transparent
+              group-[.toast]:tl-absolute group-[.toast]:tl-left-auto group-[.toast]:tl-right-0 group-[.toast]:tl-top-3 
+              group-[.toast]:tl-rounded-md group-[.toast]:tl-p-1 group-[.toast]:tl-opacity-0
+              group-[.toast]:group-hover:tl-opacity-100 group-[.toast]:focus:tl-outline-none group-[.toast]:focus:tl-ring-1 
+              group-[.toast]:tl-border-none group-[.toast]:tl-bg-transparent
+              group-[.toast]:focus:tl-ring-0
+              group-[.toast]:tl-transition-default
+              group-[.toast]:hover:!tl-bg-foreground/10
+              group-data-[type=info]:hover:!tl-bg-foreground/10
+              group-data-[type=success]:hover:!tl-bg-foreground/10
+              group-data-[type=error]:hover:!tl-bg-foreground/10
             `,
         },
       }}
       icons={{
-        success: <CheckCircle className="w-5 h-5" />,
-        error: <CircleAlert className="w-5 h-5" />,
-        info: <Info className="w-5 h-5" />,
+        success: <CheckCircle className="tl-w-5 tl-h-5" />,
+        error: <CircleAlert className="tl-w-5 tl-h-5" />,
+        info: <Info className="tl-w-5 tl-h-5" />,
       }}
       {...props}
     />
