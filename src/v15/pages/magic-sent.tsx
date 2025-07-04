@@ -21,7 +21,7 @@ export default function MagicSent({ isPreview = false }: Props) {
           <AuthHeader
             title="Check your email"
             description="We've sent you a magic link to log in to Thon Labs, you can close this page."
-            className="mb-14"
+                          className="tl-mb-14"
           />
           <CloseThisPageButton />
         </div>
