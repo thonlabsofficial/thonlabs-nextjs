@@ -1,15 +1,16 @@
-"use client";
+'use client';
 
-import {CheckCircle, CircleAlert, Info} from "lucide-react";
-import {Toaster as Sonner} from "sonner";
+import { CheckCircle, CircleAlert, Info } from 'lucide-react';
+import { Toaster as Sonner } from 'sonner';
+import { fonts } from '../core/fonts';
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
-const Toaster = ({...props}: ToasterProps) => {
+const Toaster = ({ ...props }: ToasterProps) => {
   return (
     <Sonner
       theme="system"
-      className="toaster group"
+      className={`${fonts.className} thonlabs toaster group`}
       toastOptions={{
         classNames: {
           toast: `
@@ -54,4 +55,4 @@ const Toaster = ({...props}: ToasterProps) => {
   );
 };
 
-export {Toaster};
+export { Toaster };
