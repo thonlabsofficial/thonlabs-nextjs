@@ -2,34 +2,34 @@ import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../core/utils';
 
-const typoVariants = cva('font-sans text-text', {
+const typoVariants = cva('tl-font-sans tl-text-text', {
   variants: {
     variant: {
-      default: 'text-base font-normal leading-relaxed',
-      paragraph: 'leading-relaxed [&:not(:first-child)]:mt-5 mb-0',
-      h1: 'scroll-m-20 text-4xl font-bold tracking-tight lg:text-5xl',
-      h2: 'scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0',
-      h3: 'scroll-m-20 text-2xl font-semibold tracking-tight',
-      h4: 'scroll-m-20 text-xl font-medium tracking-tight',
-      blockquote: 'mt-6 border-l-2 pl-6 italic',
+      default: 'tl-text-base tl-font-normal tl-leading-relaxed',
+      paragraph: 'tl-leading-relaxed tl-[&:not(:first-child)]:mt-5 tl-mb-0',
+      h1: 'tl-scroll-m-20 tl-text-4xl tl-font-bold tl-tracking-tight tl-lg:tl-text-5xl',
+      h2: 'tl-scroll-m-20 tl-text-3xl tl-font-semibold tl-tracking-tight tl-first:tl-mt-0',
+      h3: 'tl-scroll-m-20 tl-text-2xl tl-font-semibold tl-tracking-tight',
+      h4: 'tl-scroll-m-20 tl-text-xl tl-font-medium tl-tracking-tight',
+      blockquote: 'tl-mt-6 tl-border-l-2 tl-pl-6 tl-italic',
       inlineCode:
-        'relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold',
-      lead: 'text-lg text-muted-foreground',
-      lg: 'text-lg font-semibold',
-      md: 'text-lg font-medium',
-      sm: 'text-sm font-medium',
-      xs: 'text-xs font-medium',
-      muted: 'text-sm text-muted-foreground',
-      mutedXs: 'text-xs text-muted-foreground',
-      code: 'font-code p-0.5 bg-blue-500/[0.2] rounded-sm text-sm',
+        'tl-relative tl-rounded tl-bg-muted tl-px-[0.3rem] tl-py-[0.2rem] tl-font-mono tl-text-sm tl-font-semibold',
+      lead: 'tl-text-lg tl-text-muted-foreground',
+      lg: 'tl-text-lg tl-font-semibold',
+      md: 'tl-text-lg tl-font-medium',
+      sm: 'tl-text-sm tl-font-medium',
+      xs: 'tl-text-xs tl-font-medium',
+      muted: 'tl-text-sm tl-text-muted-foreground',
+      mutedXs: 'tl-text-xs tl-text-muted-foreground',
+      code: 'tl-font-code tl-p-0.5 tl-bg-blue-500/[0.2] tl-rounded-sm tl-text-sm',
       codeLink:
-        'font-code py-0.5 px-1 bg-blue-500/[0.2] hover:bg-blue-500/[0.3] rounded-sm text-sm transition-default',
-      link: 'underline underline-offset-4 cursor-pointer',
-      underline: 'underline underline-offset-4',
+        'tl-font-code tl-py-0.5 tl-px-1 tl-bg-blue-500/[0.2] tl-hover:tl-bg-blue-500/[0.3] tl-rounded-sm tl-text-sm tl-transition-default',
+      link: 'tl-underline tl-underline-offset-4 tl-cursor-pointer',
+      underline: 'tl-underline tl-underline-offset-4',
     },
     state: {
       default: '',
-      error: '!text-red-500',
+      error: '!tl-text-red-500',
     },
   },
   defaultVariants: {
