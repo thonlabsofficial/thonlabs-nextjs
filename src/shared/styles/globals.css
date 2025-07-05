@@ -81,15 +81,15 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
+  .thonlabs * {
+    @apply tl-border-border;
   }
 
-  body {
-    @apply font-sans;
+  .thonlabs body {
+    @apply tl-font-sans;
   }
 
-  :focus-visible {
-    @apply outline-none;
+  .thonlabs :focus-visible {
+    @apply tl-outline-none;
   }
 }

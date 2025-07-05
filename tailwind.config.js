@@ -3,6 +3,7 @@ const plugin = require('tailwindcss/plugin');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{ts,tsx,scss,svg}'],
+  prefix: 'tl-',
   jit: true,
   darkMode: ['selector', '[data-tl-theme="dark"]'],
   theme: {

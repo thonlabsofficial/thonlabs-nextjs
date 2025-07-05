@@ -9,27 +9,27 @@ import { Button } from './button';
 import { Spinner } from './spinner';
 
 const inputVariants = cva(
-  `flex text-zinc-900 dark:text-zinc-50 w-full rounded-md border border-solid hover:bg-input-hover shadow-sm 
-	 placeholder:text-zinc-300 dark:placeholder:text-zinc-600
-	 transition duration-200 ease-in-out
-	 file:border-0 bg-transparent file:text-sm file:font-medium outline-none
-	 disabled:opacity-50 disabled:pointer-events-none`,
+  `tl-flex tl-text-zinc-900 dark:tl-text-zinc-50 tl-w-full tl-rounded-md tl-border tl-border-solid hover:tl-bg-input-hover tl-shadow-sm 
+	 placeholder:tl-text-zinc-300 dark:placeholder:tl-text-zinc-600
+	 tl-transition tl-duration-200 tl-ease-in-out
+	 file:tl-border-0 tl-bg-transparent file:tl-text-sm file:tl-font-medium tl-outline-none
+	 disabled:tl-opacity-50 disabled:tl-pointer-events-none`,
   {
     variants: {
       state: {
-        default: `border-zinc-200 dark:border-zinc-600 
-                  hover:border-zinc-400 dark:hover:border-zinc-500
-                  focus:border-zinc-700 dark:focus:border-zinc-300
-                  read-only:bg-accent
-                  hover:read-only:border-zinc-200 dark:hover:read-only:border-zinc-600
-                  focus:read-only:border-zinc-200 dark:focus:read-only:border-zinc-600`,
-        error: 'border-red-500 focus:border-red-500',
+        default: `tl-border-zinc-200 dark:tl-border-zinc-600 
+                  hover:tl-border-zinc-400 dark:hover:tl-border-zinc-500
+                  focus:tl-border-zinc-700 dark:focus:tl-border-zinc-300
+                  read-only:tl-bg-accent
+                  hover:read-only:tl-border-zinc-200 dark:hover:read-only:tl-border-zinc-600
+                  focus:read-only:tl-border-zinc-200 dark:focus:read-only:tl-border-zinc-600`,
+        error: 'tl-border-red-500 focus:tl-border-red-500',
       },
       size: {
-        xs: 'px-1.5 py-0.5 text-xs h-7',
-        sm: 'px-2.5 py-1 text-sm h-9',
-        md: 'px-3 py-1.5 text-base h-11',
-        lg: 'px-4 py-2 text-base h-14',
+        xs: 'tl-px-1.5 tl-py-0.5 tl-text-xs tl-h-7',
+        sm: 'tl-px-2.5 tl-py-1 tl-text-sm tl-h-9',
+        md: 'tl-px-3 tl-py-1.5 tl-text-base tl-h-11',
+        lg: 'tl-px-4 tl-py-2 tl-text-base tl-h-14',
       },
     },
     defaultVariants: {
@@ -107,7 +107,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </>
         )}
         {!loading ? (
-          <div className="w-full relative">
+          <div className="tl-w-full tl-relative">
             <input
               id={props.name}
               type={type}
@@ -123,12 +123,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {(withCopy || withHide) && (
               <div
                 ref={buttonsRef}
-                className="inline-flex gap-1 absolute top-1.5 right-1.5 h-[calc(100%-0.75rem)]"
+                className="tl-inline-flex tl-gap-1 tl-absolute tl-top-1.5 tl-right-1.5 tl-h-[calc(100%-0.75rem)]"
               >
                 {withHide && (
                   <Button
-                    className={cn('inline-flex', {
-                      'pointer-events-none': loadingFromButtons === 'show-hide',
+                    className={cn('tl-inline-flex', {
+                      'tl-pointer-events-none': loadingFromButtons === 'show-hide',
                     })}
                     size="xs"
                     variant="secondary"
@@ -160,11 +160,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <Skeleton
             width={'100%'}
             height={loadingSizeMapper[size || 'md']}
-            className="!rounded-md"
+            className="!tl-rounded-md"
           />
         )}
         {error && (
-          <Typo variant={size} state={'error'} className="text-sm">
+                      <Typo variant={size} state={'error'} className="tl-text-sm">
             {error}
           </Typo>
         )}
@@ -180,7 +180,7 @@ function InputWrapper({
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   return (
-    <div {...props} className={cn('flex flex-col gap-1 group', className)}>
+    <div {...props} className={cn('tl-flex tl-flex-col tl-gap-1 tl-group', className)}>
       {children}
     </div>
   );

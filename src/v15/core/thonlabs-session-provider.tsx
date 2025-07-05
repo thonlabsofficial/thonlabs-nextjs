@@ -133,7 +133,7 @@ export function ThonLabsSessionProvider({
           <div
             className={cn(
               fonts.className,
-              'thonlabs font-sans w-full min-h-screen bg-background text-text'
+              'thonlabs tl-font-sans tl-w-full tl-min-h-screen tl-bg-background tl-text-text'
             )}
           >
             {children}
