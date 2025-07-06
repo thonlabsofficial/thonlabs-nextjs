@@ -81,7 +81,7 @@ export default function LoginForm() {
               <div className="tl-flex tl-justify-between">
                 <Label htmlFor="password">Password</Label>
                 <Link
-                            className={`tl-text-gray-500 hover:tl-text-gray-900 dark:hover:tl-text-gray-50
+                  className={`tl-text-gray-500 hover:tl-text-gray-900 dark:hover:tl-text-gray-50
               tl-transition-all tl-duration-200 tl-ease-in-out 
               tl-text-sm tl-font-medium tl-leading-none tl-underline-offset-4 hover:tl-underline`}
                   href={previewMode ? '#' : '/auth/reset-password'}

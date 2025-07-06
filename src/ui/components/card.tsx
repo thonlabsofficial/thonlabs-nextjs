@@ -1,29 +1,27 @@
 import * as React from 'react';
 
 import { cn } from '../core/utils';
-import { VariantProps, cva } from 'class-variance-authority';
 import { Typo } from './typo';
+import { tv, type VariantProps } from 'tailwind-variants';
 
-const cardVariants = cva(
-  'tl-rounded-lg tl-border tl-text-card-foreground tl-shadow tl-transition-all tl-duration-120 tl-ease-in-out',
-  {
-    variants: {
-      variant: {
-        default: 'tl-bg-card',
-        transparent: 'tl-bg-transparent',
-        darker: 'tl-bg-background/40',
-      },
-      border: {
-        solid: 'tl-border-solid',
-        dashed: 'tl-border-dashed tl-border-foreground/[0.12]',
-      },
+const cardVariants = tv({
+  base: 'tl-rounded-lg tl-border tl-text-card-foreground tl-shadow tl-transition-all tl-duration-120 tl-ease-in-out',
+  variants: {
+    variant: {
+      default: 'tl-bg-card',
+      transparent: 'tl-bg-transparent',
+      darker: 'tl-bg-background/40',
     },
-    defaultVariants: {
-      variant: 'default',
-      border: 'solid',
+    border: {
+      solid: 'tl-border-solid',
+      dashed: 'tl-border-dashed tl-border-foreground/[0.12]',
     },
   },
-);
+  defaultVariants: {
+    variant: 'default',
+    border: 'solid',
+  },
+});
 
 export interface CardProps
   extends React.HTMLAttributes<HTMLDivElement>,
@@ -35,7 +33,7 @@ const Card = React.forwardRef<
 >(({ className, variant, border, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn(cardVariants({ variant, border }), className)}
+    className={cardVariants({ variant, border, className })}
     {...props}
   />
 ));
@@ -45,7 +43,11 @@ const CardHeader = React.forwardRef<
   HTMLDivElement,
   { description?: React.ReactNode } & React.HTMLAttributes<HTMLDivElement>
 >(({ className, description, children, ...props }, ref) => (
-  <div ref={ref} className={cn('tl-flex tl-flex-col tl-p-6', className)} {...props}>
+  <div
+    ref={ref}
+    className={cn('tl-flex tl-flex-col tl-p-6', className)}
+    {...props}
+  >
     <Typo>{children}</Typo>
     {description && <Typo variant={'muted'}>{description}</Typo>}
   </div>
@@ -58,7 +60,10 @@ const CardTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <h3
     ref={ref}
-    className={cn('tl-font-semibold tl-leading-none tl-tracking-tight', className)}
+    className={cn(
+      'tl-font-semibold tl-leading-none tl-tracking-tight',
+      className
+    )}
     {...props}
   />
 ));
@@ -90,7 +95,10 @@ const CardFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn('tl-flex tl-items-center tl-py-4 tl-px-6 tl-border-t', className)}
+    className={cn(
+      'tl-flex tl-items-center tl-py-4 tl-px-6 tl-border-t',
+      className
+    )}
     {...props}
   />
 ));

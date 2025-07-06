@@ -6,7 +6,7 @@ import {
   removePathnameFromURL,
 } from '../../shared/utils/helpers';
 import Log from '../../shared/utils/log';
-import { publicRoutes } from '../../shared/utils/constants';
+import { authRoutes, publicRoutes } from '../../shared/utils/constants';
 
 export function isAuthRoute(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
@@ -16,6 +16,11 @@ export function isAuthRoute(req: NextRequest) {
   );
 
   return isPublicRoute;
+}
+
+export function isThonLabsPageRoute(req: NextRequest) {
+  console.log(authRoutes, req.nextUrl.pathname);
+  return authRoutes.some((route) => req.nextUrl.pathname.startsWith(route));
 }
 
 export function shouldBypassRoute(req: NextRequest, routes: string[]) {
@@ -95,7 +100,7 @@ export function getTokens() {
   return ServerSessionService.getSessionCookies();
 }
 
-export async function validationRedirect(dest: URL): Promise<NextResponse> {
+export async function redirectToLogin(dest: URL): Promise<NextResponse> {
   if (dest.toString().endsWith('bypass')) {
     return NextResponse.next();
   }

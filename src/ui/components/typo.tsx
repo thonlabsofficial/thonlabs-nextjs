@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '../core/utils';
+import { tv, type VariantProps } from 'tailwind-variants';
 
-const typoVariants = cva('tl-font-sans tl-text-text', {
+const typoVariants = tv({
+  base: 'tl-font-sans',
   variants: {
     variant: {
-      default: 'tl-text-base tl-font-normal tl-leading-relaxed',
+      default: 'tl-text-base tl-text-text tl-font-normal tl-leading-relaxed',
       paragraph: 'tl-leading-relaxed tl-[&:not(:first-child)]:mt-5 tl-mb-0',
       h1: 'tl-scroll-m-20 tl-text-4xl tl-font-bold tl-tracking-tight tl-lg:tl-text-5xl',
       h2: 'tl-scroll-m-20 tl-text-3xl tl-font-semibold tl-tracking-tight tl-first:tl-mt-0',
@@ -56,7 +56,7 @@ function Typo({
   return React.createElement(as, {
     ...props,
     children: props.children || fallback,
-    className: cn(typoVariants({ variant, state }), className),
+    className: typoVariants({ variant, state, className }),
   });
 }
 

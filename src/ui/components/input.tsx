@@ -1,43 +1,45 @@
 import * as React from 'react';
 
 import { cn } from '../core/utils';
-import { VariantProps, cva } from 'class-variance-authority';
+import { tv, type VariantProps } from 'tailwind-variants';
 import { Typo } from './typo';
 import { Label } from './label';
 import { Skeleton } from './skeleton';
 import { Button } from './button';
 import { Spinner } from './spinner';
 
-const inputVariants = cva(
-  `tl-flex tl-text-zinc-900 dark:tl-text-zinc-50 tl-w-full tl-rounded-md tl-border tl-border-solid hover:tl-bg-input-hover tl-shadow-sm 
-	 placeholder:tl-text-zinc-300 dark:placeholder:tl-text-zinc-600
-	 tl-transition tl-duration-200 tl-ease-in-out
-	 file:tl-border-0 tl-bg-transparent file:tl-text-sm file:tl-font-medium tl-outline-none
-	 disabled:tl-opacity-50 disabled:tl-pointer-events-none`,
-  {
-    variants: {
-      state: {
-        default: `tl-border-zinc-200 dark:tl-border-zinc-600 
-                  hover:tl-border-zinc-400 dark:hover:tl-border-zinc-500
-                  focus:tl-border-zinc-700 dark:focus:tl-border-zinc-300
-                  read-only:tl-bg-accent
-                  hover:read-only:tl-border-zinc-200 dark:hover:read-only:tl-border-zinc-600
-                  focus:read-only:tl-border-zinc-200 dark:focus:read-only:tl-border-zinc-600`,
-        error: 'tl-border-red-500 focus:tl-border-red-500',
-      },
-      size: {
-        xs: 'tl-px-1.5 tl-py-0.5 tl-text-xs tl-h-7',
-        sm: 'tl-px-2.5 tl-py-1 tl-text-sm tl-h-9',
-        md: 'tl-px-3 tl-py-1.5 tl-text-base tl-h-11',
-        lg: 'tl-px-4 tl-py-2 tl-text-base tl-h-14',
-      },
+const inputVariants = tv({
+  base: `
+      tl-flex tl-text-text tl-w-full tl-rounded-md tl-border tl-border-solid hover:tl-bg-input-hover tl-shadow-sm 
+      placeholder:tl-text-muted-foreground
+      tl-transition tl-duration-200 tl-ease-in-out
+      file:tl-border-0 tl-bg-transparent file:tl-text-sm file:tl-font-medium tl-outline-none
+      disabled:tl-opacity-50 disabled:tl-pointer-events-none
+    `,
+  variants: {
+    state: {
+      default: `
+        tl-border-foreground/20
+        hover:tl-border-foreground/40
+        focus:tl-border-foreground/60
+        read-only:tl-bg-accent
+        hover:read-only:tl-border
+        focus:read-only:tl-border
+      `,
+      error: 'tl-border-red-500 focus:tl-border-red-500',
     },
-    defaultVariants: {
-      state: 'default',
-      size: 'md',
+    size: {
+      xs: 'tl-px-1.5 tl-py-0.5 tl-text-xs tl-h-7',
+      sm: 'tl-px-2.5 tl-py-1 tl-text-sm tl-h-9',
+      md: 'tl-px-3 tl-py-1.5 tl-text-base tl-h-11',
+      lg: 'tl-px-4 tl-py-2 tl-text-base tl-h-14',
     },
   },
-);
+  defaultVariants: {
+    state: 'default',
+    size: 'md',
+  },
+});
 
 export interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>,
@@ -75,7 +77,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       onHiddenClick,
       ...props
     },
-    ref,
+    ref
   ) => {
     const [hidden, setHidden] = React.useState(withHide);
     const [buttonTriggered, setButtonTriggered] = React.useState(0);
@@ -111,10 +113,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             <input
               id={props.name}
               type={type}
-              className={cn(
-                inputVariants({ size, state: error ? 'error' : state }),
+              className={inputVariants({
+                size,
+                state: error ? 'error' : state,
                 className,
-              )}
+              })}
               style={{ paddingRight: `${buttonsWidth}rem` }}
               ref={ref}
               {...props}
@@ -128,7 +131,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 {withHide && (
                   <Button
                     className={cn('tl-inline-flex', {
-                      'tl-pointer-events-none': loadingFromButtons === 'show-hide',
+                      'tl-pointer-events-none':
+                        loadingFromButtons === 'show-hide',
                     })}
                     size="xs"
                     variant="secondary"
@@ -164,13 +168,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           />
         )}
         {error && (
-                      <Typo variant={size} state={'error'} className="tl-text-sm">
+          <Typo variant={size} state={'error'} className="tl-text-sm">
             {error}
           </Typo>
         )}
       </>
     );
-  },
+  }
 );
 Input.displayName = 'Input';
 
@@ -180,7 +184,10 @@ function InputWrapper({
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   return (
-    <div {...props} className={cn('tl-flex tl-flex-col tl-gap-1 tl-group', className)}>
+    <div
+      {...props}
+      className={cn('tl-flex tl-flex-col tl-gap-1 tl-group', className)}
+    >
       {children}
     </div>
   );
