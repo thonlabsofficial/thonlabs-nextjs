@@ -26,6 +26,7 @@
     "prebuild": "tailwindcss -i ./src/shared/styles/globals.css -o ./src/shared/styles/output.css",
     "build": "rm -rf dist && pnpm compile && cp -R src/shared/styles dist/shared/styles && rm dist/shared/styles/globals.css && mv dist/shared/styles/output.css dist/shared/styles/globals.css",
     "postbuild": "rm ./src/shared/styles/output.css",
+    "watch": "pnpm prebuild && tsc -p . --watch & tailwindcss -i ./src/shared/styles/globals.css -o ./src/shared/styles/output.css --watch & wait",
     "lint": "TIMING=1 eslint src/**/*.ts* --fix",
     "clean": "rm -rf dist",
     "format:check": "prettier --check \"**/*.{ts,tsx,md}\"",
