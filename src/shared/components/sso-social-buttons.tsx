@@ -14,18 +14,18 @@ export default function SSOSocialButtons() {
   }
 
   return (
-    <div className="flex flex-col gap-4 mb-4">
-      <div className="flex flex-col gap-2">
+    <div className="tl-flex tl-flex-col tl-gap-4 tl-mb-4">
+      <div className="tl-flex tl-flex-col tl-gap-2">
         {activeSSOProviders.includes(SSOSocialProvider.GOOGLE) && (
           <SSOGoogle
             {...(!previewMode ? ssoProviders.google : ({} as SSOSocial))}
           />
         )}
       </div>
-      <div className="flex items-center gap-3">
-        <div className="flex-1 h-px bg-border mt-1" />
-        <span className="text-sm text-muted-foreground">or</span>
-        <div className="flex-1 h-px bg-border mt-1" />
+      <div className="tl-flex tl-items-center tl-gap-3">
+        <div className="tl-flex-1 tl-h-px tl-bg-border tl-mt-1" />
+        <span className="tl-text-sm tl-text-muted-foreground">or</span>
+        <div className="tl-flex-1 tl-h-px tl-bg-border tl-mt-1" />
       </div>
     </div>
   );

@@ -21,26 +21,26 @@ interface Props {
 export default function ResetPasswordRequire({ isPreview = false }: Props) {
   return (
     <div
-      className={cn('flex items-center justify-center', {
-        'h-[30rem]': isPreview,
-        'h-screen': !isPreview,
+      className={cn('tl-flex tl-items-center tl-justify-center', {
+        'tl-h-[30rem]': isPreview,
+        'tl-h-screen': !isPreview,
       })}
     >
       <LandingGrid />
-      <div className="sm:pt-0 px-3 w-full sm:max-w-[400px] relative md:-mt-16">
+      <div className="sm:tl-pt-0 tl-px-3 tl-w-full sm:tl-max-w-[400px] tl-relative md:tl--mt-16">
         <AuthHeader
           title="Reset Your Password"
           description="Please provide your email address, and we'll send you a secure
             link to reset your password."
-          className="mb-10"
+          className="tl-mb-10"
         />
         <ResetPasswordForm />
-        <footer className="text-center mt-4">
-          <Typo variant={'muted'} className="!text-gray-400">
+        <footer className="tl-text-center tl-mt-4">
+          <Typo variant={'muted'} className="!tl-text-gray-400">
             Remember your password?{' '}
             <Link
               href="/auth/login"
-              className="text-gray-900 dark:text-gray-50 underline-offset-4 hover:underline"
+              className="tl-text-foreground hover:tl-underline"
             >
               Log in
             </Link>

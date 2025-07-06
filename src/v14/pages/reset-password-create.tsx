@@ -28,13 +28,13 @@ export default async function ResetPasswordCreate({
   }
 
   return (
-    <div className="flex md:items-center justify-center">
+          <div className="tl-flex md:tl-items-center tl-justify-center">
       <LandingGrid />
-      <div className="sm:pt-0 px-3 w-full sm:max-w-[400px] relative -mt-16">
+      <div className="sm:tl-pt-0 tl-px-3 tl-w-full sm:tl-max-w-[400px] tl-relative tl--mt-16">
         <AuthHeader
           title="Create a New Password"
           description="Please complete the form below to create a new password for your account."
-          className="mb-10"
+                      className="tl-mb-10"
         />
         <CreateNewPasswordForm token={token} email={inviteFlowEmail} />
       </div>

@@ -65,7 +65,7 @@ export default function ResetPasswordForm() {
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)}>
-      <div className="grid w-full items-center gap-5">
+      <div className="tl-grid tl-w-full tl-items-center tl-gap-5">
         <InputWrapper>
           <Input
             id="email"
@@ -79,7 +79,7 @@ export default function ResetPasswordForm() {
       </div>
 
       <Button
-        className="w-full mt-4"
+                  className="tl-w-full tl-mt-4"
         loading={loading}
         style={{ backgroundColor: styles.primaryColor }}
       >

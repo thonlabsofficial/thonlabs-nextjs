@@ -57,7 +57,7 @@ export default function SignUpForm() {
     <>
       <SSOSocialButtons />
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="grid w-full items-center gap-5">
+        <div className="tl-grid tl-w-full tl-items-center tl-gap-5">
           <InputWrapper>
             <Input
               id="fullName"
@@ -82,7 +82,7 @@ export default function SignUpForm() {
 
           {authProvider === AuthProviders.EmailAndPassword && (
             <InputWrapper>
-              <div className="flex justify-between">
+              <div className="tl-flex tl-justify-between">
                 <Label htmlFor="password">Password</Label>
               </div>
               <Input
@@ -98,7 +98,7 @@ export default function SignUpForm() {
         </div>
 
         <Button
-          className="w-full mt-8"
+          className="tl-w-full tl-mt-8"
           loading={loading}
           style={{ backgroundColor: styles.primaryColor }}
         >
@@ -106,12 +106,12 @@ export default function SignUpForm() {
         </Button>
       </form>
       {enableSignUp && (
-        <div className="flex justify-center mt-4">
-          <Typo variant="sm" className="text-muted-foreground">
+        <div className="tl-flex tl-justify-center tl-mt-4">
+          <Typo variant="sm" className="tl-text-muted-foreground">
             Already have an account?{' '}
             <Link
               href="/auth/login"
-              className="text-foreground hover:underline"
+              className="tl-text-foreground hover:tl-underline"
             >
               Log in
             </Link>

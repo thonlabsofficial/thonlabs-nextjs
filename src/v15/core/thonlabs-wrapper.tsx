@@ -6,7 +6,7 @@ import { ThonLabsInternalProvider } from './thonlabs-internal-provider';
 import ToasterObservableWrapper from '../pages/components/toaster-observable-wrapper';
 import { environmentStore } from '../../shared/store/env-store';
 import Log from '../../shared/utils/log';
-
+import SearchParamsObservable from '../../shared/components/search-params-observable';
 /*
   This is a wrapper to get environment data from backend and forward to frontend.
   The customers needs to implement this in their app to make things work.
@@ -80,6 +80,7 @@ export async function ThonLabsWrapper({
   return (
     <>
       <ToasterObservableWrapper />
+      <SearchParamsObservable />
       <ThonLabsInternalProvider>
         <ThonLabsSessionProvider
           environmentData={

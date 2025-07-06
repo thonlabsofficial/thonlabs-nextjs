@@ -1,51 +1,53 @@
 import * as React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../core/utils';
+import { tv, type VariantProps } from 'tailwind-variants';
 
-const buttonVariants = cva(
-  `inline-flex items-center justify-center whitespace-nowrap rounded-md font-semibold 
-  transition-default focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring 
-  disabled:pointer-events-none disabled:opacity-50 select-none`,
-  {
-    variants: {
-      variant: {
-        primary:
-          'bg-primary text-primary-foreground shadow hover:brightness-90',
-        opposite: 'bg-foreground text-secondary shadow hover:bg-foreground/90',
-        destructive:
-          'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
-        outline: `border text-foreground bg-popover border-foreground/20 
-           hover:bg-card hover:text-accent-foreground group-hover:bg-card group-hover:text-accent-foreground`,
-        secondary:
-          'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
-        ghost: 'text-text hover:bg-foreground/10 hover:text-accent-foreground',
-        link: 'text-primary underline-offset-4 hover:underline',
-        linkGhost:
-          'text-accent-foreground/70 hover:bg-accent hover:text-foreground',
-        success: 'bg-success shadow-sm hover:bg-success/90',
-        info: 'bg-info shadow-sm hover:bg-info/90',
-      },
-      size: {
-        xs: 'py-1 px-2 text-xs gap-1',
-        sm: 'py-1.5 px-2 text-sm gap-1',
-        md: 'px-3 py-2 text-base gap-1.5',
-        lg: 'py-4 px-6 text-lg gap-2',
-      },
+const buttonVariants = tv({
+  base: `
+    tl-inline-flex tl-items-center tl-justify-center tl-whitespace-nowrap tl-rounded-md tl-font-semibold 
+    tl-transition-default focus-visible:tl-outline-none focus-visible:tl-ring-1 focus-visible:tl-ring-ring 
+    disabled:tl-pointer-events-none disabled:tl-opacity-50 tl-select-none
+  `,
+  variants: {
+    variant: {
+      primary:
+        'tl-bg-primary tl-text-primary-foreground tl-shadow hover:tl-brightness-90',
+      opposite:
+        'tl-bg-foreground tl-text-secondary tl-shadow hover:tl-bg-foreground/90',
+      destructive:
+        'tl-bg-destructive tl-text-destructive-foreground tl-shadow-sm hover:tl-bg-destructive/90',
+      outline: `tl-border tl-text-foreground tl-bg-popover tl-border-foreground/20 
+           hover:tl-bg-card hover:tl-text-accent-foreground group-hover:tl-bg-card group-hover:tl-text-accent-foreground`,
+      secondary:
+        'tl-bg-secondary tl-text-secondary-foreground tl-shadow-sm hover:tl-bg-secondary/80',
+      ghost:
+        'tl-text-text hover:tl-bg-foreground/10 hover:tl-text-accent-foreground',
+      link: 'tl-text-primary tl-underline-offset-4 hover:tl-underline',
+      linkGhost:
+        'tl-text-accent-foreground/70 hover:tl-bg-accent hover:tl-text-foreground',
+      success: 'tl-bg-success tl-shadow-sm hover:tl-bg-success/90',
+      info: 'tl-bg-info tl-shadow-sm hover:tl-bg-info/90',
     },
-    defaultVariants: {
-      variant: 'primary',
-      size: 'md',
+    size: {
+      xs: 'tl-py-1 tl-px-2 tl-text-xs tl-gap-1',
+      sm: 'tl-py-1.5 tl-px-2 tl-text-sm tl-gap-1',
+      md: 'tl-px-3 tl-py-2 tl-text-base tl-gap-1.5',
+      lg: 'tl-py-4 tl-px-6 tl-text-lg tl-gap-2',
     },
-  }
-);
+  },
+  defaultVariants: {
+    variant: 'primary',
+    size: 'md',
+  },
+});
 
-const buttonIconVariants = cva('', {
+const buttonIconVariants = tv({
   variants: {
     iconSize: {
-      xs: 'w-3 h-3',
-      sm: 'w-3.5 h-3.5',
-      md: 'w-4 h-4',
-      lg: 'w-5 h-5',
+      xs: 'tl-w-3 tl-h-3',
+      sm: 'tl-w-3.5 tl-h-3.5',
+      md: 'tl-w-4 tl-h-4',
+      lg: 'tl-w-5 tl-h-5',
     },
   },
   defaultVariants: {
@@ -79,8 +81,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         className={cn(buttonVariants({ variant, size, className }), {
-          'pointer-events-none opacity-50': loading || disabled,
-          'bg-foreground/10': active,
+          'tl-pointer-events-none tl-opacity-50': loading || disabled,
+          'tl-bg-foreground/10': active,
         })}
         ref={ref}
         {...props}
@@ -88,8 +90,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {Icon && (
           <Icon
             className={cn(buttonIconVariants({ iconSize: size }), {
-              'fill-foreground': variant === 'outline',
-              'fill-white': variant !== 'primary',
+              'tl-fill-foreground': variant === 'outline',
+              'tl-fill-white': variant !== 'primary',
             })}
           />
         )}

@@ -34,17 +34,17 @@ export default async function ResetPasswordCreate({
 
   return (
     <div
-      className={cn('flex items-center justify-center', {
-        'h-[30rem]': isPreview,
-        'h-screen': !isPreview,
+      className={cn('tl-flex tl-items-center tl-justify-center', {
+        'tl-h-[30rem]': isPreview,
+        'tl-h-screen': !isPreview,
       })}
     >
       <LandingGrid />
-      <div className="sm:pt-0 px-3 w-full sm:max-w-[400px] relative md:-mt-16">
+      <div className="sm:tl-pt-0 tl-px-3 tl-w-full sm:tl-max-w-[400px] tl-relative md:tl--mt-16">
         <AuthHeader
           title="Create a New Password"
           description="Please complete the form below to create a new password for your account."
-          className="mb-10"
+          className="tl-mb-10"
         />
         <CreateNewPasswordForm token={token} email={inviteFlowEmail} />
       </div>

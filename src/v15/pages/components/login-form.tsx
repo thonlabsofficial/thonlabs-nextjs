@@ -64,7 +64,7 @@ export default function LoginForm() {
     <>
       <SSOSocialButtons />
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="grid w-full items-center gap-5">
+        <div className="tl-grid tl-w-full tl-items-center tl-gap-5">
           <InputWrapper>
             <Input
               id="email"
@@ -78,12 +78,12 @@ export default function LoginForm() {
 
           {authProvider === AuthProviders.EmailAndPassword && (
             <InputWrapper>
-              <div className="flex justify-between">
+              <div className="tl-flex tl-justify-between">
                 <Label htmlFor="password">Password</Label>
                 <Link
-                  className={`text-gray-500 hover:text-gray-900 dark:hover:text-gray-50 
-            transition-all duration-200 ease-in-out 
-            text-sm font-medium leading-none underline-offset-4 hover:underline`}
+                  className={`tl-text-gray-500 hover:tl-text-gray-900 dark:hover:tl-text-gray-50
+              tl-transition-all tl-duration-200 tl-ease-in-out 
+              tl-text-sm tl-font-medium tl-leading-none tl-underline-offset-4 hover:tl-underline`}
                   href={previewMode ? '#' : '/auth/reset-password'}
                   tabIndex={-1}
                 >
@@ -103,7 +103,7 @@ export default function LoginForm() {
         </div>
 
         <Button
-          className="w-full mt-8"
+          className="tl-w-full tl-mt-8"
           loading={loading}
           style={{ backgroundColor: styles.primaryColor }}
         >
@@ -111,12 +111,12 @@ export default function LoginForm() {
         </Button>
       </form>
       {enableSignUp && (
-        <div className="flex justify-center mt-4">
-          <Typo variant="sm" className="text-muted-foreground">
+        <div className="tl-flex tl-justify-center tl-mt-4">
+          <Typo variant="sm" className="tl-text-muted-foreground">
             Don't have an account?{' '}
             <Link
               href={previewMode ? '#' : '/auth/sign-up'}
-              className="text-foreground hover:underline"
+              className="tl-text-foreground hover:tl-underline"
             >
               Sign up
             </Link>

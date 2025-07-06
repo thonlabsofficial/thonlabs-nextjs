@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React from "react";
-import ToasterObservable from "./toaster-observable";
-import {Toaster} from "../../../ui/components/toaster";
+import React from 'react';
+import ToasterObservable from './toaster-observable';
+import { Toaster } from '../../../ui/components/toaster';
 
 export default function ToasterObservableWrapper() {
   return (

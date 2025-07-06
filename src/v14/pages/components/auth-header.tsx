@@ -24,10 +24,10 @@ export default function AuthHeader({
   };
 
   return (
-    <header {...props} className={cn('flex flex-col gap-1', className)}>
+    <header {...props} className={cn('tl-flex tl-flex-col tl-gap-1', className)}>
       <Typo variant={'h2'}>{title}</Typo>
       {description && (
-        <Typo variant={'muted'} className="!text-gray-400">
+        <Typo variant={'muted'} className="!tl-text-gray-400">
           {descriptionMapper[description as keyof typeof descriptionMapper]
             ? descriptionMapper[description as keyof typeof descriptionMapper]
             : description}

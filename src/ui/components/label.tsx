@@ -2,26 +2,24 @@
 
 import * as React from 'react';
 import * as LabelPrimitive from '@radix-ui/react-label';
-import { cva, type VariantProps } from 'class-variance-authority';
+import { tv, type VariantProps } from 'tailwind-variants';
 
 import { cn } from '../core/utils';
 import { Skeleton } from './skeleton';
 
-const labelVariants = cva(
-  `text-sm font-medium leading-none 
-   peer-disabled:cursor-not-allowed peer-disabled:opacity-70 
-   transition-default`,
-  {
-    variants: {
-      state: {
-        default: 'text-zinc-500',
-      },
-    },
-    defaultVariants: {
-      state: 'default',
+const labelVariants = tv({
+  base: `tl-text-sm tl-font-medium tl-leading-none 
+     peer-disabled:tl-cursor-not-allowed peer-disabled:tl-opacity-70 
+     tl-transition-default`,
+  variants: {
+    state: {
+      default: 'tl-text-zinc-500',
     },
   },
-);
+  defaultVariants: {
+    state: 'default',
+  },
+});
 
 type Props = {
   withFocusWithin?: boolean;
@@ -37,19 +35,15 @@ const Label = React.forwardRef<
   !loading ? (
     <LabelPrimitive.Root
       ref={ref}
-      className={cn(
-        labelVariants({ state }),
-        {
-          'group-focus-within:text-zinc-700 dark:group-focus-within:text-zinc-300':
-            withFocusWithin,
-        },
-        className,
-      )}
+      className={cn(labelVariants({ state, className }), {
+        'group-focus-within:tl-text-zinc-700 dark:group-focus-within:tl-text-zinc-300':
+          withFocusWithin,
+      })}
       {...props}
     />
   ) : (
     <Skeleton width={'7.5rem'} height={'0.875rem'} />
-  ),
+  )
 );
 Label.displayName = LabelPrimitive.Root.displayName;
 

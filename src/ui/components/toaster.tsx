@@ -10,45 +10,45 @@ const Toaster = ({ ...props }: ToasterProps) => {
   return (
     <Sonner
       theme="system"
-      className={`${fonts.className} thonlabs toaster group`}
+      className={`${fonts.className} thonlabs`}
       toastOptions={{
         classNames: {
           toast: `
-            group toast group-[.toaster]:text-foreground 
-            group-[.toaster]:border group-[.toaster]:border-border 
-            group-[.toaster]:shadow-lg group-[.toaster]:rounded-md 
-            group-[.toaster]:px-3 group-[.toaster]:text-sm 
-            group-[.toaster]:font-medium group-[.toaster]:text-text
+            tl-text-foreground 
+            tl-border tl-border-border 
+            tl-shadow-lg tl-rounded-md 
+            tl-px-3 tl-text-sm 
+            tl-font-medium tl-text-text
           `,
-          default: `group-[.toaster]:bg-card group-[.toaster]:border-foreground/20`,
-          success: `group-[.toaster]:!bg-success group-[.toaster]:!border-success/60`,
-          error: `group-[.toaster]:!bg-destructive group-[.toaster]:!border-destructive/50`,
-          info: `group-[.toaster]:!bg-info group-[.toaster]:!border-info/50`,
-          icon: `group-[.toaster]:!text-foreground`,
-          title: `group-[.toast]:text-foreground group-[.toast]:text-sm group-[.toast]:font-sans group-[.toast]:font-semibold`,
-          description: `group-[.toast]:font-sans group-[.toast]:text-foreground`,
-          actionButton: `group-[.toast]:bg-primary group-[.toast]:text-primary-foreground`,
-          cancelButton: `group-[.toast]:bg-muted group-[.toast]:text-muted-foreground`,
+          default: `tl-bg-card tl-border-foreground/20`,
+          success: `!tl-bg-success !tl-border-success/60`,
+          error: `!tl-bg-destructive !tl-border-destructive/50`,
+          info: `!tl-bg-info !tl-border-info/50`,
+          icon: `!tl-text-foreground`,
+          title: `tl-text-foreground tl-text-sm tl-font-sans tl-font-semibold`,
+          description: `tl-font-sans tl-text-foreground`,
+          actionButton: `tl-bg-primary tl-text-primary-foreground`,
+          cancelButton: `tl-bg-muted tl-text-muted-foreground`,
           closeButton: `
-              group-[.toast]:!text-foreground
-              group-[.toast]:!bg-transparent
-              group-[.toast]:absolute group-[.toast]:left-auto group-[.toast]:right-0 group-[.toast]:top-3 
-              group-[.toast]:rounded-md group-[.toast]:p-1 group-[.toast]:opacity-0
-              group-[.toast]:group-hover:opacity-100 group-[.toast]:focus:outline-none group-[.toast]:focus:ring-1 
-              group-[.toast]:border-none group-[.toast]:bg-transparent
-              group-[.toast]:focus:ring-0
-              group-[.toast]:transition-default
-              group-[.toast]:hover:!bg-foreground/10
-              group-data-[type=info]:hover:!bg-foreground/10
-              group-data-[type=success]:hover:!bg-foreground/10
-              group-data-[type=error]:hover:!bg-foreground/10
+              !tl-text-foreground
+              !tl-bg-transparent
+              tl-absolute tl-left-auto tl-right-0 tl-top-3 
+              tl-rounded-md tl-p-1 tl-opacity-0
+              group-hover:tl-opacity-100 focus:tl-outline-none focus:tl-ring-1 
+              tl-border-none tl-bg-transparent
+              focus:tl-ring-0
+              tl-transition-default
+              hover:!tl-bg-foreground/10
+              group-data-[type=info]:hover:!tl-bg-foreground/10
+              group-data-[type=success]:hover:!tl-bg-foreground/10
+              group-data-[type=error]:hover:!tl-bg-foreground/10
             `,
         },
       }}
       icons={{
-        success: <CheckCircle className="w-5 h-5" />,
-        error: <CircleAlert className="w-5 h-5" />,
-        info: <Info className="w-5 h-5" />,
+        success: <CheckCircle className="tl-w-5 tl-h-5" />,
+        error: <CircleAlert className="tl-w-5 tl-h-5" />,
+        info: <Info className="tl-w-5 tl-h-5" />,
       }}
       {...props}
     />

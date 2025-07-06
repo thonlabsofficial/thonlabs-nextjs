@@ -6,7 +6,9 @@ import {
   removePathnameFromURL,
 } from '../../shared/utils/helpers';
 import Log from '../../shared/utils/log';
-import { publicRoutes } from '../../shared/utils/constants';
+import { authRoutes, publicRoutes } from '../../shared/utils/constants';
+import { headers } from 'next/headers';
+import { APIResponseCodes } from '../../shared/utils/errors';
 
 export function isAuthRoute(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
@@ -58,7 +60,10 @@ export async function validateSession(
         action: 'validateSession',
         message: 'ThonLabs Validate Session: Invalid session',
       });
-      return forwardSearchParams(req, '/api/auth/logout');
+      return forwardSearchParams(
+        req,
+        `/api/auth/logout?reason=${APIResponseCodes.SessionExpired}`
+      );
     }
 
     // Validates the session status and redirects to regenerate
@@ -68,12 +73,23 @@ export async function validateSession(
     if (status === 'invalid_session') {
       Log.info({
         action: 'validateSession',
+        message: { pathname: req.nextUrl.pathname },
+      });
+      Log.info({
+        action: 'validateSession',
         message: 'ThonLabs Validate Session: Invalid session from keep alive',
         status,
       });
 
-      return forwardSearchParams(req, '/api/auth/logout');
+      return forwardSearchParams(
+        req,
+        `/api/auth/logout?reason=${APIResponseCodes.SessionExpired}`
+      );
     } else if (status === 'needs_refresh') {
+      Log.info({
+        action: 'validateSession',
+        message: { pathname: req.nextUrl.pathname },
+      });
       Log.info({
         action: 'validateSession',
         message: 'ThonLabs Validate Session: Needs refresh from keep alive',
@@ -93,14 +109,45 @@ export function getSession() {
   return ServerSessionService.getSession();
 }
 
-export function getTokens() {
-  return ServerSessionService.getSessionCookies();
+export function getAccessToken() {
+  const { accessToken } = ServerSessionService.getSessionCookies();
+  return accessToken;
 }
 
-export function validationRedirect(dest: URL) {
+export function redirectToLogin(dest: URL) {
   if (dest.toString().endsWith('bypass')) {
     return NextResponse.next();
   }
 
   return NextResponse.redirect(dest);
+}
+
+function isThonLabsPageRoute(req: NextRequest) {
+  return authRoutes.some((route) => req.nextUrl.pathname.startsWith(route));
+}
+
+type MiddlewareInitResponse = Parameters<typeof NextResponse.next>[0];
+
+export function thonLabsConfig(
+  req: NextRequest,
+  init: MiddlewareInitResponse = {}
+): MiddlewareInitResponse {
+  let headers = new Headers(init.headers || {});
+  const isThonLabsPage = isThonLabsPageRoute(req);
+
+  headers.set('x-Auth-Powered-By', 'ThonLabs');
+
+  if (isThonLabsPage) {
+    headers.set('x-TL-Route', 'true');
+  }
+
+  return {
+    ...init,
+    headers,
+  };
+}
+
+export async function isThonLabsRoute() {
+  const headersList = await headers();
+  return headersList.get('x-TL-Route') === 'true';
 }

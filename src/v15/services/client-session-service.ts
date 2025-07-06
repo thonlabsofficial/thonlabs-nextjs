@@ -20,6 +20,9 @@ const ClientSessionService = {
 
     return sessionValid;
   },
+  getAccessToken() {
+    return Cookies.get('tl_session');
+  },
   getSession(): User | null {
     const accessToken = Cookies.get('tl_session');
 
@@ -44,7 +47,7 @@ const ClientSessionService = {
   async logout() {
     await intAPI('/api/auth/logout', { method: 'POST' });
     await delay(200);
-    window.location.href = `/auth/login?reason=${APIResponseCodes.Logout}`;
+    window.location.href = '/auth/login';
   },
   async shouldKeepAlive() {
     try {
