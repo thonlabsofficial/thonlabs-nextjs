@@ -95,11 +95,13 @@ export default function CreateNewPasswordForm({ token, email }: Props) {
       </div>
 
       <Button
-                  className="tl-w-full tl-mt-8"
+        className="tl-w-full tl-mt-8"
         loading={loading}
         style={{ backgroundColor: styles.primaryColor }}
       >
-        {loading && <ReloadIcon className="tl-mr-2 tl-h-4 tl-w-4 tl-animate-spin tl--mt-1" />}
+        {loading && (
+          <ReloadIcon className="tl-mr-2 tl-h-4 tl-w-4 tl-animate-spin tl--mt-1" />
+        )}
         Set New Password
       </Button>
     </form>

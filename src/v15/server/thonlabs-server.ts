@@ -115,7 +115,7 @@ export async function getAccessToken() {
   return accessToken;
 }
 
-export async function redirectToLogin(dest: URL): Promise<NextResponse> {
+export function redirectToLogin(dest: URL) {
   if (dest.toString().endsWith('bypass')) {
     return NextResponse.next();
   }

@@ -15,14 +15,14 @@ export const metadata: Metadata = {
 
 export default function ResetPasswordRequire() {
   return (
-          <div className="tl-flex tl-items-center tl-justify-center">
+    <div className="tl-flex tl-items-center tl-justify-center">
       <LandingGrid />
       <div className="sm:tl-pt-0 tl-px-3 tl-w-full sm:tl-max-w-[400px] tl-relative md:tl--mt-16">
         <AuthHeader
           title="Reset Your Password"
           description="Please provide your email address, and we'll send you a secure
             link to reset your password."
-                      className="tl-mb-10"
+          className="tl-mb-10"
         />
         <ResetPasswordForm />
         <footer className="tl-text-center tl-mt-4">

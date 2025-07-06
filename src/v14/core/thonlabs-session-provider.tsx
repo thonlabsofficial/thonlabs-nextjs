@@ -7,10 +7,11 @@ import { EnvironmentData } from '../../shared/interfaces/environment-data';
 import { User } from '../interfaces/user';
 import useSWR from 'swr';
 import { fetcher, intFetcher, labsPublicAPI } from '../../shared/utils/api';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { authRoutes, publicRoutes } from '../../shared/utils/constants';
 import { cn } from '../../ui/core/utils';
 import { fonts } from '../../ui/core/fonts';
+import Logout from '../../shared/components/logout';
 
 /*
   This is a session provider to spread the data to frontend,
@@ -46,6 +47,7 @@ export function ThonLabsSessionProvider({
   publicKey,
 }: ThonLabsSessionProviderProps) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const isPublicRoute = publicRoutes.some((route) =>
     pathname.startsWith(route)
   );
@@ -98,6 +100,18 @@ export function ThonLabsSessionProvider({
       });
     }
   }, [memoClientEnvironmentData]);
+
+  /* 
+    Don't render anything in case of logout
+    it prevents the content of app conflicts with the ThonLabs context.
+  */
+  if (pathname.startsWith('/auth/logout')) {
+    return <Logout />;
+  }
+
+  if (searchParams.get('r')) {
+    return null;
+  }
 
   return (
     <ThonLabsSessionContext.Provider
