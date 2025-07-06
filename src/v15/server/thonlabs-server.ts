@@ -3,10 +3,11 @@ import ServerSessionService from '../services/server-session-service';
 import {
   forwardSearchParams,
   getURLFromHost,
-  removePathnameFromURL,
 } from '../../shared/utils/helpers';
 import Log from '../../shared/utils/log';
 import { authRoutes, publicRoutes } from '../../shared/utils/constants';
+import { headers } from 'next/headers';
+import { APIResponseCodes } from '../../shared/utils/errors';
 
 export function isAuthRoute(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
@@ -16,11 +17,6 @@ export function isAuthRoute(req: NextRequest) {
   );
 
   return isPublicRoute;
-}
-
-export function isThonLabsPageRoute(req: NextRequest) {
-  console.log(authRoutes, req.nextUrl.pathname);
-  return authRoutes.some((route) => req.nextUrl.pathname.startsWith(route));
 }
 
 export function shouldBypassRoute(req: NextRequest, routes: string[]) {
@@ -61,9 +57,16 @@ export async function validateSession(
     ) {
       Log.info({
         action: 'validateSession',
+        message: { pathname: req.nextUrl.pathname },
+      });
+      Log.info({
+        action: 'validateSession',
         message: 'ThonLabs Validate Session: Invalid session',
       });
-      return forwardSearchParams(req, '/api/auth/logout');
+      return forwardSearchParams(
+        req,
+        `/api/auth/logout?reason=${APIResponseCodes.SessionExpired}`
+      );
     }
 
     const { status } = await ServerSessionService.shouldKeepAlive();
@@ -71,12 +74,23 @@ export async function validateSession(
     if (status === 'invalid_session') {
       Log.info({
         action: 'validateSession',
+        message: { pathname: req.nextUrl.pathname },
+      });
+      Log.info({
+        action: 'validateSession',
         message: 'ThonLabs Validate Session: Invalid session from keep alive',
         status,
       });
 
-      return forwardSearchParams(req, '/api/auth/logout');
+      return forwardSearchParams(
+        req,
+        `/api/auth/logout?reason=${APIResponseCodes.SessionExpired}`
+      );
     } else if (status === 'needs_refresh') {
+      Log.info({
+        action: 'validateSession',
+        message: { pathname: req.nextUrl.pathname },
+      });
       Log.info({
         action: 'validateSession',
         message: 'ThonLabs Validate Session: Needs refresh from keep alive',
@@ -96,8 +110,9 @@ export function getSession() {
   return ServerSessionService.getSession();
 }
 
-export function getTokens() {
-  return ServerSessionService.getSessionCookies();
+export async function getAccessToken() {
+  const { accessToken } = await ServerSessionService.getSessionCookies();
+  return accessToken;
 }
 
 export async function redirectToLogin(dest: URL): Promise<NextResponse> {
@@ -106,4 +121,34 @@ export async function redirectToLogin(dest: URL): Promise<NextResponse> {
   }
 
   return NextResponse.redirect(dest);
+}
+
+function isThonLabsPageRoute(req: NextRequest) {
+  return authRoutes.some((route) => req.nextUrl.pathname.startsWith(route));
+}
+
+type MiddlewareInitResponse = Parameters<typeof NextResponse.next>[0];
+
+export function thonLabsConfig(
+  req: NextRequest,
+  init: MiddlewareInitResponse = {}
+): MiddlewareInitResponse {
+  let headers = new Headers(init.headers || {});
+  const isThonLabsPage = isThonLabsPageRoute(req);
+
+  headers.set('x-Auth-Powered-By', 'ThonLabs');
+
+  if (isThonLabsPage) {
+    headers.set('x-TL-Route', 'true');
+  }
+
+  return {
+    ...init,
+    headers,
+  };
+}
+
+export async function isThonLabsRoute() {
+  const headersList = await headers();
+  return headersList.get('x-TL-Route') === 'true';
 }

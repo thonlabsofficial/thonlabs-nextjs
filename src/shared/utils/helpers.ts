@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
 import Log from '../../shared/utils/log';
+import * as qs from 'qs';
 
 export function getURLFromHost(req: NextRequest, includePathname = true) {
   const host = req.headers.get('x-forwarded-host') || req.headers.get('host');
@@ -29,10 +30,18 @@ export function removePathnameFromURL(url: string) {
   return new URL(`${urlObj.protocol}//${urlObj.host}`);
 }
 
-export function forwardSearchParams(req: NextRequest, path: string) {
+export function forwardSearchParams(
+  req: NextRequest,
+  path: string,
+  additionalSearchParams: Record<string, string> = {}
+) {
   const url = getURLFromHost(req, false);
   const redirectUrl = new URL(path, url.toString());
-  redirectUrl.search = req.nextUrl.search;
+  const strAdditionalSearchParams = qs.stringify(additionalSearchParams);
+
+  redirectUrl.search = req.nextUrl.search.startsWith('?')
+    ? `${req.nextUrl.search}&${strAdditionalSearchParams}`
+    : `?${strAdditionalSearchParams}${req.nextUrl.search}`;
 
   return redirectUrl;
 }

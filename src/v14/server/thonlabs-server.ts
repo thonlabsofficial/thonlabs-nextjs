@@ -93,8 +93,9 @@ export function getSession() {
   return ServerSessionService.getSession();
 }
 
-export function getTokens() {
-  return ServerSessionService.getSessionCookies();
+export function getAccessToken() {
+  const { accessToken } = ServerSessionService.getSessionCookies();
+  return accessToken;
 }
 
 export function validationRedirect(dest: URL) {

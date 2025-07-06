@@ -1,5 +1,6 @@
 export const authRoutes = [
   '/auth/login',
+  '/auth/logout',
   '/auth/signup',
   '/auth/sign-up',
   '/auth/magic',
@@ -11,6 +12,7 @@ export const authRoutes = [
 ];
 
 export const publicRoutes = [
+  '/auth/logout',
   '/api/auth/logout',
   '/api/auth/refresh',
   '/api/auth/magic',
