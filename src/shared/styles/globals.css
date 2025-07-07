@@ -2,8 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-[data-tl-theme],
-[data-tl-theme='light'] {
+.thonlabs {
   --text: 0 0 0;
   --background: 0 0% 100%;
   --foreground: 240 10% 3.9%;
@@ -41,7 +40,7 @@
   --skeleton-highlight: 0 0 85%;
 }
 
-[data-tl-theme='dark'] {
+.dark.thonlabs {
   --text: 0 0% 98%;
   --background: 240 10% 3.9%;
   --foreground: 0 0% 98%;
@@ -76,11 +75,6 @@
   --warning-foreground: 26 83.3% 14.1%;
   --skeleton-base: 0 0% 20%;
   --skeleton-highlight: 0 0% 24%;
-}
-
-body {
-  margin: 0;
-  padding: 0;
 }
 
 * {

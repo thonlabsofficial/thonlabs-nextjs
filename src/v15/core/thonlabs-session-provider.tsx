@@ -10,12 +10,11 @@ import { fetcher, intFetcher, labsPublicAPI } from '../../shared/utils/api';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { authRoutes, publicRoutes } from '../../shared/utils/constants';
 import { usePreviewMode } from '../../shared/hooks/use-preview-mode';
-import { cn } from '../../ui/core/utils';
-import { fonts } from '../../ui/core/fonts';
 import { ThemeProvider } from 'next-themes';
 import Logout from '../../shared/components/logout';
 import ShadowRoot from '../../shared/components/shadow-root';
 import { globalCSS } from '../../shared/styles/globals';
+import ThonLabsRoutesWrapper from '../../shared/components/thonlabs-routes-wrapper';
 
 /*
   This is a session provider to spread the data to frontend,
@@ -141,20 +140,9 @@ export function ThonLabsSessionProvider({
       }}
     >
       {isAuthRoute ? (
-        <ThemeProvider
-          attribute={'data-tl-theme' as any}
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider attribute="class" enableSystem disableTransitionOnChange>
           <ShadowRoot appendCSS={globalCSS}>
-            <div
-              className={cn(
-                fonts.className,
-                'tl-font-sans tl-w-full tl-min-h-screen tl-bg-background tl-text-text'
-              )}
-            >
-              {children}
-            </div>
+            <ThonLabsRoutesWrapper>{children}</ThonLabsRoutesWrapper>
           </ShadowRoot>
         </ThemeProvider>
       ) : (
