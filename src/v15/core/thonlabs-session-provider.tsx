@@ -14,6 +14,8 @@ import { cn } from '../../ui/core/utils';
 import { fonts } from '../../ui/core/fonts';
 import { ThemeProvider } from 'next-themes';
 import Logout from '../../shared/components/logout';
+import ShadowRoot from '../../shared/components/shadow-root';
+import { globalCSS } from '../../shared/styles/globals';
 
 /*
   This is a session provider to spread the data to frontend,
@@ -144,14 +146,16 @@ export function ThonLabsSessionProvider({
           enableSystem
           disableTransitionOnChange
         >
-          <div
-            className={cn(
-              fonts.className,
-              'thonlabs tl-font-sans tl-w-full tl-min-h-screen tl-bg-background tl-text-text'
-            )}
-          >
-            {children}
-          </div>
+          <ShadowRoot appendCSS={globalCSS}>
+            <div
+              className={cn(
+                fonts.className,
+                'tl-font-sans tl-w-full tl-min-h-screen tl-bg-background tl-text-text'
+              )}
+            >
+              {children}
+            </div>
+          </ShadowRoot>
         </ThemeProvider>
       ) : (
         children

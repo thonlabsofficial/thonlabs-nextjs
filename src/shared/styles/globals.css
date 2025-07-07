@@ -1,13 +1,9 @@
-.thonlabs {
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-.thonlabs,
-.thonlabs.toaster,
-[data-tl-theme='light'] .thonlabs,
-[data-tl-theme='light'] .thonlabs.toaster {
+[data-tl-theme],
+[data-tl-theme='light'] {
   --text: 0 0 0;
   --background: 0 0% 100%;
   --foreground: 240 10% 3.9%;
@@ -45,8 +41,7 @@
   --skeleton-highlight: 0 0 85%;
 }
 
-[data-tl-theme='dark'] .thonlabs,
-[data-tl-theme='dark'] .thonlabs.toaster {
+[data-tl-theme='dark'] {
   --text: 0 0% 98%;
   --background: 240 10% 3.9%;
   --foreground: 0 0% 98%;
@@ -88,12 +83,22 @@ body {
   padding: 0;
 }
 
-.thonlabs * {
+* {
   border-color: hsl(var(--border));
   font-family: var(--font-sans);
 }
 
-.thonlabs :focus-visible {
+:focus-visible {
   outline: 2px solid transparent;
   outline-offset: 2px;
+}
+
+.landing-grid {
+  background-image: linear-gradient(
+      to right,
+      hsl(var(--muted)) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, hsl(var(--muted)) 1px, transparent 1px);
+  background-size: 80px 80px;
 }
