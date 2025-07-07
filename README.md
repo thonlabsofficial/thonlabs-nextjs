@@ -73,26 +73,28 @@ Import the `ThonLabsWrapper` component:
 For v15:
 
 ```tsx
-import {ThonLabsWrapper} from "@thonlabs/nextjs";
+import { ThonLabsWrapper } from '@thonlabs/nextjs';
 ```
 
 For v13 and v14:
 
 ```tsx
-import {ThonLabsWrapper} from "@thonlabs/nextjs/v14";
+import { ThonLabsWrapper } from '@thonlabs/nextjs/v14';
 ```
 
 Wrap your app with the `ThonLabsProvider` component:
 
 ```tsx
-async function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
+async function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html>
       <body>
         <ThonLabsWrapper
           environmentId="<your-environment-id>"
           publicKey="<your-public-key>"
-          baseURL="<your-base-url>"
+          authDomain="<your-auth-domain>"
         >
           {children}
         </ThonLabsWrapper>
@@ -113,13 +115,13 @@ Inside `api` folder, create a folder structure `/auth/[...thonlabs]` and create 
 For v15:
 
 ```tsx
-export * from "@thonlabs/nextjs/api";
+export * from '@thonlabs/nextjs/api';
 ```
 
 For v13 and v14:
 
 ```tsx
-export * from "@thonlabs/nextjs/v14/api";
+export * from '@thonlabs/nextjs/v14/api';
 ```
 
 #### Step 4: Setup the Auth routes
@@ -129,14 +131,14 @@ Inside `app` folder, create a folder structure `/auth/[...thonlabs]` and create 
 For v15:
 
 ```tsx
-import {ThonLabsAuthPage} from "@thonlabs/nextjs";
+import { ThonLabsAuthPage } from '@thonlabs/nextjs';
 export default ThonLabsAuthPage;
 ```
 
 For v13 and v14:
 
 ```tsx
-import {ThonLabsAuthPage} from "@thonlabs/nextjs/v14";
+import { ThonLabsAuthPage } from '@thonlabs/nextjs/v14';
 export default ThonLabsAuthPage;
 ```
 
@@ -151,13 +153,21 @@ Start importing the validation functions:
 For v15:
 
 ```tsx
-import {validateSession, validationRedirect} from "@thonlabs/nextjs/server";
+import {
+  validateSession,
+  redirectToLogin,
+  thonLabsConfig,
+} from '@thonlabs/nextjs/server';
 ```
 
 For v13 and v14:
 
 ```tsx
-import {validateSession, validationRedirect} from "@thonlabs/nextjs/v14/server";
+import {
+  validateSession,
+  redirectToLogin,
+  thonLabsConfig,
+} from '@thonlabs/nextjs/v14/server';
 ```
 
 Then update the `middleware.ts` with the following content:
@@ -166,10 +176,10 @@ Then update the `middleware.ts` with the following content:
 export async function middleware(req: NextRequest): Promise<NextResponse> {
   const redirect = await validateSession(req);
   if (redirect) {
-    return validationRedirect(redirect);
+    return redirectToLogin(redirect);
   }
 
-  return NextResponse.next();
+  return NextResponse.next(thonLabsConfig(req));
 }
 ```
 
@@ -177,7 +187,7 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
 
 ```tsx
 const redirect = await validateSession(req, [
-  "/public-route",
-  "/public-route-2",
+  '/public-route',
+  '/public-route-2',
 ]);
 ```
