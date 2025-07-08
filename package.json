@@ -24,8 +24,8 @@
   "scripts": {
     "compile": "tsc -p .",
     "prebuild": "tailwindcss -i ./src/shared/styles/globals.css -o ./src/shared/styles/output.css && node scripts/parse-css-to-module.js",
-    "build": "rm -rf dist && pnpm compile && cp -R src/shared/styles/* dist/shared/styles && rm dist/shared/styles/globals.ts",
-    "postbuild": "rm ./src/shared/styles/output.css && rm ./dist/shared/styles/globals.css",
+    "build": "rm -rf dist && pnpm compile && cp -R src/shared/styles/* dist/shared/styles",
+    "postbuild": "rm ./src/shared/styles/output.css && rm ./dist/shared/styles/globals.css && rm dist/shared/styles/globals.ts && rm dist/shared/styles/sonner.ts",
     "lint": "TIMING=1 eslint src/**/*.ts* --fix",
     "clean": "rm -rf dist",
     "format:check": "prettier --check \"**/*.{ts,tsx,md}\"",

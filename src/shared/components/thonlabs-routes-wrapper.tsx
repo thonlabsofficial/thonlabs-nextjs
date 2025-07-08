@@ -1,3 +1,4 @@
+import React from 'react';
 import { cn } from '../../ui/core/utils';
 import { fonts } from '../../ui/core/fonts';
 import { useTheme } from 'next-themes';
@@ -9,6 +10,17 @@ export default function ThonLabsRoutesWrapper({
   children: React.ReactNode;
 }) {
   const { resolvedTheme } = useTheme();
+
+  React.useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      body {
+        margin: 0;
+        padding: 0;
+      }
+    `;
+    document.head.appendChild(style);
+  }, []);
 
   return (
     <>

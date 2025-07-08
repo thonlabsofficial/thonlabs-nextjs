@@ -13,6 +13,7 @@ import Logout from '../../shared/components/logout';
 import { globalCSS } from '../../shared/styles/globals';
 import ShadowRoot from '../../shared/components/shadow-root';
 import ThonLabsRoutesWrapper from '../../shared/components/thonlabs-routes-wrapper';
+import { sonnerCSS } from '../../shared/styles/sonner';
 
 /*
   This is a session provider to spread the data to frontend,
@@ -122,7 +123,7 @@ export function ThonLabsSessionProvider({
       }}
     >
       {isAuthRoute ? (
-        <ShadowRoot appendCSS={globalCSS}>
+        <ShadowRoot appendCSS={[globalCSS, sonnerCSS]}>
           <ThonLabsRoutesWrapper>{children}</ThonLabsRoutesWrapper>
         </ShadowRoot>
       ) : (

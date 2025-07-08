@@ -5,10 +5,10 @@ import { createPortal } from 'react-dom';
 
 export default function ShadowRoot({
   children,
-  appendCSS,
+  appendCSS = [],
 }: {
   children: React.ReactNode;
-  appendCSS?: string;
+  appendCSS?: string[];
 }) {
   const shadowHostRef = React.useRef<any>(null);
   const [shadowRoot, setShadowRoot] = React.useState(null);
@@ -22,15 +22,11 @@ export default function ShadowRoot({
       const root = shadowHostRef.current.attachShadow({ mode: 'open' });
       setShadowRoot(root);
 
-      const style = document.createElement('style');
-      style.textContent = `
-        :focus-visible {
-          outline: none;
-        }
-
-        ${appendCSS}
-      `;
-      root.appendChild(style);
+      appendCSS.forEach((css) => {
+        const style = document.createElement('style');
+        style.textContent = css;
+        root.appendChild(style);
+      });
     }
   }, [shadowRoot]);
 
