@@ -9,9 +9,11 @@ import useSWR from 'swr';
 import { fetcher, intFetcher, labsPublicAPI } from '../../shared/utils/api';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { authRoutes, publicRoutes } from '../../shared/utils/constants';
-import { cn } from '../../ui/core/utils';
-import { fonts } from '../../ui/core/fonts';
 import Logout from '../../shared/components/logout';
+import { globalCSS } from '../../shared/styles/globals';
+import ShadowRoot from '../../shared/components/shadow-root';
+import ThonLabsRoutesWrapper from '../../shared/components/thonlabs-routes-wrapper';
+import { sonnerCSS } from '../../shared/styles/sonner';
 
 /*
   This is a session provider to spread the data to frontend,
@@ -121,14 +123,9 @@ export function ThonLabsSessionProvider({
       }}
     >
       {isAuthRoute ? (
-        <div
-          className={cn(
-            fonts.className,
-            'thonlabs tl-font-sans tl-w-full tl-min-h-screen tl-bg-background tl-text-text'
-          )}
-        >
-          {children}
-        </div>
+        <ShadowRoot appendCSS={[globalCSS, sonnerCSS]}>
+          <ThonLabsRoutesWrapper>{children}</ThonLabsRoutesWrapper>
+        </ShadowRoot>
       ) : (
         children
       )}

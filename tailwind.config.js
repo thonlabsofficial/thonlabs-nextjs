@@ -5,7 +5,7 @@ module.exports = {
   content: ['./src/**/*.{ts,tsx,scss,svg}'],
   prefix: 'tl-',
   jit: true,
-  darkMode: ['selector', '[data-tl-theme="dark"]'],
+  darkMode: 'class',
   theme: {
     extend: {
       screens: {

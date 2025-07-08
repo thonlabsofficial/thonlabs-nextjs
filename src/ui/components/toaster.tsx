@@ -3,14 +3,18 @@
 import { CheckCircle, CircleAlert, Info } from 'lucide-react';
 import { Toaster as Sonner } from 'sonner';
 import { fonts } from '../core/fonts';
+import { useTheme } from 'next-themes';
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
 const Toaster = ({ ...props }: ToasterProps) => {
+  const { resolvedTheme } = useTheme();
   return (
     <Sonner
       theme="system"
-      className={`${fonts.className} thonlabs`}
+      className={`${fonts.className} thonlabs ${
+        resolvedTheme === 'dark' ? 'dark' : ''
+      }`}
       toastOptions={{
         classNames: {
           toast: `

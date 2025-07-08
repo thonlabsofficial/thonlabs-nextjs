@@ -1,7 +1,6 @@
 import { EnvironmentData } from '../../shared/interfaces/environment-data';
 import { ThonLabsSessionProvider } from './thonlabs-session-provider';
 import { ThonLabsInternalProvider } from './thonlabs-internal-provider';
-import ToasterObservableWrapper from '../pages/components/toaster-observable-wrapper';
 import { api } from '../../shared/utils/api';
 import Log from '../../shared/utils/log';
 import { environmentStore } from '../../shared/store/env-store';
@@ -79,7 +78,6 @@ export async function ThonLabsWrapper({
 
   return (
     <ThonLabsInternalProvider>
-      <ToasterObservableWrapper />
       <SearchParamsObservable />
       <ThonLabsSessionProvider
         environmentData={

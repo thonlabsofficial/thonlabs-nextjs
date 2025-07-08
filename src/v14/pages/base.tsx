@@ -1,5 +1,3 @@
-import '../../shared/styles/globals.css';
-
 import SSORedirect from '../../shared/components/sso-redirect';
 import { SSOSocialProvider } from '../../shared/interfaces/sso-social';
 import ConfirmEmailValidator from './confirm-email-validator';
