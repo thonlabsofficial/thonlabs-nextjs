@@ -46,36 +46,11 @@ const ClientSessionService = {
     await delay(200);
     window.location.href = '/auth/login';
   },
-  async shouldKeepAlive() {
-    try {
-      await delay(500);
-
-      if (window.location.pathname.startsWith('/auth')) {
-        return;
-      }
-
-      /*
-        This delay is necessary to live together with "validateTokensInterceptor"
-        from API client.
-      */
-      await delay(50);
-
-      const isRefreshing = localStorage.getItem('tl_refreshing') === 'true';
-      if (!isRefreshing) {
-        const isValid = this.isValid();
-
-        if (isValid === false) {
-          if (Cookies.get('tl_keep_alive') === 'true') {
-            await intAPI('/api/auth/refresh', { method: 'POST' });
-          } else {
-            this.redirectToLogout();
-          }
-        }
-      }
-    } catch (e) {
-      console.error('Error clientSessionService.shouldKeepAlive: ', e);
-      this.redirectToLogout();
-    }
+  async generateAccessToken() {
+    const response = await intAPI('/api/auth/refresh', { method: 'POST' });
+    const { accessToken } = await response.json();
+    Cookies.set('tl_session', accessToken);
+    return accessToken;
   },
 };
 
