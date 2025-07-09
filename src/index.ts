@@ -20,6 +20,7 @@ import {
 } from './shared/interfaces/sso-social';
 
 const getAccessToken = ClientSessionService.getAccessToken;
+const generateAccessToken = ClientSessionService.generateAccessToken;
 
 export type { EnvironmentData, User, SessionData, ErrorResponse };
 
@@ -37,4 +38,5 @@ export {
   SSOSocial,
   SSOSocialKeys,
   getAccessToken,
+  generateAccessToken,
 };

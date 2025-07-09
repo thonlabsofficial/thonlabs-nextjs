@@ -11,6 +11,10 @@ import { ThonLabsWrapper } from './core/thonlabs-wrapper';
 import { ThonLabsAuthPage } from './pages/base';
 import { forwardSearchParams } from '../shared/utils/helpers';
 import { SSOSocialProvider } from '../shared/interfaces/sso-social';
+import ClientSessionService from './services/client-session-service';
+
+const getAccessToken = ClientSessionService.getAccessToken;
+const generateAccessToken = ClientSessionService.generateAccessToken;
 
 export type { EnvironmentData, User, SessionData, ErrorResponse };
 
@@ -23,4 +27,6 @@ export {
   forwardSearchParams,
   APIResponseCodes,
   SSOSocialProvider,
+  getAccessToken,
+  generateAccessToken,
 };

@@ -20,6 +20,9 @@ const ClientSessionService = {
 
     return sessionValid;
   },
+  getAccessToken() {
+    return Cookies.get('tl_session');
+  },
   getSession(): User | null {
     const accessToken = Cookies.get('tl_session');
 
