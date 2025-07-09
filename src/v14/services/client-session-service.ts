@@ -50,10 +50,8 @@ const ClientSessionService = {
     window.location.href = '/auth/login';
   },
   async generateAccessToken() {
-    const response = await intAPI('/api/auth/refresh', { method: 'POST' });
-    const { accessToken } = await response.json();
-    Cookies.set('tl_session', accessToken);
-    return accessToken;
+    await intAPI('/api/auth/refresh', { method: 'POST' });
+    return Cookies.get('tl_session');
   },
 };
 
