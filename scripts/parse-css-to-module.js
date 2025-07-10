@@ -14,13 +14,13 @@ css = css.replace(/\/\*[\s\S]*?\*\//g, '');
 css = css.replace(/\n\s*\n/g, '\n').trim();
 
 if (fs.existsSync(globalsPath)) {
-  console.log('Removing CSS globals.ts');
-  fs.unlinkSync(globalsPath);
+	console.log('Removing CSS globals.ts');
+	fs.unlinkSync(globalsPath);
 }
 
 fs.writeFileSync(
-  globalsPath,
-  `export const globalCSS = ${JSON.stringify(css)}`
+	globalsPath,
+	`export const globalCSS = ${JSON.stringify(css)}`,
 );
 
 console.log('CSS globals.ts created');

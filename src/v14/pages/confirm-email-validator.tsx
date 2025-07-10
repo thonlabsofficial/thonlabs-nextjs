@@ -1,10 +1,10 @@
-import { redirect, RedirectType } from 'next/navigation';
+import { RedirectType, redirect } from 'next/navigation';
 
 interface Props {
-  token: string;
+	token: string;
 }
 
 export default async function ConfirmEmailValidator({ token }: Props) {
-  redirect(`/api/auth/confirm-email/${token}`, RedirectType.replace);
-  return null;
+	redirect(`/api/auth/confirm-email/${token}`, RedirectType.replace);
+	return null;
 }
