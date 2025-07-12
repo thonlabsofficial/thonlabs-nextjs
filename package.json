@@ -22,6 +22,7 @@
 	},
 	"license": "MIT",
 	"scripts": {
+		"prepare": "husky",
 		"compile": "tsc -p .",
 		"prebuild": "tailwindcss -i ./src/shared/styles/globals.css -o ./src/shared/styles/output.css && node scripts/parse-css-to-module.js",
 		"build": "rm -rf dist && pnpm compile && cp -R src/shared/styles/* dist/shared/styles",
@@ -31,6 +32,11 @@
 		"format:check": "biome check --no-errors-on-unmatched",
 		"format": "biome format --write --no-errors-on-unmatched",
 		"format:fix": "biome check --write --no-errors-on-unmatched"
+	},
+	"lint-staged": {
+		"*.{js,jsx,ts,tsx,json,md}": [
+			"biome check --write --no-errors-on-unmatched"
+		]
 	},
 	"devDependencies": {
 		"@babel/core": "^7.19.3",
@@ -48,7 +54,9 @@
 		"eslint-config-custom": "*",
 		"eslint-config-next": "14.1.4",
 		"glob": "^8.0.3",
+		"husky": "^9.1.7",
 		"jest": "^29.1.2",
+		"lint-staged": "^16.1.2",
 		"next": "^15.3.2",
 		"postcss": "^8.4.49",
 		"react": "^19.0.0",
