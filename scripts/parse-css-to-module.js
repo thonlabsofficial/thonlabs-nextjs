@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+import * as fs from 'node:fs';
+import path from 'node:path';
 
 const rootPath = path.resolve();
 const outputPath = path.join(rootPath, '/src/shared/styles/output.css');

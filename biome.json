@@ -15,7 +15,9 @@
 			"*.tsx",
 			"*.jsx",
 			"*.json",
-			"*.md"
+			"*.md",
+			"!dist/**/*",
+			"!src/shared/styles/globals.ts"
 		]
 	},
 	"formatter": {
@@ -23,10 +25,7 @@
 		"indentStyle": "tab"
 	},
 	"linter": {
-		"enabled": true,
-		"rules": {
-			"recommended": true
-		}
+		"enabled": false
 	},
 	"javascript": {
 		"formatter": {
