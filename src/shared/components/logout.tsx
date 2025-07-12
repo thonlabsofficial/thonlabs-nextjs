@@ -1,7 +1,6 @@
-import { redirect, RedirectType } from 'next/navigation';
-import { APIResponseCodes } from '../utils/errors';
+import { RedirectType, redirect } from 'next/navigation';
 
 export default function Logout() {
-  redirect('/api/auth/logout', RedirectType.replace);
-  return null;
+	redirect('/api/auth/logout', RedirectType.replace);
+	return null;
 }

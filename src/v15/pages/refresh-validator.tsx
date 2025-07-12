@@ -1,10 +1,10 @@
-import {redirect, RedirectType} from "next/navigation";
+import { RedirectType, redirect } from 'next/navigation';
 
 interface Props {
-  dest: string;
+	dest: string;
 }
 
-export default async function RefreshValidator({dest}: Props) {
-  redirect(`/api/auth/refresh?dest=${dest}`, RedirectType.replace);
-  return null;
+export default async function RefreshValidator({ dest }: Props) {
+	redirect(`/api/auth/refresh?dest=${dest}`, RedirectType.replace);
+	return null;
 }

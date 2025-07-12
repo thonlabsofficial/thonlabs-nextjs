@@ -1,9 +1,9 @@
 import React from 'react';
+import type { EnvironmentData } from '../../shared/interfaces/environment-data';
 import { ThonLabsSessionContext } from '../core/thonlabs-session-provider';
-import { EnvironmentData } from '../../shared/interfaces/environment-data';
 
 export function useEnvironmentData() {
-  const { environmentData } = React.useContext(ThonLabsSessionContext);
+	const { environmentData } = React.useContext(ThonLabsSessionContext);
 
-  return environmentData as EnvironmentData;
+	return environmentData as EnvironmentData;
 }
