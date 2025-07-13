@@ -28,7 +28,7 @@ export default function ShadowRoot({
 				root.appendChild(style);
 			});
 		}
-	}, [shadowRoot]);
+	}, [appendCSS, shadowRoot]);
 
 	return (
 		<div ref={shadowHostRef}>

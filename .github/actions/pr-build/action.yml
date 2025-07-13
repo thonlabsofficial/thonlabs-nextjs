@@ -1,0 +1,33 @@
+name: Build Validation
+description: "Validates the build of the project"
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js and pnpm
+      uses: ./.github/actions/setup-node-pnpm
+      
+    - name: Build library
+      shell: bash
+      run: pnpm build
+
+    - name: Verify build
+      shell: bash
+      run: |
+        echo "Verifying build artifacts..."
+        ls -la dist/
+        
+        # Check required files
+        for file in index.js index.d.ts server.js api.js; do
+          if [ -f "dist/$file" ]; then
+            echo "✓ Found dist/$file"
+          else
+            echo "✗ Missing dist/$file"
+            exit 1
+          fi
+        done
+        
+        echo "✅ Build validation completed successfully"
