@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ main, master ]
+    types: [ opened, synchronize, reopened ]
+
+jobs:
+  validate:
+    name: Validate Code Quality
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+          
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: TypeScript compilation
+        run: pnpm compile
+        
+      - name: Tailwind CSS compilation
+        run: pnpm tailwind:build
+        
+      - name: Lint code
+        run: pnpm lint
+        
+      - name: Check code formatting
+        run: pnpm format:check
+        
+      - name: Clean up build artifacts
+        run: |
+          rm -f ./src/shared/styles/output.css
+        if: always()

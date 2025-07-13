@@ -1,0 +1,71 @@
+name: Build Validation
+
+on:
+  pull_request:
+    branches: [ main, master ]
+    types: [ opened, synchronize, reopened ]
+
+jobs:
+  build:
+    name: Build Library
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+          
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: Clean previous build
+        run: pnpm clean
+        
+      - name: Build library
+        run: pnpm build
+        
+      - name: Verify build artifacts
+        run: |
+          echo "Checking for required build artifacts..."
+          ls -la dist/
+          test -f dist/index.js || { echo "Missing dist/index.js"; exit 1; }
+          test -f dist/index.d.ts || { echo "Missing dist/index.d.ts"; exit 1; }
+          test -f dist/server.js || { echo "Missing dist/server.js"; exit 1; }
+          test -f dist/api.js || { echo "Missing dist/api.js"; exit 1; }
+          echo "All build artifacts present ✓"
+          
+      - name: Check TypeScript types
+        run: |
+          echo "Verifying TypeScript declarations..."
+          npx tsc --noEmit --skipLibCheck dist/index.d.ts
+          echo "TypeScript declarations valid ✓"
+          
+      - name: Verify package exports
+        run: |
+          echo "Testing package exports..."
+          node -e "
+            const pkg = require('./dist/index.js');
+            console.log('Main export keys:', Object.keys(pkg));
+            if (Object.keys(pkg).length === 0) {
+              console.error('No exports found in main package');
+              process.exit(1);
+            }
+            console.log('Package exports valid ✓');
+          "
+          
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: dist/
+          retention-days: 7
