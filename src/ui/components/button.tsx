@@ -91,7 +91,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 					<Icon
 						className={cn(buttonIconVariants({ iconSize: size }), {
 							'tl-fill-foreground': variant === 'outline',
-							'tl-fill-white': variant !== 'primary',
+							'tl-fill-white': variant === 'primary',
 						})}
 					/>
 				)}

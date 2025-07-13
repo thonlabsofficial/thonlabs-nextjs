@@ -1,3 +1,5 @@
+import ShadowRoot from '../../shared/components/shadow-root';
+import { globalCSS } from '../../shared/styles/globals';
 import Login from './login';
 import MagicSent from './magic-sent';
 import ResetPasswordCreate from './reset-password-create';
@@ -20,18 +22,20 @@ export function ThonLabsAuthPagePreview({
 	).toString('utf-8');
 
 	return (
-		<div className="tl-bg-background tl-text-text tl-h-full">
-			{route === 'login' && <Login isPreview />}
-			{route === 'magic' && <MagicSent isPreview />}
-			{route === 'sign-up' && <SignUp isPreview />}
-			{route === 'reset-password' && param && (
-				<ResetPasswordCreate
-					token={param}
-					inviteFlowEmail={inviteFlowEmail}
-					isPreview
-				/>
-			)}
-			{route === 'reset-password' && <ResetPasswordRequire isPreview />}
-		</div>
+		<ShadowRoot appendCSS={[globalCSS]}>
+			<div className="tl-bg-background tl-text-text tl-h-full">
+				{route === 'login' && <Login isPreview />}
+				{route === 'magic' && <MagicSent isPreview />}
+				{route === 'sign-up' && <SignUp isPreview />}
+				{route === 'reset-password' && param && (
+					<ResetPasswordCreate
+						token={param}
+						inviteFlowEmail={inviteFlowEmail}
+						isPreview
+					/>
+				)}
+				{route === 'reset-password' && <ResetPasswordRequire isPreview />}
+			</div>
+		</ShadowRoot>
 	);
 }

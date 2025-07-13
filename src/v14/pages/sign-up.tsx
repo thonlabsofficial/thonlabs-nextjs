@@ -9,7 +9,7 @@ export default function SignUp() {
 			<div className="sm:tl-pt-0 tl-px-3 tl-w-full sm:tl-max-w-[400px] tl-relative md:tl--mt-16">
 				<AuthHeader
 					title="Create an account"
-					description="Create an account to Thon Labs"
+					description="signUp"
 					className="tl-mb-14"
 				/>
 				<SignUpForm />

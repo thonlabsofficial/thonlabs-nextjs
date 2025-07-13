@@ -12,7 +12,7 @@ const inputVariants = tv({
       tl-flex tl-text-text tl-w-full tl-rounded-md tl-border tl-border-solid hover:tl-bg-input-hover tl-shadow-sm 
       placeholder:tl-text-muted-foreground
       tl-transition tl-duration-200 tl-ease-in-out
-      file:tl-border-0 tl-bg-transparent file:tl-text-sm file:tl-font-medium tl-outline-none
+      file:tl-border-0 file:tl-text-sm file:tl-font-medium tl-outline-none
       disabled:tl-opacity-50 disabled:tl-pointer-events-none
     `,
 	variants: {
@@ -24,8 +24,9 @@ const inputVariants = tv({
         read-only:tl-bg-accent
         hover:read-only:tl-border
         focus:read-only:tl-border
+				tl-bg-background
       `,
-			error: 'tl-border-red-500 focus:tl-border-red-500',
+			error: 'tl-border-red-500 focus:tl-border-red-500 tl-bg-background',
 		},
 		size: {
 			xs: 'tl-px-1.5 tl-py-0.5 tl-text-xs tl-h-7',
