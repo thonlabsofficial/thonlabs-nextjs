@@ -5,7 +5,7 @@ import { forwardSearchParams } from '../../shared/utils/helpers';
 import ServerSessionService from '../services/server-session-service';
 
 export const POST = async (
-	req: NextRequest,
+	_: NextRequest,
 	{ params }: { params: { thonlabs: string } },
 ) => {
 	const [action] = params.thonlabs;

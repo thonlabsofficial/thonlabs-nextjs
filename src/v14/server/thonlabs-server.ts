@@ -5,7 +5,6 @@ import { APIResponseCodes } from '../../shared/utils/errors';
 import {
 	forwardSearchParams,
 	getURLFromHost,
-	removePathnameFromURL,
 } from '../../shared/utils/helpers';
 import Log from '../../shared/utils/log';
 import ServerSessionService from '../services/server-session-service';

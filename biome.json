@@ -25,7 +25,24 @@
 		"indentStyle": "tab"
 	},
 	"linter": {
-		"enabled": false
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"suspicious": {
+				"noExplicitAny": "off",
+				"noImplicitAnyLet": "off"
+			},
+			"style": {
+				"noNonNullAssertion": "off"
+			},
+			"a11y": {
+				"noSvgWithoutTitle": "off"
+			},
+			"correctness": {
+				"noChildrenProp": "off",
+				"useExhaustiveDependencies": "off"
+			}
+		}
 	},
 	"javascript": {
 		"formatter": {

@@ -28,7 +28,7 @@ export default async function ResetPasswordCreate({
 	// Validates the token
 	try {
 		await labsPublicAPI(`/auth/reset-password/${token}`);
-	} catch (e) {
+	} catch {
 		notFound();
 	}
 

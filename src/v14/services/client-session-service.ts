@@ -16,7 +16,7 @@ const ClientSessionService = {
 		}
 
 		const { exp } = jose.decodeJwt(accessToken as string);
-		const sessionValid = (exp as number) * 1000 > new Date().getTime();
+		const sessionValid = (exp as number) * 1000 > Date.now();
 
 		return sessionValid;
 	},

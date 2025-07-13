@@ -57,7 +57,7 @@ export default function CreateNewPasswordForm({ token, email }: Props) {
 			});
 
 			router.push(goTo);
-		} catch (e) {
+		} catch {
 			toast({
 				title: 'Error',
 				description:

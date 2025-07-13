@@ -27,10 +27,10 @@
 		"prebuild": "tailwindcss -i ./src/shared/styles/globals.css -o ./src/shared/styles/output.css && node scripts/parse-css-to-module.js",
 		"build": "rm -rf dist && pnpm compile && cp -R src/shared/styles/* dist/shared/styles",
 		"postbuild": "rm ./src/shared/styles/output.css && rm ./dist/shared/styles/globals.css && rm dist/shared/styles/globals.ts && rm dist/shared/styles/sonner.ts",
-		"lint": "TIMING=1 eslint src/**/*.ts* --fix",
+		"lint": "biome lint --no-errors-on-unmatched",
 		"clean": "rm -rf dist",
 		"tailwind:build": "tailwindcss -i ./src/shared/styles/globals.css -o ./src/shared/styles/output.css",
-		"format:check": "biome check --no-errors-on-unmatched",
+		"format:check": "biome format --no-errors-on-unmatched",
 		"format": "biome format --write --no-errors-on-unmatched",
 		"format:fix": "biome check --write --no-errors-on-unmatched"
 	},

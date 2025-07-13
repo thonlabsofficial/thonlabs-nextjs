@@ -1,16 +1,12 @@
 import { notFound, RedirectType, redirect } from 'next/navigation';
 import type { NextRequest } from 'next/server';
-import { labsPublicAPI } from '../../shared/utils/api';
 import { APIResponseCodes } from '../../shared/utils/errors';
 import { forwardSearchParams } from '../../shared/utils/helpers';
 import ServerSessionService from '../services/server-session-service';
 
 type Params = Promise<{ thonlabs: string }>;
 
-export const POST = async (
-	req: NextRequest,
-	{ params }: { params: Params },
-) => {
+export const POST = async (_: NextRequest, { params }: { params: Params }) => {
 	const { thonlabs } = await params;
 	const [action] = thonlabs;
 
