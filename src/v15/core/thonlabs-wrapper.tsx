@@ -1,4 +1,4 @@
-import type React from 'react';
+import React from 'react';
 import SearchParamsObservable from '../../shared/components/search-params-observable';
 import type { EnvironmentData } from '../../shared/interfaces/environment-data';
 import { environmentStore } from '../../shared/store/env-store';
@@ -77,9 +77,9 @@ export async function ThonLabsWrapper({
 	);
 
 	return (
-		<>
+		<ThonLabsInternalProvider>
 			<SearchParamsObservable />
-			<ThonLabsInternalProvider>
+			<React.Suspense>
 				<ThonLabsSessionProvider
 					environmentData={
 						{
@@ -92,7 +92,7 @@ export async function ThonLabsWrapper({
 				>
 					{children}
 				</ThonLabsSessionProvider>
-			</ThonLabsInternalProvider>
-		</>
+			</React.Suspense>
+		</ThonLabsInternalProvider>
 	);
 }
