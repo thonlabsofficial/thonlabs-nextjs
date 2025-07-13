@@ -11,9 +11,11 @@ runs:
       uses: ./.github/actions/setup-node-pnpm
       
     - name: Build library
+      shell: bash
       run: pnpm build
 
     - name: Verify build
+      shell: bash
       run: |
         echo "Verifying build artifacts..."
         ls -la dist/

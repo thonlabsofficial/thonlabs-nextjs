@@ -11,6 +11,7 @@ runs:
       uses: ./.github/actions/setup-node-pnpm
       
     - name: Run validations in parallel
+      shell: bash
       run: |
         echo "Running lint check..."
         pnpm lint &
@@ -41,6 +42,7 @@ runs:
         echo "✅ All validations passed"
         
     - name: Clean up build artifacts
+      shell: bash
       run: |
         rm -f ./src/shared/styles/output.css
       if: always()
