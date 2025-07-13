@@ -1,0 +1,64 @@
+name: PR Validation
+
+on:
+  pull_request:
+    branches: [ main, master ]
+    types: [ opened, synchronize, reopened ]
+
+jobs:
+  code_validation:
+    name: Code Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+          
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+          
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: Run validations in parallel
+        run: |
+          echo "Running lint check..."
+          pnpm lint &
+          lint_pid=$!
+          
+          echo "Running format check..."
+          pnpm format:check &
+          format_pid=$!
+          
+          # Wait for all processes and check their exit codes
+          wait $lint_pid
+          lint_exit=$?
+          
+          wait $format_pid
+          format_exit=$?
+          
+          # Report results
+          echo "=== Validation Results ==="
+          echo "Lint check: $([ $lint_exit -eq 0 ] && echo '✓ PASSED' || echo '✗ FAILED')"
+          echo "Format check: $([ $format_exit -eq 0 ] && echo '✓ PASSED' || echo '✗ FAILED')"
+          
+          # Exit with error if any validation failed
+          if [ $lint_exit -ne 0 ] || [ $format_exit -ne 0 ]; then
+            echo "❌ Some validations failed"
+            exit 1
+          fi
+          
+          echo "✅ All validations passed"
+          
+      - name: Clean up build artifacts
+        run: |
+          rm -f ./src/shared/styles/output.css
+        if: always()
