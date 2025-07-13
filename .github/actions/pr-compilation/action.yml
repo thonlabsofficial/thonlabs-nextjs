@@ -1,9 +1,7 @@
-on:
-  pull_request:
-    branches: [ main, master ]
-    types: [ opened, synchronize, reopened ]
+name: Compilation
+description: "Validates the typescript and tailwind compilation of the project"
 
-jobs:
+runs:
   compilation:
     name: Compilation
     runs-on: ubuntu-latest

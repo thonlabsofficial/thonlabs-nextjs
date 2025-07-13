@@ -1,9 +1,7 @@
-on:
-  pull_request:
-    branches: [ main, master ]
-    types: [ opened, synchronize, reopened ]
+name: Build Validation
+description: "Validates the build of the project"
 
-jobs:
+runs:
   build-test:
     name: Build Validation
     runs-on: ubuntu-latest

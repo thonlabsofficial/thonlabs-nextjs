@@ -1,9 +1,7 @@
-on:
-  pull_request:
-    branches: [ main, master ]
-    types: [ opened, synchronize, reopened ]
+name: Code Check
+description: "Validates if code matches the code formatting rules"
 
-jobs:
+runs:
   code-check:
     name: Code Check
     runs-on: ubuntu-latest

@@ -42,7 +42,7 @@ jobs:
 
   build-validation:
     runs-on: ubuntu-latest
-    needs: [compilation]  # This depends on compilation
+    needs: [compilation]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
