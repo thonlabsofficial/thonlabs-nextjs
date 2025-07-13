@@ -2,9 +2,9 @@
 
 import { useSearchParams } from 'next/navigation';
 import React from 'react';
-import { apiResponseMessages } from '../../../shared/utils/errors';
-import { delay } from '../../../shared/utils/helpers';
-import { useToast } from '../../../ui/hooks/use-toast';
+import { useToast } from '../../ui/hooks/use-toast';
+import { apiResponseMessages } from '../utils/errors';
+import { delay } from '../utils/helpers';
 
 export default function ToasterObservable() {
 	const searchParams = useSearchParams();

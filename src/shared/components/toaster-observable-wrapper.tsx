@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Toaster } from '../../ui/components/toaster';
-import ToasterObservable from '../../v15/pages/components/toaster-observable';
+import ToasterObservable from './toaster-observable';
 
 export default function ToasterObservableWrapper() {
 	return (
