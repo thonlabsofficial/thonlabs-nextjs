@@ -1,7 +1,7 @@
 'use client';
 
 import Cookies from 'js-cookie';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { ThemeProvider } from 'next-themes';
 import React from 'react';
 import useSWR from 'swr';
@@ -54,6 +54,7 @@ export function ThonLabsSessionProvider({
 	const isPublicRoute = publicRoutes.some((route) =>
 		pathname.startsWith(route),
 	);
+	const searchParams = useSearchParams();
 	const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
 
 	/*
@@ -126,6 +127,10 @@ export function ThonLabsSessionProvider({
   */
 	if (pathname.startsWith('/auth/logout')) {
 		return <Logout />;
+	}
+
+	if (searchParams.get('r')) {
+		return null;
 	}
 
 	return (

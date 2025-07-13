@@ -97,7 +97,7 @@ export const GET = async (
 		case 'logout':
 			ServerSessionService.logout();
 			return redirect(
-				forwardSearchParams(req, '/auth/login').toString(),
+				forwardSearchParams(req, '/auth/login', { r: 'true' }).toString(),
 				RedirectType.replace,
 			);
 

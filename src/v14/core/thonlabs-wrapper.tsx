@@ -1,3 +1,5 @@
+import React from 'react';
+import SearchParamsWrapper from '../../shared/components/search-params-wrapper';
 import type { EnvironmentData } from '../../shared/interfaces/environment-data';
 import { environmentStore } from '../../shared/store/env-store';
 import { api } from '../../shared/utils/api';
@@ -77,18 +79,21 @@ export async function ThonLabsWrapper({
 
 	return (
 		<ThonLabsInternalProvider>
-			<ThonLabsSessionProvider
-				environmentData={
-					{
-						...environmentData,
-						ssoProviders,
-					} as EnvironmentData
-				}
-				environmentId={environmentId}
-				publicKey={publicKey}
-			>
-				{children}
-			</ThonLabsSessionProvider>
+			<SearchParamsWrapper />
+			<React.Suspense>
+				<ThonLabsSessionProvider
+					environmentData={
+						{
+							...environmentData,
+							ssoProviders,
+						} as EnvironmentData
+					}
+					environmentId={environmentId}
+					publicKey={publicKey}
+				>
+					{children}
+				</ThonLabsSessionProvider>
+			</React.Suspense>
 		</ThonLabsInternalProvider>
 	);
 }
