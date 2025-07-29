@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { type NextRequest, NextResponse } from 'next/server';
 import { APIResponseCodes } from '../../shared/utils/errors';
-import { forwardSearchParams } from '../../shared/utils/helpers';
+import { forwardSearchParams, getHost } from '../../shared/utils/helpers';
 import ServerSessionService from '../services/server-session-service';
 
 type Params = Promise<{ thonlabs: string }>;
@@ -42,7 +42,7 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 					response.statusCode === 200
 						? forwardSearchParams(req, '/').toString()
 						: `/auth/login?reason=${APIResponseCodes.InvalidMagicToken}`,
-					req.url,
+					getHost(req),
 				),
 				301,
 			);
@@ -66,7 +66,7 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 									email,
 								).toString('base64')}`
 							: `/auth/magic/${token}?inviteFlow=true`,
-						req.url,
+						getHost(req),
 					),
 					301,
 				);
@@ -87,7 +87,7 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 									? APIResponseCodes.EmailConfirmationResent
 									: APIResponseCodes.EmailConfirmationError
 							}`,
-					req.url,
+					getHost(req),
 				),
 				301,
 			);
@@ -99,17 +99,20 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 			if (response.statusCode === 200) {
 				const searchParams = req.nextUrl.searchParams;
 				const to = searchParams.get('dest') || '/';
-				return NextResponse.redirect(new URL(to, req.url), 301);
+				return NextResponse.redirect(new URL(to, getHost(req)), 301);
 			}
 
-			return NextResponse.redirect(new URL('/api/auth/logout', req.url), 301);
+			return NextResponse.redirect(
+				new URL('/api/auth/logout', getHost(req)),
+				301,
+			);
 
 		case 'logout':
 			await ServerSessionService.logout();
 			return NextResponse.redirect(
 				new URL(
 					forwardSearchParams(req, '/auth/login', { r: 'true' }).toString(),
-					req.url,
+					getHost(req),
 				),
 				301,
 			);
@@ -132,7 +135,7 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 					response.statusCode === 200
 						? '/'
 						: `/auth/login?reason=${APIResponseCodes.InvalidSSOAuthentication}`,
-					req.url,
+					getHost(req),
 				),
 				301,
 			);
