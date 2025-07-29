@@ -1,5 +1,5 @@
-import { notFound, RedirectType, redirect } from 'next/navigation';
-import type { NextRequest } from 'next/server';
+import { notFound } from 'next/navigation';
+import { type NextRequest, NextResponse } from 'next/server';
 import { APIResponseCodes } from '../../shared/utils/errors';
 import { forwardSearchParams } from '../../shared/utils/helpers';
 import ServerSessionService from '../services/server-session-service';
@@ -32,16 +32,19 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 	switch (action) {
 		case 'magic':
 			if (!param) {
-				return redirect('/auth/login');
+				return NextResponse.redirect(new URL('/auth/login', req.url), 301);
 			}
 
 			response = await ServerSessionService.validateMagicToken(param as string);
 
-			return redirect(
-				response.statusCode === 200
-					? forwardSearchParams(req, '/').toString()
-					: `/auth/login?reason=${APIResponseCodes.InvalidMagicToken}`,
-				RedirectType.replace,
+			return NextResponse.redirect(
+				new URL(
+					response.statusCode === 200
+						? forwardSearchParams(req, '/').toString()
+						: `/auth/login?reason=${APIResponseCodes.InvalidMagicToken}`,
+					req.url,
+				),
+				301,
 			);
 
 		case 'confirm-email': {
@@ -56,31 +59,37 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 			if (response.statusCode === 200 && response.token) {
 				const { token, tokenType, email } = response;
 
-				return redirect(
-					tokenType === 'ResetPassword'
-						? `/auth/reset-password/${token}?inviteFlow=${Buffer.from(
-								email,
-							).toString('base64')}`
-						: `/auth/magic/${token}?inviteFlow=true`,
-					RedirectType.replace,
+				return NextResponse.redirect(
+					new URL(
+						tokenType === 'ResetPassword'
+							? `/auth/reset-password/${token}?inviteFlow=${Buffer.from(
+									email,
+								).toString('base64')}`
+							: `/auth/magic/${token}?inviteFlow=true`,
+						req.url,
+					),
+					301,
 				);
 			}
 
 			const isValid = await ServerSessionService.isValid();
 
-			return redirect(
-				response.statusCode === 200
-					? `/?info=${
-							isValid
-								? APIResponseCodes.EmailConfirmation
-								: APIResponseCodes.EmailConfirmationWithoutSession
-						}`
-					: `/?reason=${
-							response?.data?.emailResent
-								? APIResponseCodes.EmailConfirmationResent
-								: APIResponseCodes.EmailConfirmationError
-						}`,
-				RedirectType.replace,
+			return NextResponse.redirect(
+				new URL(
+					response.statusCode === 200
+						? `/?info=${
+								isValid
+									? APIResponseCodes.EmailConfirmation
+									: APIResponseCodes.EmailConfirmationWithoutSession
+							}`
+						: `/?reason=${
+								response?.data?.emailResent
+									? APIResponseCodes.EmailConfirmationResent
+									: APIResponseCodes.EmailConfirmationError
+							}`,
+					req.url,
+				),
+				301,
 			);
 		}
 
@@ -90,16 +99,19 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 			if (response.statusCode === 200) {
 				const searchParams = req.nextUrl.searchParams;
 				const to = searchParams.get('dest') || '/';
-				return redirect(to, RedirectType.replace);
+				return NextResponse.redirect(new URL(to, req.url), 301);
 			}
 
-			return redirect('/api/auth/logout', RedirectType.replace);
+			return NextResponse.redirect(new URL('/api/auth/logout', req.url), 301);
 
 		case 'logout':
 			await ServerSessionService.logout();
-			return redirect(
-				forwardSearchParams(req, '/auth/login', { r: 'true' }).toString(),
-				RedirectType.replace,
+			return NextResponse.redirect(
+				new URL(
+					forwardSearchParams(req, '/auth/login', { r: 'true' }).toString(),
+					req.url,
+				),
+				301,
 			);
 
 		case 'alive':
@@ -115,11 +127,14 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 				code,
 			);
 
-			return redirect(
-				response.statusCode === 200
-					? '/'
-					: `/auth/login?reason=${APIResponseCodes.InvalidSSOAuthentication}`,
-				RedirectType.replace,
+			return NextResponse.redirect(
+				new URL(
+					response.statusCode === 200
+						? '/'
+						: `/auth/login?reason=${APIResponseCodes.InvalidSSOAuthentication}`,
+					req.url,
+				),
+				301,
 			);
 		}
 	}
