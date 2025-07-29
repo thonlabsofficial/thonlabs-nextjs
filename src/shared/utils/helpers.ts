@@ -3,20 +3,14 @@ import * as qs from 'qs';
 import Log from '../../shared/utils/log';
 
 export function getHost(req: NextRequest) {
-	const host =
-		req.headers.get(':authority') ||
-		req.headers.get('x-forwarded-host') ||
-		req.headers.get('host');
+	const host = req.headers.get('x-forwarded-host') || req.headers.get('host');
 
 	if (!host) {
 		Log.info('helpers.getURLFromHost: Unable to determine host');
 		throw new Error('Unable to determine host');
 	}
 
-	const protocol =
-		req.headers.get(':scheme') ||
-		req.headers.get('x-forwarded-proto') ||
-		'https';
+	const protocol = req.headers.get('x-forwarded-proto') || 'https';
 
 	return `${protocol}://${host}`;
 }
