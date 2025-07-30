@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation';
 import { type NextRequest, NextResponse } from 'next/server';
 import { APIResponseCodes } from '../../shared/utils/errors';
-import { forwardSearchParams, getHost } from '../../shared/utils/helpers';
+import { forwardSearchParams } from '../../shared/utils/helpers';
 import ServerSessionService from '../services/server-session-service';
+import Log from '../../shared/utils/log';
 
 export const POST = async (
 	_: NextRequest,
@@ -30,11 +31,20 @@ export const GET = async (
 ) => {
 	let response;
 	const [action, param] = params.thonlabs;
+	const origin = decodeURIComponent(
+		req.nextUrl.searchParams.get('origin') || '',
+	);
+
+	if (action !== 'alive' && !origin) {
+		const message = 'The origin url is missing for this request';
+		Log.error({ action: 'GET Route v14', message });
+		return Response.json({ error: message }, { status: 400 });
+	}
 
 	switch (action) {
 		case 'magic':
 			if (!param) {
-				return NextResponse.redirect(new URL('/auth/login', getHost(req)), 301);
+				return NextResponse.redirect(new URL('/auth/login', origin), 301);
 			}
 
 			response = await ServerSessionService.validateMagicToken(param as string);
@@ -44,7 +54,7 @@ export const GET = async (
 					response.statusCode === 200
 						? forwardSearchParams(req, '/').toString()
 						: `/auth/login?reason=${APIResponseCodes.InvalidMagicToken}`,
-					getHost(req),
+					origin,
 				),
 				301,
 			);
@@ -68,7 +78,7 @@ export const GET = async (
 									email,
 								).toString('base64')}`
 							: `/auth/magic/${token}?inviteFlow=true`,
-						getHost(req),
+						origin,
 					),
 					301,
 				);
@@ -87,7 +97,7 @@ export const GET = async (
 									? APIResponseCodes.EmailConfirmationResent
 									: APIResponseCodes.EmailConfirmationError
 							}`,
-					getHost(req),
+					origin,
 				),
 				301,
 			);
@@ -98,20 +108,17 @@ export const GET = async (
 			if (response.statusCode === 200) {
 				const searchParams = req.nextUrl.searchParams;
 				const to = searchParams.get('dest') || '/';
-				return NextResponse.redirect(new URL(to, getHost(req)), 301);
+				return NextResponse.redirect(new URL(to, origin), 301);
 			}
 
-			return NextResponse.redirect(
-				new URL('/api/auth/logout', getHost(req)),
-				301,
-			);
+			return NextResponse.redirect(new URL('/auth/logout', origin), 301);
 
 		case 'logout':
 			ServerSessionService.logout();
 			return NextResponse.redirect(
 				new URL(
 					forwardSearchParams(req, '/auth/login', { r: 'true' }).toString(),
-					getHost(req),
+					origin,
 				),
 				301,
 			);
@@ -134,7 +141,7 @@ export const GET = async (
 					response.statusCode === 200
 						? '/'
 						: `/auth/login?reason=${APIResponseCodes.InvalidSSOAuthentication}`,
-					getHost(req),
+					origin,
 				),
 				301,
 			);
