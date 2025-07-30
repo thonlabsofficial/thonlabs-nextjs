@@ -1,4 +1,6 @@
-import { RedirectType, redirect } from 'next/navigation';
+'use client';
+
+import { useEffect } from 'react';
 import { APIResponseCodes } from '../../shared/utils/errors';
 
 interface Props {
@@ -6,10 +8,17 @@ interface Props {
 	inviteFlow?: boolean;
 }
 
-export default async function MagicValidator({ token, inviteFlow }: Props) {
-	redirect(
-		`/api/auth/magic/${token}${inviteFlow ? `?info=${APIResponseCodes.InviteAccepted}` : ''}`,
-		RedirectType.replace,
-	);
+export default function MagicValidator({ token, inviteFlow }: Props) {
+	useEffect(() => {
+		const searchParams = new URLSearchParams(window.location.search);
+		searchParams.set('origin', window.location.origin);
+
+		if (inviteFlow) {
+			searchParams.set('info', APIResponseCodes.InviteAccepted.toString());
+		}
+
+		window.location.href = `/api/auth/magic/${token}?${searchParams.toString()}`;
+	}, []);
+
 	return null;
 }

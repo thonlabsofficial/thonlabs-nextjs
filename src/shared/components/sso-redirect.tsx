@@ -1,4 +1,6 @@
-import { RedirectType, redirect } from 'next/navigation';
+'use client';
+
+import { useEffect } from 'react';
 import type { SSOSocialProvider } from '../interfaces/sso-social';
 
 interface Props {
@@ -6,10 +8,13 @@ interface Props {
 	code: string;
 }
 
-export default async function SSORedirect({ provider, code }: Props) {
-	redirect(
-		`/api/auth/sso/${Buffer.from(`${provider}::${code}`).toString('base64')}`,
-		RedirectType.replace,
-	);
+export default function SSORedirect({ provider, code }: Props) {
+	useEffect(() => {
+		const searchParams = new URLSearchParams(window.location.search);
+		searchParams.set('origin', window.location.origin);
+
+		window.location.href = `/api/auth/sso/${Buffer.from(`${provider}::${code}`).toString('base64')}?${searchParams.toString()}`;
+	}, []);
+
 	return null;
 }

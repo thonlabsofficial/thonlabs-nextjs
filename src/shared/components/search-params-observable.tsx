@@ -16,6 +16,10 @@ export default function SearchParamsObservable() {
 
 		const params = new URLSearchParams(searchParams.toString());
 
+		if (params.get('origin')) {
+			params.delete('origin');
+		}
+
 		if (params.get('r')) {
 			params.delete('r');
 			window.location.href = `/auth/login?${params.toString()}`;
