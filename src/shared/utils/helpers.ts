@@ -6,7 +6,7 @@ export function getHost(req: NextRequest) {
 	const host = req.headers.get('x-forwarded-host') || req.headers.get('host');
 
 	if (!host) {
-		Log.info('helpers.getURLFromHost: Unable to determine host');
+		Log.info('helpers.getHost: Unable to determine host');
 		throw new Error('Unable to determine host');
 	}
 

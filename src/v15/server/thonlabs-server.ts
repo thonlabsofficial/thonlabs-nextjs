@@ -63,10 +63,9 @@ export async function validateSession(
 				action: 'validateSession',
 				message: 'ThonLabs Validate Session: Invalid session',
 			});
-			return forwardSearchParams(
-				req,
-				`/api/auth/logout?reason=${APIResponseCodes.SessionExpired}`,
-			);
+			return forwardSearchParams(req, '/api/auth/logout', {
+				reason: APIResponseCodes.SessionExpired.toString(),
+			});
 		}
 
 		const { status } = await ServerSessionService.shouldKeepAlive();
@@ -82,10 +81,9 @@ export async function validateSession(
 				status,
 			});
 
-			return forwardSearchParams(
-				req,
-				`/api/auth/logout?reason=${APIResponseCodes.SessionExpired}`,
-			);
+			return forwardSearchParams(req, '/api/auth/logout', {
+				reason: APIResponseCodes.SessionExpired.toString(),
+			});
 		} else if (status === 'needs_refresh') {
 			Log.info({
 				action: 'validateSession',
