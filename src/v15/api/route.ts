@@ -116,7 +116,7 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 				return NextResponse.redirect(new URL(to, origin), 301);
 			}
 
-			return NextResponse.redirect(new URL('/api/auth/logout', origin), 301);
+			return NextResponse.redirect(new URL('/auth/logout', origin), 301);
 
 		case 'logout':
 			await ServerSessionService.logout();
