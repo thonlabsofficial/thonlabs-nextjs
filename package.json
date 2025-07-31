@@ -2,7 +2,7 @@
 	"name": "@thonlabs/nextjs",
 	"description": "Official library to integrate ThonLabs authentication into your Next.js project",
 	"private": false,
-	"version": "1.2.18-canary.2",
+	"version": "1.2.18",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"files": [
