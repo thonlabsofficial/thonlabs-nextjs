@@ -46,7 +46,7 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 
 		case 'magic':
 			if (!param) {
-				return NextResponse.redirect(new URL('/auth/login', req.url), 301);
+				return NextResponse.redirect(new URL('/auth/login', req.url), 302);
 			}
 
 			response = await ServerSessionService.validateMagicToken(param as string);
@@ -58,7 +58,7 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 						: `/auth/login?reason=${APIResponseCodes.InvalidMagicToken}`,
 					origin,
 				),
-				301,
+				302,
 			);
 
 		case 'confirm-email': {
@@ -82,7 +82,7 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 							: `/auth/magic/${token}?inviteFlow=true`,
 						origin,
 					),
-					301,
+					302,
 				);
 			}
 
@@ -103,7 +103,7 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 							}`,
 					origin,
 				),
-				301,
+				302,
 			);
 		}
 
@@ -113,10 +113,10 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 			if (response.statusCode === 200) {
 				const searchParams = req.nextUrl.searchParams;
 				const to = searchParams.get('dest') || '/';
-				return NextResponse.redirect(new URL(to, origin), 301);
+				return NextResponse.redirect(new URL(to, origin), 302);
 			}
 
-			return NextResponse.redirect(new URL('/api/auth/logout', origin), 301);
+			return NextResponse.redirect(new URL('/auth/logout', origin), 302);
 
 		case 'logout':
 			await ServerSessionService.logout();
@@ -125,7 +125,7 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 					forwardSearchParams(req, '/auth/login', { r: 'true' }).toString(),
 					origin,
 				),
-				301,
+				302,
 			);
 
 		case 'sso': {
@@ -145,7 +145,7 @@ export const GET = async (req: NextRequest, { params }: { params: Params }) => {
 						: `/auth/login?reason=${APIResponseCodes.InvalidSSOAuthentication}`,
 					origin,
 				),
-				301,
+				302,
 			);
 		}
 	}

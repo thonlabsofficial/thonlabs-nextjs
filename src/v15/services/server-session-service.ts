@@ -4,6 +4,7 @@ import { labsPublicAPI } from '../../shared/utils/api';
 import Log from '../../shared/utils/log';
 import type { SessionData } from '../interfaces/session-data';
 import type { User } from '../interfaces/user';
+import { delay } from '../../shared/utils/helpers';
 
 const ServerSessionService = {
 	async create(data: SessionData) {
@@ -33,6 +34,8 @@ const ServerSessionService = {
 				secure: process.env.NODE_ENV === 'production',
 			});
 		}
+
+		await delay(200);
 	},
 
 	async getSessionCookies() {
