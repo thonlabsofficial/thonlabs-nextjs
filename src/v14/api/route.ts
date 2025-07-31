@@ -44,7 +44,7 @@ export const GET = async (
 	switch (action) {
 		case 'magic':
 			if (!param) {
-				return NextResponse.redirect(new URL('/auth/login', origin), 301);
+				return NextResponse.redirect(new URL('/auth/login', origin), 302);
 			}
 
 			response = await ServerSessionService.validateMagicToken(param as string);
@@ -56,7 +56,7 @@ export const GET = async (
 						: `/auth/login?reason=${APIResponseCodes.InvalidMagicToken}`,
 					origin,
 				),
-				301,
+				302,
 			);
 
 		case 'confirm-email':
@@ -80,7 +80,7 @@ export const GET = async (
 							: `/auth/magic/${token}?inviteFlow=true`,
 						origin,
 					),
-					301,
+					302,
 				);
 			}
 
@@ -99,7 +99,7 @@ export const GET = async (
 							}`,
 					origin,
 				),
-				301,
+				302,
 			);
 
 		case 'refresh':
@@ -108,10 +108,10 @@ export const GET = async (
 			if (response.statusCode === 200) {
 				const searchParams = req.nextUrl.searchParams;
 				const to = searchParams.get('dest') || '/';
-				return NextResponse.redirect(new URL(to, origin), 301);
+				return NextResponse.redirect(new URL(to, origin), 302);
 			}
 
-			return NextResponse.redirect(new URL('/auth/logout', origin), 301);
+			return NextResponse.redirect(new URL('/auth/logout', origin), 302);
 
 		case 'logout':
 			ServerSessionService.logout();
@@ -120,7 +120,7 @@ export const GET = async (
 					forwardSearchParams(req, '/auth/login', { r: 'true' }).toString(),
 					origin,
 				),
-				301,
+				302,
 			);
 
 		case 'alive':
@@ -143,7 +143,7 @@ export const GET = async (
 						: `/auth/login?reason=${APIResponseCodes.InvalidSSOAuthentication}`,
 					origin,
 				),
-				301,
+				302,
 			);
 		}
 	}
