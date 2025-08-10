@@ -24,7 +24,7 @@ export default function CreateNewPasswordForm({ token, email }: Props) {
 	const [loading, setLoading] = React.useState(false);
 	const { toast } = useToast();
 	const router = useRouter();
-	const { styles } = useEnvironmentData();
+	const { styles, redirectOnAuthenticated } = useEnvironmentData();
 
 	const form = useForm<CreateNewPasswordFormData>({
 		resolver: zodResolver(CreateNewPasswordFormSchema),
@@ -48,7 +48,7 @@ export default function CreateNewPasswordForm({ token, email }: Props) {
 					email,
 					password: data.password,
 				});
-				goTo = '/';
+				goTo = redirectOnAuthenticated || '/';
 			}
 
 			toast({

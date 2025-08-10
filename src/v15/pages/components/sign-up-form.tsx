@@ -25,7 +25,8 @@ export default function SignUpForm() {
 	const [loading, setLoading] = React.useState(false);
 	const router = useRouter();
 	const { toast } = useToast();
-	const { authProvider, enableSignUp, styles } = useEnvironmentData();
+	const { authProvider, enableSignUp, styles, redirectOnAuthenticated } =
+		useEnvironmentData();
 	const { previewMode } = usePreviewMode();
 
 	const form = useForm<SignUpFormData>({
@@ -54,7 +55,9 @@ export default function SignUpForm() {
 				});
 				setLoading(false);
 			} else {
-				router.replace(result.emailSent ? '/auth/magic' : '/');
+				router.replace(
+					result.emailSent ? '/auth/magic' : redirectOnAuthenticated || '/',
+				);
 			}
 		} catch (e) {
 			console.error('Error signUpForm.onSubmit: ', e);

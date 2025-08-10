@@ -23,7 +23,8 @@ export default function LoginForm() {
 	const [loading, setLoading] = React.useState(false);
 	const router = useRouter();
 	const { toast } = useToast();
-	const { authProvider, enableSignUp, styles } = useEnvironmentData();
+	const { authProvider, enableSignUp, styles, redirectOnAuthenticated } =
+		useEnvironmentData();
 
 	const form = useForm<LoginFormData>({
 		resolver: zodResolver(
@@ -46,7 +47,9 @@ export default function LoginForm() {
 				});
 				setLoading(false);
 			} else {
-				router.replace(result.emailSent ? '/auth/magic' : '/');
+				router.replace(
+					result.emailSent ? '/auth/magic' : redirectOnAuthenticated || '/',
+				);
 			}
 		} catch (e) {
 			console.error('Error loginForm.onSubmit: ', e);

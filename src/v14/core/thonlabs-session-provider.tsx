@@ -40,6 +40,7 @@ export interface ThonLabsSessionProviderProps
 	environmentData: EnvironmentData;
 	environmentId: string;
 	publicKey: string;
+	redirectOnAuthenticated?: string;
 }
 
 export function ThonLabsSessionProvider({
@@ -47,6 +48,7 @@ export function ThonLabsSessionProvider({
 	children,
 	environmentId,
 	publicKey,
+	redirectOnAuthenticated,
 }: ThonLabsSessionProviderProps) {
 	const pathname = usePathname();
 	const isPublicRoute = publicRoutes.some((route) =>
@@ -87,6 +89,10 @@ export function ThonLabsSessionProvider({
 
 		if (ssoProviders) {
 			finalData.ssoProviders = ssoProviders;
+		}
+
+		if (redirectOnAuthenticated) {
+			finalData.redirectOnAuthenticated = redirectOnAuthenticated;
 		}
 
 		return finalData;

@@ -22,6 +22,7 @@ export interface ThonLabsWrapperProps
 	environmentId: string;
 	publicKey: string;
 	authDomain: string;
+	redirectOnAuthenticated?: string;
 }
 
 export async function ThonLabsWrapper({
@@ -29,6 +30,7 @@ export async function ThonLabsWrapper({
 	environmentId,
 	publicKey,
 	authDomain,
+	redirectOnAuthenticated,
 }: ThonLabsWrapperProps) {
 	if (!environmentId) {
 		Log.error({
@@ -90,6 +92,7 @@ export async function ThonLabsWrapper({
 					}
 					environmentId={environmentId}
 					publicKey={publicKey}
+					redirectOnAuthenticated={redirectOnAuthenticated}
 				>
 					{children}
 				</ThonLabsSessionProvider>
