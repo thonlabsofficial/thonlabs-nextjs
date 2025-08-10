@@ -189,5 +189,6 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
 const redirect = await validateSession(req, [
   '/public-route',
   '/public-route-2',
+  '^(?!/admin)' // All pages excluding admin
 ]);
 ```
