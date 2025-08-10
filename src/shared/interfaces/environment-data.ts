@@ -12,7 +12,7 @@ export interface EnvironmentStyles {
 export interface EnvironmentData {
 	environmentId: string;
 	publicKey: string;
-	authDomain?: string;
+	authDomain: string;
 	authProvider: AuthProviders;
 	enableSignUp: boolean;
 	enableSignUpB2BOnly: boolean;
@@ -24,4 +24,5 @@ export interface EnvironmentData {
 		[key in SSOSocialProvider]: SSOSocial;
 	};
 	activeSSOProviders: SSOSocialProvider[];
+	redirectOnAuthenticated?: string;
 }

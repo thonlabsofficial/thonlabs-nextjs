@@ -20,7 +20,8 @@ export interface ThonLabsWrapperProps
 	extends React.HTMLAttributes<HTMLElement> {
 	environmentId: string;
 	publicKey: string;
-	authDomain?: string;
+	authDomain: string;
+	redirectOnAuthenticated?: string;
 }
 
 export async function ThonLabsWrapper({
@@ -28,6 +29,7 @@ export async function ThonLabsWrapper({
 	environmentId,
 	publicKey,
 	authDomain,
+	redirectOnAuthenticated,
 }: ThonLabsWrapperProps) {
 	if (!environmentId) {
 		Log.error({
@@ -63,7 +65,7 @@ export async function ThonLabsWrapper({
 		Log.error({
 			action: 'ThonLabsWrapper',
 			message:
-				'ThonLabs Error: Environment data is unavailable. Please verify that the public key and environment settings are correct. You can find these values under "Integration Keys" at https://app.thonlabs.io.',
+				'ThonLabs Error: Environment data is unavailable. Please verify that the public key and environment settings are correct. You can find these values under settings page at https://app.thonlabs.io.',
 		});
 		return null;
 	}
@@ -89,6 +91,7 @@ export async function ThonLabsWrapper({
 					}
 					environmentId={environmentId}
 					publicKey={publicKey}
+					redirectOnAuthenticated={redirectOnAuthenticated}
 				>
 					{children}
 				</ThonLabsSessionProvider>

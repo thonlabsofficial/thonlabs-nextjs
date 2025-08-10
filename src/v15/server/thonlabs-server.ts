@@ -21,7 +21,7 @@ export function isAuthRoute(req: NextRequest) {
 
 export function shouldBypassRoute(req: NextRequest, routes: string[]) {
 	const pathname = req.nextUrl.pathname;
-	const shouldBypass = routes.some((route) => pathname.startsWith(route));
+	const shouldBypass = routes.some((route) => new RegExp(route).test(pathname));
 
 	return shouldBypass;
 }
@@ -30,16 +30,7 @@ export async function validateSession(
 	req: NextRequest,
 	bypassRoutes: string[] = [],
 ) {
-	if (
-		shouldBypassRoute(req, [
-			'/api/auth/refresh',
-			'/api/auth/logout',
-			'/api/auth/magic',
-			'/api/auth/confirm-email',
-			'/api/auth/sso',
-			...bypassRoutes,
-		])
-	) {
+	if (shouldBypassRoute(req, ['^/api/auth(?!/alive)', ...bypassRoutes])) {
 		return new URL('/bypass', req.url);
 	}
 
@@ -113,9 +104,9 @@ export async function getAccessToken() {
 	return accessToken;
 }
 
-export function redirectToLogin(dest: URL) {
+export function redirectToLogin(req: NextRequest, dest: URL) {
 	if (dest.toString().endsWith('bypass')) {
-		return NextResponse.next();
+		return NextResponse.next(thonLabsConfig(req));
 	}
 
 	return NextResponse.redirect(dest);
