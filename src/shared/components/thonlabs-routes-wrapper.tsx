@@ -3,7 +3,6 @@ import React from 'react';
 import { cn } from '../../ui/core/utils';
 import ToasterObservableWrapper from './toaster-observable-wrapper';
 import Fonts from './fonts';
-import SearchParamsWrapper from './search-params-wrapper';
 
 export default function ThonLabsRoutesWrapper({
 	children,

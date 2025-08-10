@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .thonlabs {
-	--font-sans: 'DM Sans', sans-serif; /* we need this because the variables from nextjs isn't working */
+	--font-sans: "DM Sans", sans-serif; /* we need this because the variables from nextjs isn't working */
 
 	--text: 0 0 0;
 	--background: 0 0% 100%;
