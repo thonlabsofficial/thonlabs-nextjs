@@ -1,5 +1,4 @@
 import React from 'react';
-import SearchParamsWrapper from '../../shared/components/search-params-wrapper';
 import type { EnvironmentData } from '../../shared/interfaces/environment-data';
 import { environmentStore } from '../../shared/store/env-store';
 import { api } from '../../shared/utils/api';
@@ -63,7 +62,7 @@ export async function ThonLabsWrapper({
 		Log.error({
 			action: 'ThonLabsWrapper',
 			message:
-				'ThonLabs Error: Environment data is unavailable. Please verify that the public key and environment settings are correct. You can find these values under "Integration Keys" at https://app.thonlabs.io.',
+				'ThonLabs Error: Environment data is unavailable. Please verify that the public key and environment settings are correct. You can find these values under settings page at https://app.thonlabs.io.',
 		});
 		return null;
 	}
@@ -78,7 +77,6 @@ export async function ThonLabsWrapper({
 
 	return (
 		<ThonLabsInternalProvider>
-			<SearchParamsWrapper />
 			<React.Suspense>
 				<ThonLabsSessionProvider
 					environmentData={

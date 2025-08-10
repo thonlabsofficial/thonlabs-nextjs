@@ -1,8 +1,9 @@
 import { useTheme } from 'next-themes';
 import React from 'react';
-import { fonts } from '../../ui/core/fonts';
 import { cn } from '../../ui/core/utils';
 import ToasterObservableWrapper from './toaster-observable-wrapper';
+import Fonts from './fonts';
+import SearchParamsWrapper from './search-params-wrapper';
 
 export default function ThonLabsRoutesWrapper({
 	children,
@@ -24,10 +25,11 @@ export default function ThonLabsRoutesWrapper({
 
 	return (
 		<>
+			<Fonts />
+			<SearchParamsWrapper />
 			<ToasterObservableWrapper />
 			<div
 				className={cn(
-					fonts.className,
 					resolvedTheme === 'dark' ? 'dark' : '',
 					'thonlabs tl-font-sans tl-w-full tl-min-h-screen tl-bg-background tl-text-text',
 				)}
