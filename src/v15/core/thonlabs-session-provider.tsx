@@ -114,6 +114,7 @@ export function ThonLabsSessionProvider({
 		clientEnvironmentData,
 		previewEnvironmentData,
 		ssoProviders,
+		redirectOnAuthenticated,
 	]);
 
 	React.useEffect(() => {

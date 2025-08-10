@@ -96,7 +96,13 @@ export function ThonLabsSessionProvider({
 		}
 
 		return finalData;
-	}, [environmentId, publicKey, clientEnvironmentData, ssoProviders]);
+	}, [
+		environmentId,
+		publicKey,
+		clientEnvironmentData,
+		ssoProviders,
+		redirectOnAuthenticated,
+	]);
 
 	React.useEffect(() => {
 		if (!memoClientEnvironmentData?.sdkIntegrated) {
