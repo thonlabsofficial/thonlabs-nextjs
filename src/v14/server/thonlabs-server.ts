@@ -102,9 +102,9 @@ export function getAccessToken() {
 	return accessToken;
 }
 
-export function redirectToLogin(dest: URL) {
+export function redirectToLogin(req: NextRequest, dest: URL) {
 	if (dest.toString().endsWith('bypass')) {
-		return NextResponse.next();
+		return NextResponse.next(thonLabsConfig(req));
 	}
 
 	return NextResponse.redirect(dest);
