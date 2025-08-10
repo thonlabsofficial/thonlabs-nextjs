@@ -26,7 +26,6 @@ export default function ThonLabsRoutesWrapper({
 	return (
 		<>
 			<Fonts />
-			<SearchParamsWrapper />
 			<ToasterObservableWrapper />
 			<div
 				className={cn(

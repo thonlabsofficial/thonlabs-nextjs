@@ -1,4 +1,5 @@
 import React from 'react';
+import SearchParamsWrapper from '../../shared/components/search-params-wrapper';
 import type { EnvironmentData } from '../../shared/interfaces/environment-data';
 import { environmentStore } from '../../shared/store/env-store';
 import { api } from '../../shared/utils/api';
@@ -77,6 +78,7 @@ export async function ThonLabsWrapper({
 
 	return (
 		<ThonLabsInternalProvider>
+			<SearchParamsWrapper />
 			<React.Suspense>
 				<ThonLabsSessionProvider
 					environmentData={
