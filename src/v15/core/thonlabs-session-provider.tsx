@@ -27,135 +27,135 @@ import ClientSessionService from '../services/client-session-service';
 */
 
 export interface ThonLabsSessionContextProps {
-	user: User | null;
-	environmentData: EnvironmentData | null;
+  user: User | null;
+  environmentData: EnvironmentData | null;
 }
 
 export const ThonLabsSessionContext =
-	React.createContext<ThonLabsSessionContextProps>({
-		user: {} as User,
-		environmentData: {} as EnvironmentData,
-	});
+  React.createContext<ThonLabsSessionContextProps>({
+    user: {} as User,
+    environmentData: {} as EnvironmentData
+  });
 
 export interface ThonLabsSessionProviderProps
-	extends React.HTMLAttributes<HTMLElement> {
-	environmentData: EnvironmentData;
-	environmentId: string;
-	publicKey: string;
-	redirectOnAuthenticated?: string;
+  extends React.HTMLAttributes<HTMLElement> {
+  environmentData: EnvironmentData;
+  environmentId: string;
+  publicKey: string;
+  redirectOnAuthenticated?: string;
 }
 
 export function ThonLabsSessionProvider({
-	environmentData,
-	children,
-	environmentId,
-	publicKey,
-	redirectOnAuthenticated,
+  environmentData,
+  children,
+  environmentId,
+  publicKey,
+  redirectOnAuthenticated
 }: ThonLabsSessionProviderProps) {
-	const pathname = usePathname();
-	const isPublicRoute = publicRoutes.some((route) =>
-		pathname.startsWith(route),
-	);
-	const searchParams = useSearchParams();
-	const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
+  const pathname = usePathname();
+  const isPublicRoute = publicRoutes.some((route) =>
+    pathname.startsWith(route)
+  );
+  const searchParams = useSearchParams();
+  const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
 
-	/*
+  /*
     This is a check to keep the session alive by
     triggering the validateSession inside middleware
     but only if the route is not public
   */
-	useSWR<EnvironmentData>(
-		() => !isPublicRoute && `/api/auth/alive`,
-		intFetcher,
-	);
+  useSWR<EnvironmentData>(
+    () => !isPublicRoute && `/api/auth/alive`,
+    intFetcher
+  );
 
-	const token = Cookies.get('tl_session');
-	// TODO: replaces by a "session" API call
-	const user = React.useMemo(() => ClientSessionService.getSession(), [token]);
-	const { data: clientEnvironmentData } = useSWR<EnvironmentData>(
-		`/environments/${environmentId}/data`,
-		fetcher({
-			environmentId,
-			publicKey,
-		}),
-	);
-	const { data: ssoProviders } = useSWR<EnvironmentData['ssoProviders']>(
-		`/environments/${environmentId}/credentials/sso/public`,
-		fetcher({
-			environmentId,
-			publicKey,
-		}),
-	);
-	const { previewMode, previewEnvironmentData } = usePreviewMode();
-	const memoClientEnvironmentData = React.useMemo<EnvironmentData>(() => {
-		const finalData = clientEnvironmentData || environmentData;
+  const token = Cookies.get('tl_session');
+  // TODO: replaces by a "session" API call
+  const user = React.useMemo(() => ClientSessionService.getSession(), [token]);
+  const { data: clientEnvironmentData } = useSWR<EnvironmentData>(
+    `/environments/${environmentId}/data`,
+    fetcher({
+      environmentId,
+      publicKey
+    })
+  );
+  const { data: ssoProviders } = useSWR<EnvironmentData['ssoProviders']>(
+    `/environments/${environmentId}/credentials/sso/public`,
+    fetcher({
+      environmentId,
+      publicKey
+    })
+  );
+  const { previewMode, previewEnvironmentData } = usePreviewMode();
+  const memoClientEnvironmentData = React.useMemo<EnvironmentData>(() => {
+    const finalData = clientEnvironmentData || environmentData;
 
-		if (ssoProviders) {
-			finalData.ssoProviders = ssoProviders;
-		}
+    if (ssoProviders) {
+      finalData.ssoProviders = ssoProviders;
+    }
 
-		if (redirectOnAuthenticated) {
-			finalData.redirectOnAuthenticated = redirectOnAuthenticated;
-		}
+    if (redirectOnAuthenticated) {
+      finalData.redirectOnAuthenticated = redirectOnAuthenticated;
+    }
 
-		if (previewMode) {
-			console.log('Collecting data from preview mode');
+    if (previewMode) {
+      console.log('Collecting data from preview mode');
 
-			return {
-				...finalData,
-				...previewEnvironmentData,
-			};
-		}
+      return {
+        ...finalData,
+        ...previewEnvironmentData
+      };
+    }
 
-		return finalData;
-	}, [
-		environmentId,
-		publicKey,
-		clientEnvironmentData,
-		previewEnvironmentData,
-		ssoProviders,
-		redirectOnAuthenticated,
-	]);
+    return finalData;
+  }, [
+    environmentId,
+    publicKey,
+    clientEnvironmentData,
+    previewEnvironmentData,
+    ssoProviders,
+    redirectOnAuthenticated
+  ]);
 
-	React.useEffect(() => {
-		if (!memoClientEnvironmentData?.sdkIntegrated) {
-			labsPublicAPI(`/environments/${environmentId}/data/integrated`, {
-				method: 'POST',
-				useEnvBaseURL: true,
-				environmentId,
-				publicKey,
-			});
-		}
-	}, [memoClientEnvironmentData]);
+  React.useEffect(() => {
+    if (!memoClientEnvironmentData?.sdkIntegrated) {
+      labsPublicAPI(`/environments/${environmentId}/data/integrated`, {
+        method: 'POST',
+        useEnvBaseURL: true,
+        environmentId,
+        publicKey
+      });
+    }
+  }, [memoClientEnvironmentData]);
 
-	/* 
+  /* 
     Don't render anything in case of logout
     it prevents the content of app conflicts with the ThonLabs context.
   */
-	if (pathname.startsWith('/auth/logout')) {
-		return <Logout />;
-	}
+  if (pathname.startsWith('/auth/logout')) {
+    return <Logout />;
+  }
 
-	if (searchParams.get('r')) {
-		return null;
-	}
+  if (searchParams.get('r')) {
+    return null;
+  }
 
-	return (
-		<ThonLabsSessionContext.Provider
-			value={{
-				environmentData: memoClientEnvironmentData || environmentData,
-				user,
-			}}
-		>
-			{isAuthRoute ? (
-				<ThemeProvider attribute="class" enableSystem disableTransitionOnChange>
-					<ShadowRoot appendCSS={[globalCSS, sonnerCSS]}>
-						<ThonLabsRoutesWrapper>{children}</ThonLabsRoutesWrapper>
-					</ShadowRoot>
-				</ThemeProvider>
-			) : (
-				children
-			)}
-		</ThonLabsSessionContext.Provider>
-	);
+  return (
+    <ThonLabsSessionContext.Provider
+      value={{
+        environmentData: memoClientEnvironmentData || environmentData,
+        user
+      }}
+    >
+      {isAuthRoute ? (
+        <ThemeProvider attribute="class" enableSystem disableTransitionOnChange>
+          <ShadowRoot appendCSS={[globalCSS, sonnerCSS]}>
+            <ThonLabsRoutesWrapper>{children}</ThonLabsRoutesWrapper>
+          </ShadowRoot>
+        </ThemeProvider>
+      ) : (
+        children
+      )}
+    </ThonLabsSessionContext.Provider>
+  );
 }

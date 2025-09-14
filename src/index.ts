@@ -1,12 +1,12 @@
 import { usePreviewMode } from './shared/hooks/use-preview-mode';
 import {
-	AuthProviders,
-	type EnvironmentData,
+  AuthProviders,
+  type EnvironmentData
 } from './shared/interfaces/environment-data';
 import {
-	SSOSocial,
-	SSOSocialKeys,
-	SSOSocialProvider,
+  SSOSocial,
+  SSOSocialKeys,
+  SSOSocialProvider
 } from './shared/interfaces/sso-social';
 import { APIResponseCodes, type ErrorResponse } from './shared/utils/errors';
 import { forwardSearchParams } from './shared/utils/helpers';
@@ -25,18 +25,18 @@ const generateAccessToken = ClientSessionService.generateAccessToken;
 export type { EnvironmentData, User, SessionData, ErrorResponse };
 
 export {
-	AuthProviders,
-	APIResponseCodes,
-	ThonLabsWrapper,
-	ThonLabsAuthPage,
-	useEnvironmentData,
-	useSession,
-	forwardSearchParams,
-	usePreviewMode,
-	ThonLabsAuthPagePreview,
-	SSOSocialProvider,
-	SSOSocial,
-	SSOSocialKeys,
-	getAccessToken,
-	generateAccessToken,
+  AuthProviders,
+  APIResponseCodes,
+  ThonLabsWrapper,
+  ThonLabsAuthPage,
+  useEnvironmentData,
+  useSession,
+  forwardSearchParams,
+  usePreviewMode,
+  ThonLabsAuthPagePreview,
+  SSOSocialProvider,
+  SSOSocial,
+  SSOSocialKeys,
+  getAccessToken,
+  generateAccessToken
 };

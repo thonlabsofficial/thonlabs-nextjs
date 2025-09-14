@@ -17,85 +17,85 @@ import { ThonLabsSessionProvider } from './thonlabs-session-provider';
 */
 
 export interface ThonLabsWrapperProps
-	extends React.HTMLAttributes<HTMLElement> {
-	environmentId: string;
-	publicKey: string;
-	authDomain: string;
-	redirectOnAuthenticated?: string;
+  extends React.HTMLAttributes<HTMLElement> {
+  environmentId: string;
+  publicKey: string;
+  authDomain: string;
+  redirectOnAuthenticated?: string;
 }
 
 export async function ThonLabsWrapper({
-	children,
-	environmentId,
-	publicKey,
-	authDomain,
-	redirectOnAuthenticated,
+  children,
+  environmentId,
+  publicKey,
+  authDomain,
+  redirectOnAuthenticated
 }: ThonLabsWrapperProps) {
-	if (!environmentId) {
-		Log.error({
-			action: 'ThonLabsWrapper',
-			message: 'ThonLabs Error: Environment ID is required.',
-		});
-		return null;
-	}
+  if (!environmentId) {
+    Log.error({
+      action: 'ThonLabsWrapper',
+      message: 'ThonLabs Error: Environment ID is required.'
+    });
+    return null;
+  }
 
-	if (!publicKey) {
-		Log.error({
-			action: 'ThonLabsWrapper',
-			message: 'ThonLabs Error: Public key is required.',
-		});
-		return null;
-	}
+  if (!publicKey) {
+    Log.error({
+      action: 'ThonLabsWrapper',
+      message: 'ThonLabs Error: Public key is required.'
+    });
+    return null;
+  }
 
-	environmentStore.setConfig({
-		environmentId,
-		publicKey,
-		authDomain,
-	} as EnvironmentData);
+  environmentStore.setConfig({
+    environmentId,
+    publicKey,
+    authDomain
+  } as EnvironmentData);
 
-	const environmentData = await api<EnvironmentData>(
-		`/environments/${environmentId}/data`,
-		{
-			environmentId,
-			publicKey,
-		},
-	);
+  const environmentData = await api<EnvironmentData>(
+    `/environments/${environmentId}/data`,
+    {
+      environmentId,
+      publicKey
+    }
+  );
 
-	if (!environmentData) {
-		Log.error({
-			action: 'ThonLabsWrapper',
-			message:
-				'ThonLabs Error: Environment data is unavailable. Please verify that the public key and environment settings are correct. You can find these values under settings page at https://app.thonlabs.io.',
-		});
-		return null;
-	}
+  if (!environmentData) {
+    Log.error({
+      action: 'ThonLabsWrapper',
+      message:
+        'ThonLabs Error: Environment data is unavailable. Please verify that the public key and environment settings are correct. You can find these values under settings page at https://app.thonlabs.io.'
+    });
+    return null;
+  }
 
-	const ssoProviders = await api<EnvironmentData['ssoProviders']>(
-		`/environments/${environmentId}/data/credentials/sso/public`,
-		{
-			environmentId,
-			publicKey,
-		},
-	);
+  const ssoProviders = await api<EnvironmentData['ssoProviders']>(
+    `/environments/${environmentId}/data/credentials/sso/public`,
+    {
+      environmentId,
+      publicKey
+    }
+  );
 
-	return (
-		<ThonLabsInternalProvider>
-			<SearchParamsWrapper />
-			<React.Suspense>
-				<ThonLabsSessionProvider
-					environmentData={
-						{
-							...environmentData,
-							ssoProviders,
-						} as EnvironmentData
-					}
-					environmentId={environmentId}
-					publicKey={publicKey}
-					redirectOnAuthenticated={redirectOnAuthenticated}
-				>
-					{children}
-				</ThonLabsSessionProvider>
-			</React.Suspense>
-		</ThonLabsInternalProvider>
-	);
+  return (
+    <ThonLabsInternalProvider>
+      <SearchParamsWrapper />
+      <React.Suspense>
+        <ThonLabsSessionProvider
+          environmentData={
+            {
+              ...environmentData,
+              ssoProviders
+            } as EnvironmentData
+          }
+          environmentId={environmentId}
+          publicKey={publicKey}
+          redirectOnAuthenticated={redirectOnAuthenticated}
+        >
+          {children}
+        </ThonLabsSessionProvider>
+      </React.Suspense>
+    </ThonLabsInternalProvider>
+  );
 }

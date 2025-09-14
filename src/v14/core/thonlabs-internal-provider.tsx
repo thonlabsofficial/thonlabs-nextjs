@@ -3,7 +3,7 @@
 import { SWRConfig } from 'swr';
 
 export function ThonLabsInternalProvider({
-	children,
+  children
 }: React.HTMLAttributes<HTMLElement>) {
-	return <SWRConfig>{children}</SWRConfig>;
+  return <SWRConfig>{children}</SWRConfig>;
 }

@@ -5,35 +5,35 @@ import ToasterObservableWrapper from './toaster-observable-wrapper';
 import Fonts from './fonts';
 
 export default function ThonLabsRoutesWrapper({
-	children,
+  children
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-	const { resolvedTheme } = useTheme();
+  const { resolvedTheme } = useTheme();
 
-	React.useEffect(() => {
-		const style = document.createElement('style');
-		style.textContent = `
+  React.useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
       body {
         margin: 0;
         padding: 0;
       }
     `;
-		document.head.appendChild(style);
-	}, []);
+    document.head.appendChild(style);
+  }, []);
 
-	return (
-		<>
-			<Fonts />
-			<ToasterObservableWrapper />
-			<div
-				className={cn(
-					resolvedTheme === 'dark' ? 'dark' : '',
-					'thonlabs tl-font-sans tl-w-full tl-min-h-screen tl-bg-background tl-text-text',
-				)}
-			>
-				{children}
-			</div>
-		</>
-	);
+  return (
+    <>
+      <Fonts />
+      <ToasterObservableWrapper />
+      <div
+        className={cn(
+          resolvedTheme === 'dark' ? 'dark' : '',
+          'thonlabs tl-font-sans tl-w-full tl-min-h-screen tl-bg-background tl-text-text'
+        )}
+      >
+        {children}
+      </div>
+    </>
+  );
 }

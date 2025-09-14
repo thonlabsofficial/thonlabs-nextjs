@@ -1,6 +1,6 @@
 import {
-	AuthProviders,
-	type EnvironmentData,
+  AuthProviders,
+  type EnvironmentData
 } from '../shared/interfaces/environment-data';
 import { SSOSocialProvider } from '../shared/interfaces/sso-social';
 import { APIResponseCodes, type ErrorResponse } from '../shared/utils/errors';
@@ -19,14 +19,14 @@ const generateAccessToken = ClientSessionService.generateAccessToken;
 export type { EnvironmentData, User, SessionData, ErrorResponse };
 
 export {
-	AuthProviders,
-	ThonLabsWrapper,
-	ThonLabsAuthPage,
-	useEnvironmentData,
-	useSession,
-	forwardSearchParams,
-	APIResponseCodes,
-	SSOSocialProvider,
-	getAccessToken,
-	generateAccessToken,
+  AuthProviders,
+  ThonLabsWrapper,
+  ThonLabsAuthPage,
+  useEnvironmentData,
+  useSession,
+  forwardSearchParams,
+  APIResponseCodes,
+  SSOSocialProvider,
+  getAccessToken,
+  generateAccessToken
 };

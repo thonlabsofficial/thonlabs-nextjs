@@ -3,49 +3,49 @@
 import ReactLoadingSkeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 function SkeletonProvider({ children }: React.HTMLAttributes<HTMLElement>) {
-	return (
-		<SkeletonTheme
-			baseColor="hsl(var(--skeleton-base))"
-			highlightColor="hsl(var(--skeleton-highlight))"
-		>
-			{children}
-		</SkeletonTheme>
-	);
+  return (
+    <SkeletonTheme
+      baseColor="hsl(var(--skeleton-base))"
+      highlightColor="hsl(var(--skeleton-highlight))"
+    >
+      {children}
+    </SkeletonTheme>
+  );
 }
 
 function SkeletonWrapper({ children }: React.HTMLAttributes<HTMLElement>) {
-	return <div className="tl-leading-[0]">{children}</div>;
+  return <div className="tl-leading-[0]">{children}</div>;
 }
 
 interface SkeletonProps
-	extends React.ComponentProps<typeof ReactLoadingSkeleton> {
-	forceTheme?: 'dark' | 'light';
+  extends React.ComponentProps<typeof ReactLoadingSkeleton> {
+  forceTheme?: 'dark' | 'light';
 }
 
 function Skeleton({ forceTheme, ...props }: SkeletonProps) {
-	let skeletonTheme = {};
+  let skeletonTheme = {};
 
-	if (forceTheme) {
-		if (forceTheme === 'light') {
-			skeletonTheme = {
-				baseColor: 'hsl(0 0% 90%)',
-				highlightColor: 'hsl(0 0% 85%)',
-			};
-		} else {
-			skeletonTheme = {
-				baseColor: 'hsl(0 0% 20%)',
-				highlightColor: 'hsl(0 0% 24%)',
-			};
-		}
-	}
+  if (forceTheme) {
+    if (forceTheme === 'light') {
+      skeletonTheme = {
+        baseColor: 'hsl(0 0% 90%)',
+        highlightColor: 'hsl(0 0% 85%)'
+      };
+    } else {
+      skeletonTheme = {
+        baseColor: 'hsl(0 0% 20%)',
+        highlightColor: 'hsl(0 0% 24%)'
+      };
+    }
+  }
 
-	return (
-		<ReactLoadingSkeleton
-			wrapper={SkeletonWrapper}
-			{...props}
-			{...skeletonTheme}
-		/>
-	);
+  return (
+    <ReactLoadingSkeleton
+      wrapper={SkeletonWrapper}
+      {...props}
+      {...skeletonTheme}
+    />
+  );
 }
 
 export { Skeleton, SkeletonProvider };
