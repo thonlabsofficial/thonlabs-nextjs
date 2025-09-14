@@ -1,0 +1,22 @@
+{
+	"name": "@thonlabs/config-biome",
+	"version": "1.0.0",
+	"description": "Shared Biome configuration for ThonLabs projects",
+	"main": "biome.base.json",
+	"files": [
+		"biome.base.json"
+	],
+	"keywords": [
+		"biome",
+		"config",
+		"linting",
+		"formatting",
+		"thonlabs"
+	],
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/thon-labs/thonlabs-nextjs.git",
+		"directory": "config-biome"
+	}
+}
