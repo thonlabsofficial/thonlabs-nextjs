@@ -32,6 +32,9 @@ importers:
       lucide-react:
         specifier: ^0.469.0
         version: 0.469.0(react@19.0.0)
+      next:
+        specifier: '>=13.0.0'
+        version: 15.3.2(@babel/core@7.19.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -111,9 +114,6 @@ importers:
       lint-staged:
         specifier: ^16.1.2
         version: 16.1.2
-      next:
-        specifier: ^15.3.2
-        version: 15.3.2(@babel/core@7.19.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       postcss:
         specifier: ^8.4.49
         version: 8.4.49

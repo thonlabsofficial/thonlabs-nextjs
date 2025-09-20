@@ -5,9 +5,10 @@ import { forwardSearchParams } from '../../shared/utils/helpers';
 import ServerSessionService from '../services/server-session-service';
 import Log from '../../shared/utils/log';
 
-type Params = Promise<{ thonlabs: string }>;
-
-export const POST = async (_: NextRequest, { params }: { params: Params }) => {
+export const POST = async (
+	_: NextRequest,
+	{ params }: { params: Promise<{ thonlabs: string[] }> },
+) => {
 	const { thonlabs } = await params;
 	const [action] = thonlabs;
 
@@ -25,7 +26,10 @@ export const POST = async (_: NextRequest, { params }: { params: Params }) => {
 	return notFound();
 };
 
-export const GET = async (req: NextRequest, { params }: { params: Params }) => {
+export const GET = async (
+	req: NextRequest,
+	{ params }: { params: Promise<{ thonlabs: string[] }> },
+) => {
 	let response;
 
 	const { thonlabs } = await params;
