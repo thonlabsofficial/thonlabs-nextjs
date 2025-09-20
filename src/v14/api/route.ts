@@ -7,7 +7,7 @@ import Log from '../../shared/utils/log';
 
 export const POST = async (
 	_: NextRequest,
-	{ params }: { params: { thonlabs: string } },
+	{ params }: { params: { thonlabs: string[] } },
 ) => {
 	const [action] = params.thonlabs;
 
@@ -27,7 +27,7 @@ export const POST = async (
 
 export const GET = async (
 	req: NextRequest,
-	{ params }: { params: { thonlabs: string } },
+	{ params }: { params: { thonlabs: string[] } },
 ) => {
 	let response;
 	const [action, param] = params.thonlabs;

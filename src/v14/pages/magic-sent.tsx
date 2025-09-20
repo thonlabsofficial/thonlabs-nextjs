@@ -1,3 +1,5 @@
+'use client';
+
 import { useEnvironmentData } from '../hooks/use-environment-data';
 import AuthHeader from './components/auth-header';
 import { CloseThisPageButton } from './components/close-this-page-button';

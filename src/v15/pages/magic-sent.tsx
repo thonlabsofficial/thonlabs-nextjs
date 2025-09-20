@@ -1,3 +1,5 @@
+'use client';
+
 import { cn } from '../../ui/core/utils';
 import { useEnvironmentData } from '../hooks/use-environment-data';
 import AuthHeader from './components/auth-header';
