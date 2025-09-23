@@ -39,16 +39,27 @@ export async function ThonLabsWrapper({
 		return null;
 	}
 
-	environmentStore.setConfig({
-		environmentId,
-		publicKey,
-		authDomain,
-	} as EnvironmentData);
+	try {
+		environmentStore.setConfig({
+			environmentId,
+			publicKey,
+			authDomain,
+		} as EnvironmentData);
+	} catch (error) {
+		Log.error({
+			action: 'ThonLabsWrapper',
+			message: 'ThonLabs Error: Failed to set environment data.',
+			error,
+		});
+		return null;
+	}
 
 	const headersList = await headers();
 	const isAuthRoute = authRoutes.some((route) =>
 		headersList.get('x-pathname')?.startsWith(route),
 	);
+
+	console.log('isAuthRoute', isAuthRoute);
 
 	return isAuthRoute ? (
 		<ThonLabsAuthRouteWrapper
