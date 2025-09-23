@@ -38,7 +38,7 @@ export const GET = async (
 	);
 	const [action, param] = thonlabs;
 
-	if (action !== 'alive' && !origin) {
+	if (!['alive', 'refresh-alive'].includes(action) && !origin) {
 		const message = 'The origin url is missing for this request';
 		Log.error({ action: 'GET Route v15', message });
 		return Response.json({ error: message }, { status: 400 });
@@ -47,6 +47,10 @@ export const GET = async (
 	switch (action) {
 		case 'alive':
 			return Response.json('', { status: 200 });
+
+		case 'refresh-alive':
+			response = await ServerSessionService.validateRefreshToken();
+			return Response.json('', { status: response.statusCode });
 
 		case 'magic':
 			if (!param) {
