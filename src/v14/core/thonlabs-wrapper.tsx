@@ -1,24 +1,10 @@
-import React from 'react';
+import type React from 'react';
 import { headers } from 'next/headers';
-import SearchParamsWrapper from '../../shared/components/search-params-wrapper';
-import type { EnvironmentData } from '../../shared/interfaces/environment-data';
-import { environmentStore } from '../../shared/store/env-store';
-import { api } from '../../shared/utils/api';
 import Log from '../../shared/utils/log';
-import { ThonLabsInternalProvider } from './thonlabs-internal-provider';
 import { ThonLabsSessionProvider } from './thonlabs-session-provider';
 import { authRoutes } from '../../shared/utils/constants';
 import SessionValidation from '../../shared/components/session-validation';
-import { ThonLabsEnvDataProvider } from '../../shared/components/thonlabs-env-data-provider';
-/*
-  This is a wrapper to get environment data from backend and forward to frontend.
-  The customers needs to implement this in their app to make things work.
-
-  Order is:
-    - Wrapper
-      - Session Provider
-        - General Provider
-*/
+import { ThonLabsAuthRouteWrapper } from '../../shared/components/thonlabs-auth-route-wrapper';
 
 export interface ThonLabsWrapperProps
 	extends React.HTMLAttributes<HTMLElement> {
@@ -32,7 +18,6 @@ export async function ThonLabsWrapper({
 	children,
 	environmentId,
 	publicKey,
-	authDomain,
 	redirectOnAuthenticated,
 }: ThonLabsWrapperProps) {
 	if (!environmentId) {
@@ -51,61 +36,19 @@ export async function ThonLabsWrapper({
 		return null;
 	}
 
-	environmentStore.setConfig({
-		environmentId,
-		publicKey,
-		authDomain,
-	} as EnvironmentData);
-
-	const environmentData = await api<EnvironmentData>(
-		`/environments/${environmentId}/data`,
-		{
-			environmentId,
-			publicKey,
-		},
-	);
-
-	if (!environmentData) {
-		Log.error({
-			action: 'ThonLabsWrapper',
-			message:
-				'ThonLabs Error: Environment data is unavailable. Please verify that the public key and environment settings are correct. You can find these values under settings page at https://app.thonlabs.io.',
-		});
-		return null;
-	}
-
-	const ssoProviders = await api<EnvironmentData['ssoProviders']>(
-		`/environments/${environmentId}/data/credentials/sso/public`,
-		{
-			environmentId,
-			publicKey,
-		},
-	);
-
 	const headersList = await headers();
 	const isAuthRoute = authRoutes.some((route) =>
 		headersList.get('x-pathname')?.startsWith(route),
 	);
 
 	return isAuthRoute ? (
-		<ThonLabsInternalProvider>
-			<SearchParamsWrapper />
-			<React.Suspense>
-				<ThonLabsEnvDataProvider
-					environmentData={
-						{
-							...environmentData,
-							ssoProviders,
-						} as EnvironmentData
-					}
-					environmentId={environmentId}
-					publicKey={publicKey}
-					redirectOnAuthenticated={redirectOnAuthenticated}
-				>
-					<ThonLabsSessionProvider>{children}</ThonLabsSessionProvider>
-				</ThonLabsEnvDataProvider>
-			</React.Suspense>
-		</ThonLabsInternalProvider>
+		<ThonLabsAuthRouteWrapper
+			environmentId={environmentId}
+			publicKey={publicKey}
+			redirectOnAuthenticated={redirectOnAuthenticated}
+		>
+			{children}
+		</ThonLabsAuthRouteWrapper>
 	) : (
 		<>
 			<SessionValidation />
