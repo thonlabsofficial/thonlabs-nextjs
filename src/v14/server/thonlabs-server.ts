@@ -85,8 +85,14 @@ export async function validateSession(
 			});
 
 			const url = getURLFromHost(req);
+			const isAliveRoute = req.nextUrl.pathname.startsWith('/api/auth/alive');
 
-			return new URL(`/auth/refresh?dest=${url.pathname}`, url.toString());
+			return new URL(
+				isAliveRoute
+					? '/api/auth/refresh-alive'
+					: `/auth/refresh?dest=${url.pathname}`,
+				url.toString(),
+			);
 		}
 	}
 

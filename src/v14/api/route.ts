@@ -35,13 +35,20 @@ export const GET = async (
 		req.nextUrl.searchParams.get('origin') || '',
 	);
 
-	if (action !== 'alive' && !origin) {
+	if (!['alive', 'refresh-alive'].includes(action) && !origin) {
 		const message = 'The origin url is missing for this request';
 		Log.error({ action: 'GET Route v14', message });
 		return Response.json({ error: message }, { status: 400 });
 	}
 
 	switch (action) {
+		case 'alive':
+			return Response.json('', { status: 200 });
+
+		case 'refresh-alive':
+			response = await ServerSessionService.validateRefreshToken();
+			return Response.json('', { status: response.statusCode });
+
 		case 'magic':
 			if (!param) {
 				return NextResponse.redirect(new URL('/auth/login', origin), 302);
@@ -122,9 +129,6 @@ export const GET = async (
 				),
 				302,
 			);
-
-		case 'alive':
-			return Response.json('', { status: 200 });
 
 		case 'sso': {
 			const [provider, code] = Buffer.from(param, 'base64')
