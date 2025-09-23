@@ -90,7 +90,9 @@ export async function validateSession(
 			const isAliveRoute = req.nextUrl.pathname.startsWith('/api/auth/alive');
 
 			return new URL(
-				`/auth/${isAliveRoute ? 'refresh-alive' : `refresh?dest=${url.pathname}`}`,
+				isAliveRoute
+					? '/api/auth/refresh-alive'
+					: `/auth/refresh?dest=${url.pathname}`,
 				url.toString(),
 			);
 		}
