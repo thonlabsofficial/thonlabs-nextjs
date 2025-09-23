@@ -1,4 +1,5 @@
 import React from 'react';
+import { headers } from 'next/headers';
 import SearchParamsWrapper from '../../shared/components/search-params-wrapper';
 import type { EnvironmentData } from '../../shared/interfaces/environment-data';
 import { environmentStore } from '../../shared/store/env-store';
@@ -6,6 +7,7 @@ import { api } from '../../shared/utils/api';
 import Log from '../../shared/utils/log';
 import { ThonLabsInternalProvider } from './thonlabs-internal-provider';
 import { ThonLabsSessionProvider } from './thonlabs-session-provider';
+import { authRoutes } from '../../shared/utils/constants';
 /*
   This is a wrapper to get environment data from backend and forward to frontend.
   The customers needs to implement this in their app to make things work.
@@ -78,7 +80,12 @@ export async function ThonLabsWrapper({
 		},
 	);
 
-	return (
+	const headersList = await headers();
+	const isAuthRoute = authRoutes.some((route) =>
+		headersList.get('x-pathname')?.startsWith(route),
+	);
+
+	return isAuthRoute ? (
 		<ThonLabsInternalProvider>
 			<SearchParamsWrapper />
 			<React.Suspense>
@@ -97,5 +104,7 @@ export async function ThonLabsWrapper({
 				</ThonLabsSessionProvider>
 			</React.Suspense>
 		</ThonLabsInternalProvider>
+	) : (
+		children
 	);
 }

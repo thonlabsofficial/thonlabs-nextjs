@@ -126,6 +126,7 @@ export function thonLabsConfig(
 	const isThonLabsPage = isThonLabsPageRoute(req);
 
 	headers.set('x-Auth-Powered-By', 'ThonLabs');
+	headers.set('x-pathname', req.nextUrl.pathname);
 
 	if (isThonLabsPage) {
 		headers.set('x-TL-Route', 'true');
