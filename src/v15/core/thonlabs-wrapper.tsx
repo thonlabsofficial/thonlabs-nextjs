@@ -8,6 +8,8 @@ import Log from '../../shared/utils/log';
 import { ThonLabsInternalProvider } from './thonlabs-internal-provider';
 import { ThonLabsSessionProvider } from './thonlabs-session-provider';
 import { authRoutes } from '../../shared/utils/constants';
+import SessionValidation from '../../shared/components/session-validation';
+import { ThonLabsEnvDataProvider } from '../../shared/components/thonlabs-env-data-provider';
 /*
   This is a wrapper to get environment data from backend and forward to frontend.
   The customers needs to implement this in their app to make things work.
@@ -89,7 +91,7 @@ export async function ThonLabsWrapper({
 		<ThonLabsInternalProvider>
 			<SearchParamsWrapper />
 			<React.Suspense>
-				<ThonLabsSessionProvider
+				<ThonLabsEnvDataProvider
 					environmentData={
 						{
 							...environmentData,
@@ -100,11 +102,14 @@ export async function ThonLabsWrapper({
 					publicKey={publicKey}
 					redirectOnAuthenticated={redirectOnAuthenticated}
 				>
-					{children}
-				</ThonLabsSessionProvider>
+					<ThonLabsSessionProvider>{children}</ThonLabsSessionProvider>
+				</ThonLabsEnvDataProvider>
 			</React.Suspense>
 		</ThonLabsInternalProvider>
 	) : (
-		children
+		<>
+			<SessionValidation />
+			<ThonLabsSessionProvider>{children}</ThonLabsSessionProvider>
+		</>
 	);
 }
