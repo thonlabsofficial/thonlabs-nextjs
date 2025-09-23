@@ -9,7 +9,7 @@ const Log = {
 	},
 	error(data: any) {
 		const timestamp = this.generateTimestamp();
-		console.log(`[${timestamp}] TL_ERROR: ${JSON.stringify(data)}`);
+		console.error(`[${timestamp}] TL_ERROR: ${JSON.stringify(data)}`);
 	},
 };
 
