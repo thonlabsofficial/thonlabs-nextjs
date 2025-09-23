@@ -56,9 +56,11 @@ export default function LoginForm() {
 				});
 				setLoading(false);
 			} else {
-				router.replace(
-					result.emailSent ? '/auth/magic' : redirectOnAuthenticated || '/',
-				);
+				if (result.emailSent) {
+					router.replace('/auth/magic');
+				} else {
+					window.location.href = redirectOnAuthenticated || '/';
+				}
 			}
 		} catch (e) {
 			console.error('Error loginForm.onSubmit: ', e);
