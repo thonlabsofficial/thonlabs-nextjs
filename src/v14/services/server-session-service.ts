@@ -63,6 +63,7 @@ const ServerSessionService = {
 				fullName: session.fullName,
 				email: session.email,
 				profilePicture: session.profilePicture,
+				organization: session.organization,
 			},
 		};
 	},
