@@ -17,7 +17,7 @@ export default function SessionValidation() {
 		// Reset after route change is complete
 		const timer = setTimeout(() => {
 			setIsRouteChanging(false);
-		}, 200);
+		}, 100);
 
 		return () => clearTimeout(timer);
 	}, [pathname]);
@@ -39,7 +39,9 @@ export default function SessionValidation() {
 		};
 
 		const handleFocus = () => {
-			callKeepAlive();
+			setTimeout(() => {
+				callKeepAlive();
+			}, 10);
 		};
 
 		window.addEventListener('focus', handleFocus);
