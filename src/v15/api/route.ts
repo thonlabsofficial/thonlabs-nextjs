@@ -118,13 +118,14 @@ export const GET = async (
 		case 'refresh':
 			response = await ServerSessionService.validateRefreshToken();
 
-			if (response.statusCode === 200) {
-				const searchParams = req.nextUrl.searchParams;
-				const to = searchParams.get('dest') || '/';
-				return NextResponse.redirect(new URL(to, origin), 302);
+			if (response.statusCode === 401) {
+				return NextResponse.redirect(new URL('/auth/logout', origin), 302);
 			}
 
-			return NextResponse.redirect(new URL('/auth/logout', origin), 302);
+			return NextResponse.redirect(
+				new URL(req.nextUrl.searchParams.get('dest') || '/', origin),
+				302,
+			);
 
 		case 'logout':
 			await ServerSessionService.logout();

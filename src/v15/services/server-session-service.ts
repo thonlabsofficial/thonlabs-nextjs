@@ -14,6 +14,12 @@ const ServerSessionService = {
 
 		const { set } = await cookies();
 
+		set('tl_user_id', data.userId, {
+			path: '/',
+			expires: Number.MAX_SAFE_INTEGER,
+			secure: process.env.NODE_ENV === 'production',
+		});
+
 		const expires = new Date(data.tokenExpiresIn);
 		set('tl_session', data.token, {
 			path: '/',
@@ -100,23 +106,39 @@ const ServerSessionService = {
 			};
 		}
 
+		const userId = get('tl_user_id');
+
+		if (!userId?.value) {
+			Log.error({
+				action: 'validateRefreshToken',
+				message: 'Invalid user id',
+			});
+
+			return {
+				statusCode: 401,
+			};
+		}
+
 		const response = await labsPublicAPI('/auth/refresh', {
 			method: 'POST',
 			body: JSON.stringify({
 				token: refreshToken.value,
 			}),
+			headers: {
+				'tl-user-id': userId.value,
+			},
 		});
 		const data = await response.json();
 
-		if (data.statusCode || data.error) {
+		if (response.status !== 201 || data.error) {
 			Log.error({
 				action: 'validateRefreshToken',
 				message: data?.error || data?.message || data?.statusMessage,
-				data,
+				data: { ...data, status: response.status },
 			});
 
 			return {
-				statusCode: 401,
+				statusCode: response.status || 401,
 				error: data?.error || data?.message,
 			};
 		}

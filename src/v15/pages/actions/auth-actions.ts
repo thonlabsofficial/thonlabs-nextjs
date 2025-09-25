@@ -32,6 +32,12 @@ export async function login(
 		if (data) {
 			const { set } = await cookies();
 
+			set('tl_user_id', data.userId, {
+				path: '/',
+				expires: Number.MAX_SAFE_INTEGER,
+				secure: process.env.NODE_ENV === 'production',
+			});
+
 			const expires = new Date(data.tokenExpiresIn);
 			set('tl_session', data.token, {
 				path: '/',
@@ -82,6 +88,12 @@ export async function signUp(
 
 		if (data) {
 			const { set } = await cookies();
+
+			set('tl_user_id', data.userId, {
+				path: '/',
+				expires: Number.MAX_SAFE_INTEGER,
+				secure: process.env.NODE_ENV === 'production',
+			});
 
 			const expires = new Date(data.tokenExpiresIn);
 			set('tl_session', data.token, {

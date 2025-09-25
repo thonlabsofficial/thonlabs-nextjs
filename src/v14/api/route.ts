@@ -116,9 +116,11 @@ export const GET = async (
 				const searchParams = req.nextUrl.searchParams;
 				const to = searchParams.get('dest') || '/';
 				return NextResponse.redirect(new URL(to, origin), 302);
+			} else if (response.statusCode === 401) {
+				return NextResponse.redirect(new URL('/auth/logout', origin), 302);
 			}
 
-			return NextResponse.redirect(new URL('/auth/logout', origin), 302);
+			return NextResponse.json({}, { status: response.statusCode });
 
 		case 'logout':
 			ServerSessionService.logout();

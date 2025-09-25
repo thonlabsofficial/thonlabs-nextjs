@@ -30,7 +30,13 @@ export async function validateSession(
 	req: NextRequest,
 	bypassRoutes: string[] = [],
 ) {
-	if (shouldBypassRoute(req, ['^/api/auth(?!/alive)', ...bypassRoutes])) {
+	if (
+		shouldBypassRoute(req, [
+			'^/api/auth(?!/alive)',
+			'/.well-known/appspecific/com.chrome.devtools.json',
+			...bypassRoutes,
+		])
+	) {
 		return new URL('/bypass', req.url);
 	}
 
