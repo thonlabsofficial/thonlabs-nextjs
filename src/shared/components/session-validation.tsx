@@ -40,7 +40,7 @@ export default function SessionValidation() {
 
 		let linkClicked = false;
 
-		const handleClick = (event: MouseEvent) => {
+		const handleMouseDown = (event: MouseEvent) => {
 			const target = event.target as HTMLElement;
 			if (target.closest('a[href]')) {
 				linkClicked = true;
@@ -58,11 +58,11 @@ export default function SessionValidation() {
 			}, 10);
 		};
 
-		document.addEventListener('click', handleClick, true);
+		document.addEventListener('mousedown', handleMouseDown, true);
 		window.addEventListener('focus', handleFocus);
 
 		return () => {
-			document.removeEventListener('click', handleClick, true);
+			document.removeEventListener('mousedown', handleMouseDown, true);
 			window.removeEventListener('focus', handleFocus);
 		};
 	}, [isPublicRoute, isRouteChanging]);
