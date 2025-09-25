@@ -28,8 +28,6 @@ export default function SessionValidation() {
     but only if the route is not public
   */
 	React.useEffect(() => {
-		let timeout: NodeJS.Timeout;
-
 		const callKeepAlive = async () => {
 			if (!isPublicRoute && !isRouteChanging) {
 				try {
@@ -40,16 +38,31 @@ export default function SessionValidation() {
 			}
 		};
 
-		const handleFocus = () => {
-			timeout = setTimeout(() => {
-				callKeepAlive();
-			}, 100);
+		let linkClicked = false;
+
+		const handleClick = (event: MouseEvent) => {
+			const target = event.target as HTMLElement;
+			if (target.closest('a[href]')) {
+				linkClicked = true;
+				setTimeout(() => {
+					linkClicked = false;
+				}, 100);
+			}
 		};
 
+		const handleFocus = () => {
+			setTimeout(() => {
+				if (!linkClicked) {
+					callKeepAlive();
+				}
+			}, 10);
+		};
+
+		document.addEventListener('click', handleClick, true);
 		window.addEventListener('focus', handleFocus);
 
 		return () => {
-			clearTimeout(timeout);
+			document.removeEventListener('click', handleClick, true);
 			window.removeEventListener('focus', handleFocus);
 		};
 	}, [isPublicRoute, isRouteChanging]);
