@@ -48,6 +48,7 @@ const ServerSessionService = {
 		const { get } = await cookies();
 
 		return {
+			userId: get('tl_user_id')?.value,
 			accessToken: get('tl_session')?.value,
 			refreshToken: get('tl_refresh')?.value,
 			keepAlive: get('tl_keep_alive')?.value === 'true',

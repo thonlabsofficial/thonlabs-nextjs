@@ -5,6 +5,8 @@ import { forwardSearchParams } from '../../shared/utils/helpers';
 import ServerSessionService from '../services/server-session-service';
 import Log from '../../shared/utils/log';
 
+const refreshingUsers = new Set();
+
 export const POST = async (
 	_: NextRequest,
 	{ params }: { params: Promise<{ thonlabs: string[] }> },
@@ -31,6 +33,7 @@ export const GET = async (
 	{ params }: { params: Promise<{ thonlabs: string[] }> },
 ) => {
 	let response;
+	let session;
 
 	const { thonlabs } = await params;
 	const origin = decodeURIComponent(
@@ -49,6 +52,17 @@ export const GET = async (
 			return Response.json('', { status: 200 });
 
 		case 'refresh-alive':
+			session = await ServerSessionService.getSessionCookies();
+
+			if (refreshingUsers.has(session.userId)) {
+				Log.info({
+					action: 'refresh-alive',
+					message: 'User is refreshing, preventing race condition',
+					userId: session.userId,
+				});
+				return Response.json('', { status: 200 });
+			}
+
 			response = await ServerSessionService.validateRefreshToken();
 			return Response.json('', { status: response.statusCode });
 
@@ -116,7 +130,12 @@ export const GET = async (
 		}
 
 		case 'refresh':
+			session = await ServerSessionService.getSessionCookies();
+			refreshingUsers.add(session.userId);
+
 			response = await ServerSessionService.validateRefreshToken();
+
+			refreshingUsers.delete(session.userId);
 
 			if (response.statusCode === 401) {
 				return NextResponse.redirect(new URL('/auth/logout', origin), 302);
