@@ -9,6 +9,7 @@ export default function SessionValidation() {
 	const isPublicRoute = publicRoutes.some((route) =>
 		pathname.startsWith(route),
 	);
+	const isRouteChanging = React.useRef(false);
 
 	/*
     This is a check to keep the session alive by
@@ -27,9 +28,14 @@ export default function SessionValidation() {
 		};
 
 		const handleFocus = () => {
+			if (isRouteChanging.current) {
+				return;
+			}
+
 			callKeepAlive();
 		};
 
+		isRouteChanging.current = false;
 		callKeepAlive();
 
 		window.addEventListener('focus', handleFocus);
@@ -38,6 +44,12 @@ export default function SessionValidation() {
 			window.removeEventListener('focus', handleFocus);
 		};
 	}, [isPublicRoute]);
+
+	React.useEffect(() => {
+		return () => {
+			isRouteChanging.current = true;
+		};
+	}, [pathname]);
 
 	return null;
 }
