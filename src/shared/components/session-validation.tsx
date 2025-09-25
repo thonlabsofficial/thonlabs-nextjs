@@ -17,7 +17,7 @@ export default function SessionValidation() {
 		// Reset after route change is complete
 		const timer = setTimeout(() => {
 			setIsRouteChanging(false);
-		}, 100);
+		}, 150);
 
 		return () => clearTimeout(timer);
 	}, [pathname]);
@@ -28,6 +28,8 @@ export default function SessionValidation() {
     but only if the route is not public
   */
 	React.useEffect(() => {
+		let timeout: NodeJS.Timeout;
+
 		const callKeepAlive = async () => {
 			if (!isPublicRoute && !isRouteChanging) {
 				try {
@@ -39,14 +41,15 @@ export default function SessionValidation() {
 		};
 
 		const handleFocus = () => {
-			setTimeout(() => {
+			timeout = setTimeout(() => {
 				callKeepAlive();
-			}, 10);
+			}, 100);
 		};
 
 		window.addEventListener('focus', handleFocus);
 
 		return () => {
+			clearTimeout(timeout);
 			window.removeEventListener('focus', handleFocus);
 		};
 	}, [isPublicRoute, isRouteChanging]);
