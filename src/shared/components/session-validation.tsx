@@ -10,21 +10,16 @@ export default function SessionValidation() {
 		pathname.startsWith(route),
 	);
 	const [isRouteChanging, setIsRouteChanging] = React.useState(false);
-	const previousPathnameRef = React.useRef(pathname);
 
 	React.useEffect(() => {
-		if (previousPathnameRef.current !== pathname) {
-			setIsRouteChanging(true);
+		setIsRouteChanging(true);
 
-			// Reset after route change is complete
-			const timer = setTimeout(() => {
-				setIsRouteChanging(false);
-			}, 100);
+		// Reset after route change is complete
+		const timer = setTimeout(() => {
+			setIsRouteChanging(false);
+		}, 200);
 
-			previousPathnameRef.current = pathname;
-
-			return () => clearTimeout(timer);
-		}
+		return () => clearTimeout(timer);
 	}, [pathname]);
 
 	/*
@@ -34,7 +29,7 @@ export default function SessionValidation() {
   */
 	React.useEffect(() => {
 		const callKeepAlive = async () => {
-			if (!isPublicRoute) {
+			if (!isPublicRoute && !isRouteChanging) {
 				try {
 					await fetch('/api/auth/alive');
 				} catch (error) {
@@ -44,14 +39,8 @@ export default function SessionValidation() {
 		};
 
 		const handleFocus = () => {
-			if (!isRouteChanging) {
-				callKeepAlive();
-			}
-		};
-
-		if (!isRouteChanging) {
 			callKeepAlive();
-		}
+		};
 
 		window.addEventListener('focus', handleFocus);
 
