@@ -9,7 +9,23 @@ export default function SessionValidation() {
 	const isPublicRoute = publicRoutes.some((route) =>
 		pathname.startsWith(route),
 	);
-	const isRouteChanging = React.useRef(false);
+	const [isRouteChanging, setIsRouteChanging] = React.useState(false);
+	const previousPathnameRef = React.useRef(pathname);
+
+	React.useEffect(() => {
+		if (previousPathnameRef.current !== pathname) {
+			setIsRouteChanging(true);
+
+			// Reset after route change is complete
+			const timer = setTimeout(() => {
+				setIsRouteChanging(false);
+			}, 100);
+
+			previousPathnameRef.current = pathname;
+
+			return () => clearTimeout(timer);
+		}
+	}, [pathname]);
 
 	/*
     This is a check to keep the session alive by
@@ -28,28 +44,21 @@ export default function SessionValidation() {
 		};
 
 		const handleFocus = () => {
-			if (isRouteChanging.current) {
-				return;
+			if (!isRouteChanging) {
+				callKeepAlive();
 			}
-
-			callKeepAlive();
 		};
 
-		isRouteChanging.current = false;
-		callKeepAlive();
+		if (!isRouteChanging) {
+			callKeepAlive();
+		}
 
 		window.addEventListener('focus', handleFocus);
 
 		return () => {
 			window.removeEventListener('focus', handleFocus);
 		};
-	}, [isPublicRoute]);
-
-	React.useEffect(() => {
-		return () => {
-			isRouteChanging.current = true;
-		};
-	}, [pathname]);
+	}, [isPublicRoute, isRouteChanging]);
 
 	return null;
 }
