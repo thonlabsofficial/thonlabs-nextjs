@@ -28,6 +28,7 @@ export interface ThonLabsEnvDataProviderProps
 	environmentId: string;
 	publicKey: string;
 	redirectOnAuthenticated?: string;
+	withShadowRoot?: boolean;
 }
 
 export function ThonLabsEnvDataProvider({
@@ -36,6 +37,7 @@ export function ThonLabsEnvDataProvider({
 	environmentId,
 	publicKey,
 	redirectOnAuthenticated,
+	withShadowRoot = true,
 }: ThonLabsEnvDataProviderProps) {
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
@@ -115,9 +117,13 @@ export function ThonLabsEnvDataProvider({
 			}}
 		>
 			<ThemeProvider attribute="class" enableSystem disableTransitionOnChange>
-				<ShadowRoot appendCSS={[globalCSS, sonnerCSS]}>
+				{withShadowRoot ? (
+					<ShadowRoot appendCSS={[globalCSS, sonnerCSS]}>
+						<ThonLabsRoutesWrapper>{children}</ThonLabsRoutesWrapper>
+					</ShadowRoot>
+				) : (
 					<ThonLabsRoutesWrapper>{children}</ThonLabsRoutesWrapper>
-				</ShadowRoot>
+				)}
 			</ThemeProvider>
 		</ThonLabsEnvDataContext.Provider>
 	);
