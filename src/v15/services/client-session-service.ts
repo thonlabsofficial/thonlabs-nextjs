@@ -54,7 +54,13 @@ const ClientSessionService = {
 
 		return refreshPromise;
 	},
-	getSession({ authDomain }: { authDomain: string }): Promise<User | null> {
+	getSession({
+		authDomain,
+		environmentId,
+	}: {
+		authDomain: string;
+		environmentId: string;
+	}): Promise<User | null> {
 		const accessToken = Cookies.get('tl_session');
 
 		if (!accessToken) {
@@ -63,6 +69,7 @@ const ClientSessionService = {
 
 		return labsPublicAPI('/auth/session', {
 			authDomain,
+			environmentId,
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 			},

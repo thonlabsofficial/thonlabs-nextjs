@@ -19,14 +19,16 @@ export const ThonLabsSessionContext =
 export interface ThonLabsSessionProviderProps
 	extends React.HTMLAttributes<HTMLElement> {
 	authDomain: string;
+	environmentId: string;
 }
 
 export function ThonLabsSessionProvider({
 	authDomain,
+	environmentId,
 	children,
 }: ThonLabsSessionProviderProps) {
 	const { data, isLoading: isLoadingSession } = useSWR('/auth/session', () =>
-		ClientSessionService.getSession({ authDomain }),
+		ClientSessionService.getSession({ authDomain, environmentId }),
 	);
 	const user = React.useMemo(() => data || null, [data]);
 

@@ -61,7 +61,10 @@ export async function ThonLabsWrapper({
 	) : (
 		<ThonLabsInternalProvider>
 			<RefreshDetector />
-			<ThonLabsSessionProvider authDomain={authDomain}>
+			<ThonLabsSessionProvider
+				environmentId={environmentId}
+				authDomain={authDomain}
+			>
 				{children}
 			</ThonLabsSessionProvider>
 		</ThonLabsInternalProvider>
