@@ -31,7 +31,7 @@ export async function ThonLabsAuthRouteWrapper({
 		Log.error({
 			action: 'ThonLabsWrapper',
 			message:
-				'ThonLabs Error: Environment data is unavailable. Please verify that the public key and environment settings are correct. You can find these values under settings page at https://app.thonlabs.io.',
+				'ThonLabs Error: Environment data is unavailable. Please verify the credentials is matching with the environment. You can find these values under settings page at https://app.thonlabs.io.',
 		});
 		return null;
 	}

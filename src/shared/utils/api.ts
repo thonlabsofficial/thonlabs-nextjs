@@ -2,6 +2,7 @@ import { environmentStore } from '../store/env-store';
 import { publicRoutes } from './constants';
 import { APIResponseCodes } from './errors';
 import { isLocalhost } from './helpers';
+import Log from './log';
 
 export const api = <T>(
 	url: string,
@@ -111,7 +112,15 @@ function getBaseURL(useEnvBaseURL: boolean = false) {
 
 	let authDomain: string = config?.authDomain || '';
 	if (!config?.authDomain || useEnvBaseURL) {
-		authDomain = process.env.NEXT_PUBLIC_TL_AUTH_DOMAIN as string;
+		authDomain = (process.env.TL_AUTH_DOMAIN ||
+			process.env.NEXT_PUBLIC_TL_AUTH_DOMAIN) as string;
+	}
+
+	if (!authDomain) {
+		const message =
+			'ThonLabs Error: Environment variable TL_AUTH_DOMAIN is not set or not being forwarded to <ThonLabsWrapper /> component. You can find these values under settings page at https://app.thonlabs.io.';
+		Log.error({ action: 'getBaseURL', message });
+		throw new Error(message);
 	}
 
 	return `${isLocalhost(authDomain) ? 'http' : 'https'}://${authDomain}`;
