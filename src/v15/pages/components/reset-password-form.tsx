@@ -9,7 +9,7 @@ import Log from '../../../shared/utils/log';
 import { Button } from '../../../ui/components/button';
 import { Input, InputWrapper } from '../../../ui/components/input';
 import { useToast } from '../../../ui/hooks/use-toast';
-import { useEnvironmentData } from '../../hooks/use-environment-data';
+import { useEnvironmentData } from '../../../shared/hooks/use-environment-data';
 import { resetPassword } from '../actions/auth-actions';
 import {
 	type ResetPasswordFormData,

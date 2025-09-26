@@ -3,7 +3,7 @@
 import type React from 'react';
 import { Typo } from '../../../ui/components/typo';
 import { cn } from '../../../ui/core/utils';
-import { useEnvironmentData } from '../../hooks/use-environment-data';
+import { useEnvironmentData } from '../../../shared/hooks/use-environment-data';
 
 type Props = {
 	title: React.ReactNode;

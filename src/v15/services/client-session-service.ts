@@ -1,9 +1,9 @@
 import * as jose from 'jose';
 import Cookies from 'js-cookie';
-import { intAPI } from '../../shared/utils/api';
+import { intAPI, labsPublicAPI } from '../../shared/utils/api';
 import { APIResponseCodes } from '../../shared/utils/errors';
 import { delay } from '../../shared/utils/helpers';
-import type { User } from '../interfaces/user';
+import type { User } from '../../shared/interfaces/user';
 
 let accessToken: string = '';
 let refreshPromise: Promise<string> | null = null;
@@ -54,22 +54,18 @@ const ClientSessionService = {
 
 		return refreshPromise;
 	},
-	getSession(): User | null {
+	getSession(): Promise<User | null> {
 		const accessToken = Cookies.get('tl_session');
 
 		if (!accessToken) {
-			return null;
+			return Promise.resolve(null);
 		}
 
-		const session = jose.decodeJwt<User>(accessToken as string);
-
-		return {
-			id: session.sub as string,
-			fullName: session.fullName,
-			email: session.email,
-			profilePicture: session.profilePicture,
-			organization: session.organization,
-		};
+		return labsPublicAPI('/auth/session', {
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		}).then((response) => response.json());
 	},
 	redirectToLogout() {
 		intAPI('/api/auth/logout', { method: 'POST' }).then(() => {

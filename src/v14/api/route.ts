@@ -3,7 +3,6 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { APIResponseCodes } from '../../shared/utils/errors';
 import { forwardSearchParams } from '../../shared/utils/helpers';
 import ServerSessionService from '../services/server-session-service';
-import Log from '../../shared/utils/log';
 
 export const POST = async (
 	_: NextRequest,

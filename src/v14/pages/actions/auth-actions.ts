@@ -3,8 +3,8 @@
 import { labsPublicAPI } from '../../../shared/utils/api';
 import type { ErrorResponse } from '../../../shared/utils/errors';
 import Log from '../../../shared/utils/log';
-import type { SessionData } from '../../interfaces/session-data';
 import ServerSessionService from '../../services/server-session-service';
+import type { SessionData } from '../../../shared/interfaces/session-data';
 import type {
 	CreateNewPasswordFormData,
 	LoginFormData,

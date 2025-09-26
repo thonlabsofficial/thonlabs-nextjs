@@ -1,17 +1,19 @@
 'use client';
 
-import Cookies from 'js-cookie';
 import React from 'react';
-import type { User } from '../interfaces/user';
-import ClientSessionService from '../services/client-session-service';
+import type { User } from '../../shared/interfaces/user';
+import ClientSessionService from '../../v15/services/client-session-service';
+import useSWR from 'swr';
 
 export interface ThonLabsSessionContextProps {
 	user: User | null;
+	isLoadingSession: boolean;
 }
 
 export const ThonLabsSessionContext =
 	React.createContext<ThonLabsSessionContextProps>({
 		user: {} as User,
+		isLoadingSession: false,
 	});
 
 export interface ThonLabsSessionProviderProps
@@ -20,14 +22,17 @@ export interface ThonLabsSessionProviderProps
 export function ThonLabsSessionProvider({
 	children,
 }: ThonLabsSessionProviderProps) {
-	const token = Cookies.get('tl_session');
-	// TODO: replaces by a "session" API call
-	const user = React.useMemo(() => ClientSessionService.getSession(), [token]);
+	const { data, isLoading: isLoadingSession } = useSWR(
+		'/auth/session',
+		ClientSessionService.getSession,
+	);
+	const user = React.useMemo(() => data || null, [data]);
 
 	return (
 		<ThonLabsSessionContext.Provider
 			value={{
 				user,
+				isLoadingSession,
 			}}
 		>
 			{children}

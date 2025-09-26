@@ -1,9 +1,9 @@
 import React from 'react';
-import { ThonLabsSessionContext } from '../core/thonlabs-session-provider';
-import ClientSessionService from '../services/client-session-service';
+import { ThonLabsSessionContext } from '../providers/thonlabs-session-provider';
+import ClientSessionService from '../../v15/services/client-session-service';
 
 export function useSession() {
-	const { user } = React.useContext(ThonLabsSessionContext);
+	const sessionContext = React.useContext(ThonLabsSessionContext);
 	const [isLoggingOut, setIsLoggingOut] = React.useState(false);
 
 	async function logout() {
@@ -18,7 +18,7 @@ export function useSession() {
 	}
 
 	return {
-		user,
+		...sessionContext,
 		logout,
 		isLoggingOut,
 	};

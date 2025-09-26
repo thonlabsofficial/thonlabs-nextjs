@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import { intAPI } from '../../shared/utils/api';
 import { APIResponseCodes } from '../../shared/utils/errors';
 import { delay } from '../../shared/utils/helpers';
-import type { User } from '../interfaces/user';
+import type { User } from '../../shared/interfaces/user';
 
 let accessToken: string = '';
 let refreshPromise: Promise<string> | null = null;

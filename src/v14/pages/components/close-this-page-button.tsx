@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '../../../ui/components/button';
-import { useEnvironmentData } from '../../hooks/use-environment-data';
+import { useEnvironmentData } from '../../../shared/hooks/use-environment-data';
 
 export function CloseThisPageButton() {
 	const { styles } = useEnvironmentData();

@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '../../ui/core/utils';
-import { useEnvironmentData } from '../hooks/use-environment-data';
+import { useEnvironmentData } from '../../shared/hooks/use-environment-data';
 import AuthHeader from './components/auth-header';
 import { CloseThisPageButton } from './components/close-this-page-button';
 import LandingGrid from './components/landing-grid';

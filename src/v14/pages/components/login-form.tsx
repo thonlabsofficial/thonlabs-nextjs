@@ -12,7 +12,7 @@ import { Input, InputWrapper } from '../../../ui/components/input';
 import { Label } from '../../../ui/components/label';
 import { Typo } from '../../../ui/components/typo';
 import { useToast } from '../../../ui/hooks/use-toast';
-import { useEnvironmentData } from '../../hooks/use-environment-data';
+import { useEnvironmentData } from '../../../shared/hooks/use-environment-data';
 import { login } from '../actions/auth-actions';
 import {
 	type LoginFormData,

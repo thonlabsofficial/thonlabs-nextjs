@@ -2,8 +2,8 @@ import * as jose from 'jose';
 import { cookies } from 'next/headers';
 import { labsPublicAPI } from '../../shared/utils/api';
 import Log from '../../shared/utils/log';
-import type { SessionData } from '../interfaces/session-data';
-import type { User } from '../interfaces/user';
+import type { SessionData } from '../../shared/interfaces/session-data';
+import type { User } from '../../shared/interfaces/user';
 import { delay } from '../../shared/utils/helpers';
 
 const ServerSessionService = {
@@ -58,16 +58,28 @@ const ServerSessionService = {
 			};
 		}
 
-		const session = jose.decodeJwt<User>(accessToken?.value as string);
+		const response = await labsPublicAPI(`/auth/session`, {
+			headers: {
+				Authorization: `Bearer ${accessToken.value}`,
+			},
+		});
+
+		if (!response.ok) {
+			Log.error({
+				action: 'getSession',
+				message: 'Failed to get session',
+				statusCode: response.status,
+			});
+
+			return {
+				user: null,
+			};
+		}
+
+		const user = (await response.json()) as User;
 
 		return {
-			user: {
-				id: session.sub as string,
-				fullName: session.fullName,
-				email: session.email,
-				profilePicture: session.profilePicture,
-				organization: session.organization,
-			},
+			user,
 		};
 	},
 

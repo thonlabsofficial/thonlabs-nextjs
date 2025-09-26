@@ -1,6 +1,6 @@
 'use client';
 
-import { useEnvironmentData } from '../../v15/hooks/use-environment-data';
+import { useEnvironmentData } from '../hooks/use-environment-data';
 import SSOGoogle from '../components/sso-google';
 import { usePreviewMode } from '../hooks/use-preview-mode';
 import { type SSOSocial, SSOSocialProvider } from '../interfaces/sso-social';

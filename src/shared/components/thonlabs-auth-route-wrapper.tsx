@@ -3,7 +3,7 @@ import SearchParamsWrapper from './search-params-wrapper';
 import type { EnvironmentData } from '../interfaces/environment-data';
 import { api } from '../utils/api';
 import Log from '../utils/log';
-import { ThonLabsInternalProvider } from '../../v15/core/thonlabs-internal-provider';
+import { ThonLabsInternalProvider } from '../providers/thonlabs-internal-provider';
 import { ThonLabsEnvDataProvider } from './thonlabs-env-data-provider';
 
 export interface ThonLabsAuthRouteWrapperProps
