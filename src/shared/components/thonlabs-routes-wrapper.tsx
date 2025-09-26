@@ -1,8 +1,11 @@
+'use client';
+
 import { useTheme } from 'next-themes';
 import React from 'react';
 import { cn } from '../../ui/core/utils';
 import ToasterObservableWrapper from './toaster-observable-wrapper';
 import Fonts from './fonts';
+import { usePreviewMode } from '../hooks/use-preview-mode';
 
 export default function ThonLabsRoutesWrapper({
 	children,
@@ -10,6 +13,7 @@ export default function ThonLabsRoutesWrapper({
 	children: React.ReactNode;
 }) {
 	const { resolvedTheme } = useTheme();
+	const { previewMode } = usePreviewMode();
 
 	React.useEffect(() => {
 		const style = document.createElement('style');
@@ -24,11 +28,15 @@ export default function ThonLabsRoutesWrapper({
 
 	return (
 		<>
-			<Fonts />
-			<ToasterObservableWrapper />
+			{!previewMode && (
+				<>
+					<Fonts />
+					<ToasterObservableWrapper />
+				</>
+			)}
 			<div
 				className={cn(
-					resolvedTheme === 'dark' ? 'dark' : '',
+					previewMode ? '' : resolvedTheme === 'dark' ? 'dark' : '',
 					'thonlabs tl-font-sans tl-w-full tl-min-h-screen tl-bg-background tl-text-text',
 				)}
 			>
