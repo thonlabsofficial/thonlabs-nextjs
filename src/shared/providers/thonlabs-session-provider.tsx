@@ -17,14 +17,16 @@ export const ThonLabsSessionContext =
 	});
 
 export interface ThonLabsSessionProviderProps
-	extends React.HTMLAttributes<HTMLElement> {}
+	extends React.HTMLAttributes<HTMLElement> {
+	authDomain: string;
+}
 
 export function ThonLabsSessionProvider({
+	authDomain,
 	children,
 }: ThonLabsSessionProviderProps) {
-	const { data, isLoading: isLoadingSession } = useSWR(
-		'/auth/session',
-		ClientSessionService.getSession,
+	const { data, isLoading: isLoadingSession } = useSWR('/auth/session', () =>
+		ClientSessionService.getSession({ authDomain }),
 	);
 	const user = React.useMemo(() => data || null, [data]);
 

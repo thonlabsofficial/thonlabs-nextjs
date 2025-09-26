@@ -5,7 +5,7 @@ import {
 import { SSOSocialProvider } from '../shared/interfaces/sso-social';
 import { APIResponseCodes, type ErrorResponse } from '../shared/utils/errors';
 import { forwardSearchParams } from '../shared/utils/helpers';
-import { ThonLabsWrapper } from './core/thonlabs-wrapper';
+import { ThonLabsWrapper } from '../shared/providers/thonlabs-wrapper';
 import { useEnvironmentData } from '../shared/hooks/use-environment-data';
 import { useSession } from '../shared/hooks/use-session';
 import type { SessionData } from '../shared/interfaces/session-data';

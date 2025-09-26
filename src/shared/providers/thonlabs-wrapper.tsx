@@ -1,11 +1,12 @@
 import type React from 'react';
-import { headers } from 'next/headers';
-import Log from '../../shared/utils/log';
-import { ThonLabsSessionProvider } from '../../shared/providers/thonlabs-session-provider';
-import { authRoutes } from '../../shared/utils/constants';
-import { ThonLabsAuthRouteWrapper } from '../../shared/components/thonlabs-auth-route-wrapper';
-import { RefreshDetector } from '../../shared/components/refresh-detector';
-import { ThonLabsInternalProvider } from '../../shared/providers/thonlabs-internal-provider';
+import type { EnvironmentData } from '../interfaces/environment-data';
+import { environmentStore } from '../store/env-store';
+import Log from '../utils/log';
+import { ThonLabsSessionProvider } from './thonlabs-session-provider';
+import { authRoutes } from '../utils/constants';
+import { ThonLabsAuthRouteWrapper } from '../components/thonlabs-auth-route-wrapper';
+import { RefreshDetector } from '../components/refresh-detector';
+import { ThonLabsInternalProvider } from './thonlabs-internal-provider';
 
 export interface ThonLabsWrapperProps
 	extends React.HTMLAttributes<HTMLElement> {
@@ -19,6 +20,7 @@ export async function ThonLabsWrapper({
 	children,
 	environmentId,
 	publicKey,
+	authDomain,
 	redirectOnAuthenticated,
 }: ThonLabsWrapperProps) {
 	if (!environmentId) {
@@ -37,7 +39,13 @@ export async function ThonLabsWrapper({
 		return null;
 	}
 
-	const headersList = await headers();
+	environmentStore.setConfig({
+		environmentId,
+		publicKey,
+		authDomain,
+	} as EnvironmentData);
+
+	const headersList = await require('next/headers').headers();
 	const isAuthRoute = authRoutes.some((route) =>
 		headersList.get('x-pathname')?.startsWith(route),
 	);
@@ -52,8 +60,8 @@ export async function ThonLabsWrapper({
 		</ThonLabsAuthRouteWrapper>
 	) : (
 		<ThonLabsInternalProvider>
-			<ThonLabsSessionProvider>
-				<RefreshDetector />
+			<RefreshDetector />
+			<ThonLabsSessionProvider authDomain={authDomain}>
 				{children}
 			</ThonLabsSessionProvider>
 		</ThonLabsInternalProvider>

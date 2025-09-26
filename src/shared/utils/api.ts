@@ -79,11 +79,13 @@ export async function labsPublicAPI(
 		useEnvBaseURL,
 		environmentId,
 		publicKey,
+		authDomain,
 		...options
 	}: RequestInit & {
 		useEnvBaseURL?: boolean;
 		environmentId?: string;
 		publicKey?: string;
+		authDomain?: string;
 	} = {},
 ) {
 	const config = environmentStore.getConfig();
@@ -98,7 +100,10 @@ export async function labsPublicAPI(
 		},
 	};
 
-	const response = await fetch(`${getBaseURL(useEnvBaseURL)}${url}`, params);
+	const response = await fetch(
+		`${getBaseURL(useEnvBaseURL, authDomain)}${url}`,
+		params,
+	);
 
 	if (!response.ok && !publicRoutes.some((route) => url.startsWith(route))) {
 		return await handleResponseError(response);
@@ -107,21 +112,21 @@ export async function labsPublicAPI(
 	return response;
 }
 
-function getBaseURL(useEnvBaseURL: boolean = false) {
+function getBaseURL(useEnvBaseURL: boolean = false, authDomain?: string) {
 	const config = environmentStore.getConfig();
 
-	let authDomain: string = config?.authDomain || '';
-	if (!config?.authDomain || useEnvBaseURL) {
-		authDomain = (process.env.TL_AUTH_DOMAIN ||
+	let finalAuthDomain: string = authDomain || config?.authDomain || '';
+	if (!finalAuthDomain || useEnvBaseURL) {
+		finalAuthDomain = (process.env.TL_AUTH_DOMAIN ||
 			process.env.NEXT_PUBLIC_TL_AUTH_DOMAIN) as string;
 	}
 
-	if (!authDomain) {
+	if (!finalAuthDomain) {
 		const message =
 			'ThonLabs Error: Environment variable TL_AUTH_DOMAIN is not set or not being forwarded to <ThonLabsWrapper /> component. You can find these values under settings page at https://app.thonlabs.io.';
 		Log.error({ action: 'getBaseURL', message });
 		throw new Error(message);
 	}
 
-	return `${isLocalhost(authDomain) ? 'http' : 'https'}://${authDomain}`;
+	return `${isLocalhost(finalAuthDomain) ? 'http' : 'https'}://${finalAuthDomain}`;
 }
