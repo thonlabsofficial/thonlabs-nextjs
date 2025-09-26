@@ -89,14 +89,22 @@ export async function labsPublicAPI(
 	} = {},
 ) {
 	const config = environmentStore.getConfig();
+	const headersPayload = {
+		environmentId: environmentId || config!.environmentId,
+		publicKey: publicKey || config!.publicKey,
+	};
 
 	const params = {
 		...options,
 		headers: {
 			'Content-Type': 'application/json',
 			...options.headers,
-			'tl-env-id': environmentId || config!.environmentId,
-			'tl-public-key': publicKey || config!.publicKey,
+			...(headersPayload.environmentId
+				? { 'tl-env-id': headersPayload.environmentId }
+				: {}),
+			...(headersPayload.publicKey
+				? { 'tl-public-key': headersPayload.publicKey }
+				: {}),
 		},
 	};
 
