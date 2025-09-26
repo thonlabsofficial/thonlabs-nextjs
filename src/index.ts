@@ -1,3 +1,4 @@
+import { ThonLabsEnvDataProvider } from './shared/components/thonlabs-env-data-provider';
 import { usePreviewMode } from './shared/hooks/use-preview-mode';
 import {
 	AuthProviders,
@@ -8,6 +9,7 @@ import {
 	SSOSocialKeys,
 	SSOSocialProvider,
 } from './shared/interfaces/sso-social';
+import { ThonLabsPreviewProvider } from './shared/providers/thonlabs-preview-provider';
 import { APIResponseCodes, type ErrorResponse } from './shared/utils/errors';
 import { forwardSearchParams } from './shared/utils/helpers';
 import { ThonLabsWrapper } from './v15/core/thonlabs-wrapper';
@@ -33,6 +35,8 @@ export {
 	forwardSearchParams,
 	usePreviewMode,
 	ThonLabsAuthPagePreview,
+	ThonLabsPreviewProvider,
+	ThonLabsEnvDataProvider,
 	SSOSocialProvider,
 	SSOSocial,
 	SSOSocialKeys,

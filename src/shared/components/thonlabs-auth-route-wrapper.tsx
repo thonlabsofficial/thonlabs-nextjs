@@ -4,7 +4,6 @@ import type { EnvironmentData } from '../interfaces/environment-data';
 import { api } from '../utils/api';
 import Log from '../utils/log';
 import { ThonLabsInternalProvider } from '../../v15/core/thonlabs-internal-provider';
-import { ThonLabsSessionProvider } from '../../v15/core/thonlabs-session-provider';
 import { ThonLabsEnvDataProvider } from './thonlabs-env-data-provider';
 
 export interface ThonLabsAuthRouteWrapperProps
@@ -60,7 +59,7 @@ export async function ThonLabsAuthRouteWrapper({
 					publicKey={publicKey}
 					redirectOnAuthenticated={redirectOnAuthenticated}
 				>
-					<ThonLabsSessionProvider>{children}</ThonLabsSessionProvider>
+					{children}
 				</ThonLabsEnvDataProvider>
 			</React.Suspense>
 		</ThonLabsInternalProvider>

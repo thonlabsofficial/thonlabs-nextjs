@@ -1,5 +1,4 @@
 import type React from 'react';
-import { headers } from 'next/headers';
 import type { EnvironmentData } from '../../shared/interfaces/environment-data';
 import { environmentStore } from '../../shared/store/env-store';
 import Log from '../../shared/utils/log';
@@ -45,7 +44,7 @@ export async function ThonLabsWrapper({
 		authDomain,
 	} as EnvironmentData);
 
-	const headersList = await headers();
+	const headersList = await require('next/headers').headers();
 	const isAuthRoute = authRoutes.some((route) =>
 		headersList.get('x-pathname')?.startsWith(route),
 	);

@@ -115,9 +115,9 @@ export function ThonLabsEnvDataProvider({
 			}}
 		>
 			<ThemeProvider attribute="class" enableSystem disableTransitionOnChange>
-				{/* <ShadowRoot appendCSS={[globalCSS, sonnerCSS]}> */}
-				<ThonLabsRoutesWrapper>{children}</ThonLabsRoutesWrapper>
-				{/* </ShadowRoot> */}
+				<ShadowRoot appendCSS={[globalCSS, sonnerCSS]}>
+					<ThonLabsRoutesWrapper>{children}</ThonLabsRoutesWrapper>
+				</ShadowRoot>
 			</ThemeProvider>
 		</ThonLabsEnvDataContext.Provider>
 	);
