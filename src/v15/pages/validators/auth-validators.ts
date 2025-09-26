@@ -3,8 +3,10 @@ import { passwordPatterns } from '../../../shared/utils/constants';
 
 export const LoginFormSchema = (isMagicLogin: boolean) =>
 	z.object({
-		email: z.string().email(),
-		...(isMagicLogin ? {} : { password: z.string() }),
+		email: z.string().email().min(1, { message: 'This field is required' }),
+		...(isMagicLogin
+			? {}
+			: { password: z.string().min(1, { message: 'This field is required' }) }),
 	});
 export type LoginFormData = z.infer<ReturnType<typeof LoginFormSchema>>;
 
@@ -24,7 +26,7 @@ export const SignUpFormSchema = (isMagicLogin: boolean) =>
 export type SignUpFormData = z.infer<ReturnType<typeof SignUpFormSchema>>;
 
 export const ResetPasswordFormSchema = z.object({
-	email: z.string().email(),
+	email: z.string().email().min(1, { message: 'This field is required' }),
 });
 
 export type ResetPasswordFormData = z.infer<typeof ResetPasswordFormSchema>;
@@ -32,9 +34,10 @@ export type ResetPasswordFormData = z.infer<typeof ResetPasswordFormSchema>;
 export const CreateNewPasswordFormSchema = z
 	.object({
 		password: z
-			.string({ required_error: 'This field is required' })
-			.regex(passwordPatterns.middleStrength, { message: 'Password is weak' }),
-		confirm: z.string({ required_error: 'This field is required' }),
+			.string()
+			.regex(passwordPatterns.middleStrength, { message: 'Password is weak' })
+			.min(1, { message: 'This field is required' }),
+		confirm: z.string(),
 	})
 	.refine((data) => data.password === data.confirm, {
 		message: 'Passwords must be equals',
