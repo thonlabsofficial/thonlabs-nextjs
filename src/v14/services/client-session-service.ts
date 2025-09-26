@@ -5,9 +5,14 @@ import { APIResponseCodes } from '../../shared/utils/errors';
 import { delay } from '../../shared/utils/helpers';
 import type { User } from '../interfaces/user';
 
-const ClientSessionService = {
-	refreshing: false,
+let accessToken: string = '';
+let refreshPromise: Promise<string> | null = null;
+let isRefreshing: boolean = false;
 
+const ClientSessionService = {
+	setIsRefreshing(value: boolean) {
+		isRefreshing = value;
+	},
 	isValid() {
 		const accessToken = Cookies.get('tl_session');
 
@@ -20,8 +25,29 @@ const ClientSessionService = {
 
 		return sessionValid;
 	},
-	getAccessToken() {
-		return Cookies.get('tl_session');
+	async getAccessToken() {
+		if (isRefreshing) {
+			await delay(10000);
+		}
+
+		accessToken = Cookies.get('tl_session') || '';
+
+		if (accessToken) {
+			return accessToken;
+		}
+
+		if (!refreshPromise) {
+			refreshPromise = intAPI('/api/auth/refresh', { method: 'POST' })
+				.then(() => {
+					accessToken = Cookies.get('tl_session') || '';
+					return accessToken;
+				})
+				.finally(() => {
+					refreshPromise = null;
+				});
+		}
+
+		return refreshPromise;
 	},
 	getSession(): User | null {
 		const accessToken = Cookies.get('tl_session');
@@ -49,10 +75,6 @@ const ClientSessionService = {
 		await intAPI('/api/auth/logout', { method: 'POST' });
 		await delay(200);
 		window.location.href = '/auth/login';
-	},
-	async generateAccessToken() {
-		await intAPI('/api/auth/refresh', { method: 'POST' });
-		return Cookies.get('tl_session');
 	},
 };
 

@@ -30,7 +30,13 @@ export async function validateSession(
 	req: NextRequest,
 	bypassRoutes: string[] = [],
 ) {
-	if (shouldBypassRoute(req, ['^/api/auth(?!/alive)', ...bypassRoutes])) {
+	if (
+		shouldBypassRoute(req, [
+			'^/api/auth',
+			'/.well-known/appspecific/com.chrome.devtools.json',
+			...bypassRoutes,
+		])
+	) {
 		return new URL('/bypass', req.url);
 	}
 
@@ -85,14 +91,8 @@ export async function validateSession(
 			});
 
 			const url = getURLFromHost(req);
-			const isAliveRoute = req.nextUrl.pathname.startsWith('/api/auth/alive');
 
-			return new URL(
-				isAliveRoute
-					? '/api/auth/refresh-alive'
-					: `/auth/refresh?dest=${url.pathname}`,
-				url.toString(),
-			);
+			return new URL(`/auth/refresh?dest=${url.pathname}`, url.toString());
 		}
 	}
 

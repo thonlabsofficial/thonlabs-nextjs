@@ -35,20 +35,7 @@ export const GET = async (
 		req.nextUrl.searchParams.get('origin') || '',
 	);
 
-	if (!['alive', 'refresh-alive'].includes(action) && !origin) {
-		const message = 'The origin url is missing for this request';
-		Log.error({ action: 'GET Route v14', message });
-		return Response.json({ error: message }, { status: 400 });
-	}
-
 	switch (action) {
-		case 'alive':
-			return Response.json('', { status: 200 });
-
-		case 'refresh-alive':
-			response = await ServerSessionService.validateRefreshToken();
-			return Response.json('', { status: response.statusCode });
-
 		case 'magic':
 			if (!param) {
 				return NextResponse.redirect(new URL('/auth/login', origin), 302);
@@ -112,15 +99,14 @@ export const GET = async (
 		case 'refresh':
 			response = await ServerSessionService.validateRefreshToken();
 
-			if (response.statusCode === 200) {
-				const searchParams = req.nextUrl.searchParams;
-				const to = searchParams.get('dest') || '/';
-				return NextResponse.redirect(new URL(to, origin), 302);
-			} else if (response.statusCode === 401) {
+			if (response.statusCode === 401) {
 				return NextResponse.redirect(new URL('/auth/logout', origin), 302);
 			}
 
-			return NextResponse.json({}, { status: response.statusCode });
+			return NextResponse.redirect(
+				new URL(req.nextUrl.searchParams.get('dest') || '/', origin),
+				302,
+			);
 
 		case 'logout':
 			ServerSessionService.logout();

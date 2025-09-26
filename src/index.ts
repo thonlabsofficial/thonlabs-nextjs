@@ -20,7 +20,6 @@ import { ThonLabsAuthPagePreview } from './v15/pages/base-preview';
 import ClientSessionService from './v15/services/client-session-service';
 
 const getAccessToken = ClientSessionService.getAccessToken;
-const generateAccessToken = ClientSessionService.generateAccessToken;
 
 export type { EnvironmentData, User, SessionData, ErrorResponse };
 
@@ -38,5 +37,4 @@ export {
 	SSOSocial,
 	SSOSocialKeys,
 	getAccessToken,
-	generateAccessToken,
 };

@@ -14,7 +14,6 @@ import { ThonLabsAuthPage } from './pages/base';
 import ClientSessionService from './services/client-session-service';
 
 const getAccessToken = ClientSessionService.getAccessToken;
-const generateAccessToken = ClientSessionService.generateAccessToken;
 
 export type { EnvironmentData, User, SessionData, ErrorResponse };
 
@@ -28,5 +27,4 @@ export {
 	APIResponseCodes,
 	SSOSocialProvider,
 	getAccessToken,
-	generateAccessToken,
 };

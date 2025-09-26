@@ -13,12 +13,6 @@ const ServerSessionService = {
 
 		const cookieStore = cookies() as any;
 
-		cookieStore.set('tl_user_id', data.userId, {
-			path: '/',
-			expires: Number.MAX_SAFE_INTEGER,
-			secure: process.env.NODE_ENV === 'production',
-		});
-
 		const expires = new Date(data.tokenExpiresIn);
 		cookieStore.set('tl_session', data.token, {
 			path: '/',
@@ -103,26 +97,11 @@ const ServerSessionService = {
 			};
 		}
 
-		const userId = cookieStore.get('tl_user_id');
-
-		if (!userId?.value) {
-			Log.error({
-				action: 'validateRefreshToken',
-				message: 'Invalid user id',
-			});
-			return {
-				statusCode: 401,
-			};
-		}
-
 		const response = await labsPublicAPI('/auth/refresh', {
 			method: 'POST',
 			body: JSON.stringify({
 				token: refreshToken.value,
 			}),
-			headers: {
-				'tl-user-id': userId.value,
-			},
 		});
 		const data = await response.json();
 

@@ -3,8 +3,8 @@ import { headers } from 'next/headers';
 import Log from '../../shared/utils/log';
 import { ThonLabsSessionProvider } from './thonlabs-session-provider';
 import { authRoutes } from '../../shared/utils/constants';
-import SessionValidation from '../../shared/components/session-validation';
 import { ThonLabsAuthRouteWrapper } from '../../shared/components/thonlabs-auth-route-wrapper';
+import { RefreshDetector } from '../../shared/components/refresh-detector';
 
 export interface ThonLabsWrapperProps
 	extends React.HTMLAttributes<HTMLElement> {
@@ -50,9 +50,9 @@ export async function ThonLabsWrapper({
 			{children}
 		</ThonLabsAuthRouteWrapper>
 	) : (
-		<>
-			<SessionValidation />
-			<ThonLabsSessionProvider>{children}</ThonLabsSessionProvider>
-		</>
+		<ThonLabsSessionProvider>
+			<RefreshDetector />
+			{children}
+		</ThonLabsSessionProvider>
 	);
 }
