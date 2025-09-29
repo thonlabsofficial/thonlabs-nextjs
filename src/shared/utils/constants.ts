@@ -7,7 +7,6 @@ export const authRoutes = [
 	'/auth/reset-password',
 	'/auth/logout',
 	'/auth/confirm-email',
-	'/auth/refresh',
 	'/auth/sso',
 ];
 

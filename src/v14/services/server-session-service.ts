@@ -4,6 +4,7 @@ import { labsPublicAPI } from '../../shared/utils/api';
 import Log from '../../shared/utils/log';
 import type { SessionData } from '../../shared/interfaces/session-data';
 import type { User } from '../../shared/interfaces/user';
+import type { NextResponse } from 'next/server';
 
 const ServerSessionService = {
 	create(data: SessionData) {
@@ -28,6 +29,33 @@ const ServerSessionService = {
 				secure: process.env.NODE_ENV === 'production',
 			});
 			cookieStore.set('tl_keep_alive', 'true', {
+				path: '/',
+				expires: data.refreshTokenExpiresIn,
+				secure: process.env.NODE_ENV === 'production',
+			});
+		}
+	},
+
+	createFromMiddleware(res: NextResponse, data: SessionData) {
+		if (!res || !data) {
+			return;
+		}
+
+		const expires = new Date(data.tokenExpiresIn);
+		res.cookies.set('tl_session', data.token, {
+			path: '/',
+			expires,
+			secure: process.env.NODE_ENV === 'production',
+		});
+
+		if (data.refreshToken) {
+			res.cookies.set('tl_refresh', data.refreshToken, {
+				path: '/',
+				expires: data.refreshTokenExpiresIn,
+				httpOnly: true,
+				secure: process.env.NODE_ENV === 'production',
+			});
+			res.cookies.set('tl_keep_alive', 'true', {
 				path: '/',
 				expires: data.refreshTokenExpiresIn,
 				secure: process.env.NODE_ENV === 'production',
@@ -100,7 +128,7 @@ const ServerSessionService = {
 		return sessionValid;
 	},
 
-	async validateRefreshToken() {
+	async validateRefreshToken(res: NextResponse | null = null) {
 		const cookieStore = cookies() as any;
 		const refreshToken = cookieStore.get('tl_refresh');
 
@@ -136,7 +164,11 @@ const ServerSessionService = {
 			};
 		}
 
-		this.create(data.data);
+		if (res) {
+			this.createFromMiddleware(res, data.data);
+		} else {
+			this.create(data.data);
+		}
 
 		return {
 			statusCode: 200,

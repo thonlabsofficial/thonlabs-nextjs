@@ -4,7 +4,6 @@ import ConfirmEmailValidator from './confirm-email-validator';
 import Login from './login';
 import MagicSent from './magic-sent';
 import MagicValidator from './magic-validator';
-import RefreshValidator from './refresh-validator';
 import ResetPasswordCreate from './reset-password-create';
 import ResetPasswordRequire from './reset-password-require';
 import SignUp from './sign-up';
@@ -17,7 +16,6 @@ export function ThonLabsAuthPage({
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
 	const [route, param] = params.thonlabs || [];
-	const dest = searchParams?.dest as string;
 	const inviteFlow = searchParams?.inviteFlow === 'true';
 	const inviteFlowEmail = Buffer.from(
 		(searchParams?.inviteFlow as string) || '',
@@ -37,7 +35,6 @@ export function ThonLabsAuthPage({
 			<ResetPasswordCreate token={param} inviteFlowEmail={inviteFlowEmail} />
 		);
 	if (route === 'reset-password') return <ResetPasswordRequire />;
-	if (route === 'refresh' && dest) return <RefreshValidator dest={dest} />;
 	if (route === 'sso' && param)
 		return (
 			<SSORedirect

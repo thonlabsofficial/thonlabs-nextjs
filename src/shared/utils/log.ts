@@ -11,6 +11,14 @@ const Log = {
 		const timestamp = this.generateTimestamp();
 		console.error(`[${timestamp}] TL_ERROR: ${JSON.stringify(data)}`);
 	},
+	debug(data: any) {
+		if (process.env.TL_DEBUG !== 'true') {
+			return;
+		}
+
+		const timestamp = this.generateTimestamp();
+		console.debug(`[${timestamp}] TL_DEBUG: ${JSON.stringify(data)}`);
+	},
 };
 
 export default Log;

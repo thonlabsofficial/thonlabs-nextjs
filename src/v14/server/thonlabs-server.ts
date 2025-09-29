@@ -9,6 +9,12 @@ import {
 import Log from '../../shared/utils/log';
 import ServerSessionService from '../services/server-session-service';
 
+interface ThonLabsMiddlewareConfig {
+	accessToken?: string;
+	redirect?: URL;
+	res?: NextResponse;
+}
+
 export function isAuthRoute(req: NextRequest) {
 	const pathname = req.nextUrl.pathname;
 
@@ -29,7 +35,7 @@ export function shouldBypassRoute(req: NextRequest, routes: string[]) {
 export async function validateSession(
 	req: NextRequest,
 	bypassRoutes: string[] = [],
-) {
+): Promise<ThonLabsMiddlewareConfig> {
 	if (
 		shouldBypassRoute(req, [
 			'^/api/auth',
@@ -37,10 +43,13 @@ export async function validateSession(
 			...bypassRoutes,
 		])
 	) {
-		return new URL('/bypass', req.url);
+		return {
+			redirect: new URL('/bypass', req.url),
+		};
 	}
 
 	const isPublicRoute = isAuthRoute(req);
+	const res = NextResponse.next();
 
 	if (!isPublicRoute) {
 		const { accessToken, refreshToken, keepAlive } =
@@ -56,9 +65,11 @@ export async function validateSession(
 				action: 'validateSession',
 				message: 'ThonLabs Validate Session: Invalid session',
 			});
-			return forwardSearchParams(req, '/auth/logout', {
-				reason: APIResponseCodes.SessionExpired.toString(),
-			});
+			return {
+				redirect: forwardSearchParams(req, '/auth/logout', {
+					reason: APIResponseCodes.SessionExpired.toString(),
+				}),
+			};
 		}
 
 		// Validates the session status and redirects to regenerate
@@ -76,9 +87,11 @@ export async function validateSession(
 				status,
 			});
 
-			return forwardSearchParams(req, '/auth/logout', {
-				reason: APIResponseCodes.SessionExpired.toString(),
-			});
+			return {
+				redirect: forwardSearchParams(req, '/auth/logout', {
+					reason: APIResponseCodes.SessionExpired.toString(),
+				}),
+			};
 		} else if (status === 'needs_refresh') {
 			Log.info({
 				action: 'validateSession',
@@ -90,13 +103,26 @@ export async function validateSession(
 				status,
 			});
 
-			const url = getURLFromHost(req);
+			const response = await ServerSessionService.validateRefreshToken(res);
+			if (response.statusCode === 200) {
+				return {
+					accessToken: res.cookies.get('tl_session')?.value,
+					res,
+				};
+			}
 
-			return new URL(`/auth/refresh?dest=${url.pathname}`, url.toString());
+			return {
+				redirect: forwardSearchParams(req, '/auth/logout', {
+					reason: APIResponseCodes.SessionExpired.toString(),
+				}),
+			};
 		}
 	}
 
-	return null;
+	return {
+		accessToken: res.cookies.get('tl_session')?.value,
+		res,
+	};
 }
 
 export function getSession() {
@@ -110,7 +136,7 @@ export function getAccessToken() {
 
 export function redirectToLogin(req: NextRequest, dest: URL) {
 	if (dest.toString().endsWith('bypass')) {
-		return NextResponse.next(thonLabsConfig(req));
+		return withThonLabs(req);
 	}
 
 	return NextResponse.redirect(dest);
@@ -122,23 +148,30 @@ function isThonLabsPageRoute(req: NextRequest) {
 
 type MiddlewareInitResponse = Parameters<typeof NextResponse.next>[0];
 
-export function thonLabsConfig(
+export function withThonLabs(
 	req: NextRequest,
+	config: ThonLabsMiddlewareConfig = {},
 	init: MiddlewareInitResponse = {},
-): MiddlewareInitResponse {
+): NextResponse {
 	const headers = new Headers(init.headers || {});
 	const isThonLabsPage = isThonLabsPageRoute(req);
 
 	headers.set('x-Auth-Powered-By', 'ThonLabs');
+	headers.set('x-pathname', req.nextUrl.pathname);
 
 	if (isThonLabsPage) {
 		headers.set('x-TL-Route', 'true');
 	}
 
-	return {
-		...init,
-		headers,
-	};
+	const response = NextResponse.next({ ...init, headers });
+
+	if (config.res) {
+		config.res.cookies.getAll().forEach((cookie) => {
+			response.cookies.set(cookie.name, cookie.value, cookie);
+		});
+	}
+
+	return response;
 }
 
 export async function isThonLabsRoute() {

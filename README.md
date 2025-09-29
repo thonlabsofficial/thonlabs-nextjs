@@ -73,34 +73,32 @@ Import the `ThonLabsWrapper` component:
 For v15:
 
 ```tsx
-import { ThonLabsWrapper } from '@thonlabs/nextjs';
+import {ThonLabsWrapper} from "@thonlabs/nextjs";
 ```
 
 For v13 and v14:
 
 ```tsx
-import { ThonLabsWrapper } from '@thonlabs/nextjs/v14';
+import {ThonLabsWrapper} from "@thonlabs/nextjs/v14";
 ```
 
 Wrap your app with the `ThonLabsProvider` component:
 
 ```tsx
-async function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <html>
-      <body>
-        <ThonLabsWrapper
-          environmentId="<your-environment-id>"
-          publicKey="<your-public-key>"
-          authDomain="<your-auth-domain>"
-        >
-          {children}
-        </ThonLabsWrapper>
-      </body>
-    </html>
-  );
+async function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
+	return (
+		<html>
+			<body>
+				<ThonLabsWrapper
+					environmentId="<your-environment-id>"
+					publicKey="<your-public-key>"
+					authDomain="<your-auth-domain>"
+				>
+					{children}
+				</ThonLabsWrapper>
+			</body>
+		</html>
+	);
 }
 
 export default RootLayout;
@@ -115,13 +113,13 @@ Inside `api` folder, create a folder structure `/auth/[...thonlabs]` and create 
 For v15:
 
 ```tsx
-export * from '@thonlabs/nextjs/api';
+export * from "@thonlabs/nextjs/api";
 ```
 
 For v13 and v14:
 
 ```tsx
-export * from '@thonlabs/nextjs/v14/api';
+export * from "@thonlabs/nextjs/v14/api";
 ```
 
 #### Step 4: Setup the Auth routes
@@ -131,14 +129,14 @@ Inside `app` folder, create a folder structure `/auth/[...thonlabs]` and create 
 For v15:
 
 ```tsx
-import { ThonLabsAuthPage } from '@thonlabs/nextjs';
+import {ThonLabsAuthPage} from "@thonlabs/nextjs";
 export default ThonLabsAuthPage;
 ```
 
 For v13 and v14:
 
 ```tsx
-import { ThonLabsAuthPage } from '@thonlabs/nextjs/v14';
+import {ThonLabsAuthPage} from "@thonlabs/nextjs/v14";
 export default ThonLabsAuthPage;
 ```
 
@@ -154,41 +152,41 @@ For v15:
 
 ```tsx
 import {
-  validateSession,
-  redirectToLogin,
-  thonLabsConfig,
-} from '@thonlabs/nextjs/server';
+	validateSession,
+	redirectToLogin,
+	withThonLabs,
+} from "@thonlabs/nextjs/server";
 ```
 
 For v13 and v14:
 
 ```tsx
 import {
-  validateSession,
-  redirectToLogin,
-  thonLabsConfig,
-} from '@thonlabs/nextjs/v14/server';
+	validateSession,
+	redirectToLogin,
+	withThonLabs,
+} from "@thonlabs/nextjs/v14/server";
 ```
 
 Then update the `middleware.ts` with the following content:
 
 ```tsx
 export async function middleware(req: NextRequest): Promise<NextResponse> {
-  const redirect = await validateSession(req);
-  if (redirect) {
-    return redirectToLogin(redirect);
-  }
+	const sessionConfig = await validateSession(req);
+	if (sessionConfig.redirect) {
+		return redirectToLogin(req, sessionConfig.redirect);
+	}
 
-  return NextResponse.next(thonLabsConfig(req));
+	return withThonLabs(req, sessionConfig);
 }
 ```
 
 **Optional:** you can bypass routes by passing an array of paths to the `validateSession` function, e.g.:
 
 ```tsx
-const redirect = await validateSession(req, [
-  '/public-route',
-  '/public-route-2',
-  '^(?!/admin)' // All pages excluding admin
+const sessionConfig = await validateSession(req, [
+	"/public-route",
+	"/public-route-2",
+	"^(?!/admin)", // All pages excluding admin
 ]);
 ```

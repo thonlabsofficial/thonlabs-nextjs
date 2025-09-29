@@ -90,8 +90,16 @@ export async function labsPublicAPI(
 ) {
 	const config = environmentStore.getConfig();
 	const headersPayload = {
-		environmentId: environmentId || config!.environmentId,
-		publicKey: publicKey || config!.publicKey,
+		environmentId:
+			environmentId ||
+			config!.environmentId ||
+			process.env.TL_ENV_ID ||
+			process.env.NEXT_PUBLIC_TL_ENV_ID,
+		publicKey:
+			publicKey ||
+			config!.publicKey ||
+			process.env.TL_PK ||
+			process.env.NEXT_PUBLIC_TL_PK,
 	};
 
 	const params = {
@@ -108,10 +116,29 @@ export async function labsPublicAPI(
 		},
 	};
 
-	const response = await fetch(
-		`${getBaseURL(useEnvBaseURL, authDomain)}${url}`,
-		params,
-	);
+	const requestURL = `${getBaseURL(useEnvBaseURL, authDomain)}${url}`;
+
+	Log.debug({
+		action: 'labsPublicAPI',
+		message: 'Request summary',
+		data: {
+			url: requestURL,
+			params,
+		},
+	});
+
+	const response = await fetch(requestURL, params);
+
+	Log.debug({
+		action: 'labsPublicAPI',
+		message: 'Response summary',
+		data: {
+			url: requestURL,
+			data: {
+				status: response.status,
+			},
+		},
+	});
 
 	if (!response.ok && !publicRoutes.some((route) => url.startsWith(route))) {
 		return await handleResponseError(response);
