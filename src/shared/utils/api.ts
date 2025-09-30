@@ -49,7 +49,6 @@ async function handleResponseError(error: Response) {
 	switch (statusCode) {
 		case 401:
 			await fetch('/api/auth/logout', { method: 'POST' });
-			localStorage.removeItem('tl_refreshing');
 			window.location.href = `/auth/login?reason=${APIResponseCodes.SessionExpired}`;
 			break;
 	}
@@ -80,12 +79,14 @@ export async function labsPublicAPI(
 		environmentId,
 		publicKey,
 		authDomain,
+		fromServer = false,
 		...options
 	}: RequestInit & {
 		useEnvBaseURL?: boolean;
 		environmentId?: string;
 		publicKey?: string;
 		authDomain?: string;
+		fromServer?: boolean;
 	} = {},
 ) {
 	const config = environmentStore.getConfig();
@@ -140,7 +141,11 @@ export async function labsPublicAPI(
 		},
 	});
 
-	if (!response.ok && !publicRoutes.some((route) => url.startsWith(route))) {
+	if (
+		!fromServer &&
+		!response.ok &&
+		!publicRoutes.some((route) => url.startsWith(route))
+	) {
 		return await handleResponseError(response);
 	}
 
