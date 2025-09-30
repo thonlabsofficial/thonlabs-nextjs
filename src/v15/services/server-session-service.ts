@@ -142,6 +142,7 @@ const ServerSessionService = {
 			body: JSON.stringify({
 				token: refreshToken.value,
 			}),
+			fromServer: true,
 		});
 		const data = await response.json();
 
