@@ -6,4 +6,5 @@ export interface User {
 	profilePicture?: string;
 	fullName: string;
 	organization: Organization | null;
+	metadata: Record<string, any>;
 }
