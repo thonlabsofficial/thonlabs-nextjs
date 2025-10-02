@@ -1,12 +1,14 @@
 import type React from 'react';
-import type { EnvironmentData } from '../interfaces/environment-data';
-import { environmentStore } from '../store/env-store';
-import Log from '../utils/log';
-import { ThonLabsSessionProvider } from './thonlabs-session-provider';
-import { authRoutes } from '../utils/constants';
-import { ThonLabsAuthRouteWrapper } from '../components/thonlabs-auth-route-wrapper';
-import { RefreshDetector } from '../components/refresh-detector';
-import { ThonLabsInternalProvider } from './thonlabs-internal-provider';
+import type { EnvironmentData } from '../../shared/interfaces/environment-data';
+import { environmentStore } from '../../shared/store/env-store';
+import Log from '../../shared/utils/log';
+import { ThonLabsSessionProvider } from '../../shared/providers/thonlabs-session-provider';
+import { authRoutes } from '../../shared/utils/constants';
+import { ThonLabsAuthRouteWrapper } from '../../shared/components/thonlabs-auth-route-wrapper';
+import { RefreshDetector } from '../../shared/components/refresh-detector';
+import { ThonLabsInternalProvider } from '../../shared/providers/thonlabs-internal-provider';
+import ServerSessionService from '../services/server-session-service';
+import type { User } from '../../shared/interfaces/user';
 
 export interface ThonLabsWrapperProps
 	extends React.HTMLAttributes<HTMLElement> {
@@ -49,6 +51,9 @@ export async function ThonLabsWrapper({
 	const isAuthRoute = authRoutes.some((route) =>
 		headersList.get('x-pathname')?.startsWith(route),
 	);
+	const user = isAuthRoute
+		? null
+		: (await ServerSessionService.getSession()).user;
 
 	return isAuthRoute ? (
 		<ThonLabsAuthRouteWrapper
@@ -62,6 +67,7 @@ export async function ThonLabsWrapper({
 		<ThonLabsInternalProvider>
 			<RefreshDetector />
 			<ThonLabsSessionProvider
+				user={user as User}
 				environmentId={environmentId}
 				authDomain={authDomain}
 			>

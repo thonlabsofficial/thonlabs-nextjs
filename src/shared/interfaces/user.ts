@@ -5,6 +5,13 @@ export interface User {
 	email: string;
 	profilePicture?: string;
 	fullName: string;
-	organization: Organization | null;
+	active: boolean;
+	lastSignIn: Date;
+	createdAt: string;
+	updatedAt: string;
+	environmentId: string;
+	emailConfirmed: boolean;
+	invitedAt: Date;
 	metadata: Record<string, any>;
+	organization: Organization | null;
 }
