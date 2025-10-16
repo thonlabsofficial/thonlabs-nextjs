@@ -8,16 +8,17 @@
 	"files": {
 		"ignoreUnknown": false,
 		"includes": [
-			"src/**/*",
-			"scripts/**/*",
+			"packages/**/*",
+			"apps/**/*",
 			"*.js",
 			"*.ts",
 			"*.tsx",
 			"*.jsx",
 			"*.json",
 			"*.md",
-			"!dist/**/*",
-			"!src/shared/styles/globals.ts"
+			"!**/dist/**/*",
+			"!**/node_modules/**/*",
+			"!**/src/shared/styles/globals.ts"
 		]
 	},
 	"formatter": {

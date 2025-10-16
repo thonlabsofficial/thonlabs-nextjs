@@ -5,8 +5,8 @@ import {
 	type EnvironmentData,
 } from './shared/interfaces/environment-data';
 import {
-	SSOSocial,
-	SSOSocialKeys,
+	type SSOSocial,
+	type SSOSocialKeys,
 	SSOSocialProvider,
 } from './shared/interfaces/sso-social';
 import { ThonLabsPreviewProvider } from './shared/providers/thonlabs-preview-provider';
@@ -25,6 +25,8 @@ const getAccessToken = ClientSessionService.getAccessToken;
 
 export type { EnvironmentData, User, SessionData, ErrorResponse };
 
+export type { SSOSocial, SSOSocialKeys };
+
 export {
 	AuthProviders,
 	APIResponseCodes,
@@ -38,7 +40,5 @@ export {
 	ThonLabsPreviewProvider,
 	ThonLabsEnvDataProvider,
 	SSOSocialProvider,
-	SSOSocial,
-	SSOSocialKeys,
 	getAccessToken,
 };

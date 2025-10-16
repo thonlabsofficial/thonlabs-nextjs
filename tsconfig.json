@@ -1,4 +1,6 @@
 {
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"display": "Base",
 	"compilerOptions": {
 		"target": "ES2017",
 		"esModuleInterop": true,
@@ -9,20 +11,11 @@
 		"jsx": "react-jsx",
 		"module": "ESNext",
 		"lib": ["dom", "dom.iterable", "esnext"],
-		"outDir": "dist",
-		"sourceMap": true,
-		"declaration": true,
 		"moduleResolution": "node",
-		"allowSyntheticDefaultImports": true
+		"allowSyntheticDefaultImports": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"incremental": true
 	},
-	"include": ["."],
-	"exclude": [
-		"dist",
-		"build",
-		"node_modules",
-		"**/*.spec.tsx",
-		"**/*.spec.ts",
-		"globals.d.ts",
-		"src/stories"
-	]
+	"exclude": ["node_modules"]
 }
