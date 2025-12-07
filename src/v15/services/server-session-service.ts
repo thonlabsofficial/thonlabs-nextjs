@@ -1,10 +1,14 @@
 import * as jose from 'jose';
-import { cookies } from 'next/headers';
 import { labsPublicAPI } from '../../shared/utils/api';
 import Log from '../../shared/utils/log';
 import type { SessionData } from '../../shared/interfaces/session-data';
 import type { User } from '../../shared/interfaces/user';
 import type { NextResponse } from 'next/server';
+
+const cookies = async () => {
+	const { cookies: _cookies } = await import('next/headers');
+	return _cookies();
+};
 
 const ServerSessionService = {
 	async create(data: SessionData) {

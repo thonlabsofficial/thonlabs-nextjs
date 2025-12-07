@@ -5,11 +5,15 @@ const Log = {
 	},
 	info(data: any) {
 		const timestamp = this.generateTimestamp();
-		console.log(`[${timestamp}] TL_LOG: ${JSON.stringify(data)}`);
+		console.log(
+			`\x1b[36m[${timestamp}]\x1b[0m \x1b[34mTL_LOG:\x1b[0m ${JSON.stringify(data)}`,
+		);
 	},
 	error(data: any) {
 		const timestamp = this.generateTimestamp();
-		console.error(`[${timestamp}] TL_ERROR: ${JSON.stringify(data)}`);
+		console.error(
+			`\x1b[36m[${timestamp}]\x1b[0m \x1b[31mTL_ERROR:\x1b[0m \x1b[31m${JSON.stringify(data)}\x1b[0m`,
+		);
 	},
 	debug(data: any) {
 		if (process.env.TL_DEBUG !== 'true') {
@@ -17,7 +21,9 @@ const Log = {
 		}
 
 		const timestamp = this.generateTimestamp();
-		console.debug(`[${timestamp}] TL_DEBUG: ${JSON.stringify(data)}`);
+		console.debug(
+			`\x1b[36m[${timestamp}]\x1b[0m \x1b[33mTL_DEBUG:\x1b[0m ${JSON.stringify(data)}`,
+		);
 	},
 };
 
