@@ -48,12 +48,20 @@ async function handleResponseError(error: Response) {
 
 	switch (statusCode) {
 		case 401:
-			await fetch('/api/auth/logout', { method: 'POST' });
-			window.location.href = `/auth/login?reason=${APIResponseCodes.SessionExpired}`;
+			if (typeof window !== 'undefined') {
+				await fetch('/api/auth/logout', { method: 'POST' });
+				window.location.href = `/auth/login?reason=${APIResponseCodes.SessionExpired}`;
+			}
 			break;
 	}
 
-	return Promise.reject(error);
+	Log.error({
+		action: 'handleResponseError (interceptor)',
+		message: 'Error URL',
+		data: { url: error.url, status: error.status },
+	});
+
+	return error;
 }
 
 export async function intAPI(url: string, options: RequestInit = {}) {
