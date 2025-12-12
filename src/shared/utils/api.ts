@@ -170,8 +170,8 @@ function getBaseURL(useEnvBaseURL: boolean = false, authDomain?: string) {
 	}
 
 	if (!finalAuthDomain) {
-		const message =
-			'ThonLabs Error: Environment variable TL_AUTH_DOMAIN is not set or not being forwarded to <ThonLabsWrapper /> component. You can find these values under settings page at https://app.thonlabs.io.';
+		const isClient = typeof window !== 'undefined';
+		const message = `ThonLabs Error: Environment variable NEXT_PUBLIC_TL_AUTH_DOMAIN is not set or not being forwarded to <ThonLabsWrapper /> component on the ${isClient ? 'CLIENT' : 'SERVER'} SIDE. You can find these values under settings page at https://app.thonlabs.io.`;
 		Log.error({ action: 'getBaseURL', message });
 		throw new Error(message);
 	}
