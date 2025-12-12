@@ -11,7 +11,7 @@ const Log = {
 	},
 	error(data: any) {
 		const timestamp = this.generateTimestamp();
-		console.error(
+		console.log(
 			`\x1b[36m[${timestamp}]\x1b[0m \x1b[31mTL_ERROR:\x1b[0m \x1b[31m${JSON.stringify(data)}\x1b[0m`,
 		);
 	},
