@@ -17,13 +17,14 @@ import { useEnvironmentData } from './shared/hooks/use-environment-data';
 import { useSession } from './shared/hooks/use-session';
 import type { SessionData } from './shared/interfaces/session-data';
 import type { User } from './shared/interfaces/user';
+import type { Organization } from './shared/interfaces/organization';
 import { ThonLabsAuthPage } from './v15/pages/base';
 import { ThonLabsAuthPagePreview } from './v15/pages/base-preview';
 import ClientSessionService from './v15/services/client-session-service';
 
 const getAccessToken = ClientSessionService.getAccessToken;
 
-export type { EnvironmentData, User, SessionData, ErrorResponse };
+export type { EnvironmentData, User, SessionData, ErrorResponse, Organization };
 
 export {
 	AuthProviders,
