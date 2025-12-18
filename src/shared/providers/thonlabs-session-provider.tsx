@@ -8,12 +8,14 @@ import useSWR from 'swr';
 export interface ThonLabsSessionContextProps {
 	user: User | null;
 	isLoadingSession: boolean;
+	invalidateSession: () => void;
 }
 
 export const ThonLabsSessionContext =
 	React.createContext<ThonLabsSessionContextProps>({
 		user: {} as User,
 		isLoadingSession: false,
+		invalidateSession: () => {},
 	});
 
 export interface ThonLabsSessionProviderProps
@@ -29,9 +31,12 @@ export function ThonLabsSessionProvider({
 	children,
 	user,
 }: ThonLabsSessionProviderProps) {
-	const { data: clientUser, isLoading: isLoadingSession } = useSWR(
-		'/auth/session',
-		() => ClientSessionService.getSession({ authDomain, environmentId }),
+	const {
+		data: clientUser,
+		isLoading: isLoadingSession,
+		mutate,
+	} = useSWR('/auth/session', () =>
+		ClientSessionService.getSession({ authDomain, environmentId }),
 	);
 	const memoUser = React.useMemo(
 		() => clientUser || user || null,
@@ -43,6 +48,7 @@ export function ThonLabsSessionProvider({
 			value={{
 				user: memoUser,
 				isLoadingSession,
+				invalidateSession: mutate,
 			}}
 		>
 			{children}
