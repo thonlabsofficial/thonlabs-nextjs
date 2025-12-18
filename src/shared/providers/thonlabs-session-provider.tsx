@@ -3,19 +3,19 @@
 import React from 'react';
 import type { User } from '../../shared/interfaces/user';
 import ClientSessionService from '../../v15/services/client-session-service';
-import useSWR, { type KeyedMutator } from 'swr';
+import useSWR from 'swr';
 
 export interface ThonLabsSessionContextProps {
 	user: User | null;
 	isLoadingSession: boolean;
-	mutateSession: KeyedMutator<User | null>;
+	invalidateSession: () => Promise<User | null>;
 }
 
 export const ThonLabsSessionContext =
 	React.createContext<ThonLabsSessionContextProps>({
 		user: {} as User,
 		isLoadingSession: false,
-		mutateSession: () => Promise.resolve(null),
+		invalidateSession: () => Promise.resolve(null),
 	});
 
 export interface ThonLabsSessionProviderProps
@@ -43,12 +43,21 @@ export function ThonLabsSessionProvider({
 		[clientUser, user],
 	);
 
+	async function invalidateSession() {
+		const user = await ClientSessionService.getSession({
+			authDomain,
+			environmentId,
+		});
+		mutate(user);
+		return user;
+	}
+
 	return (
 		<ThonLabsSessionContext.Provider
 			value={{
 				user: memoUser,
 				isLoadingSession,
-				mutateSession: mutate,
+				invalidateSession,
 			}}
 		>
 			{children}
