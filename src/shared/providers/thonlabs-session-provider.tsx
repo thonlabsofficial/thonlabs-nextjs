@@ -3,19 +3,19 @@
 import React from 'react';
 import type { User } from '../../shared/interfaces/user';
 import ClientSessionService from '../../v15/services/client-session-service';
-import useSWR from 'swr';
+import useSWR, { type KeyedMutator } from 'swr';
 
 export interface ThonLabsSessionContextProps {
 	user: User | null;
 	isLoadingSession: boolean;
-	invalidateSession: () => void;
+	mutateSession: KeyedMutator<User | null>;
 }
 
 export const ThonLabsSessionContext =
 	React.createContext<ThonLabsSessionContextProps>({
 		user: {} as User,
 		isLoadingSession: false,
-		invalidateSession: () => {},
+		mutateSession: () => Promise.resolve(null),
 	});
 
 export interface ThonLabsSessionProviderProps
@@ -48,7 +48,7 @@ export function ThonLabsSessionProvider({
 			value={{
 				user: memoUser,
 				isLoadingSession,
-				invalidateSession: mutate,
+				mutateSession: mutate,
 			}}
 		>
 			{children}
